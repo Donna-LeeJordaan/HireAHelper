@@ -1,5 +1,7 @@
 package za.co.hireahelper.domain;
 
+//Ameeruddin Arai 230190839
+
 public class Admin extends User {
 
     private Admin() {
