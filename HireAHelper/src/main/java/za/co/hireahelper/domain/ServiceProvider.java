@@ -1,6 +1,8 @@
-/*Moegamat Tauriq Osman
-  Student nr: 230599125
- */
+/* ServiceProvider.java
+
+   Author: MT Osman (230599125)
+
+   Date: 18 May 2025 */
 
 package za.co.hireahelper.domain;
 
