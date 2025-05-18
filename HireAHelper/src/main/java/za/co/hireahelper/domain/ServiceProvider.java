@@ -28,10 +28,6 @@ public class ServiceProvider extends User{
         this.messages = builder.messages;
     }
 
-    public static Builder builder() {
-        return new Builder();
-    }
-
     public String getProfileImage() {return profileImage;}
 
     public String getDescription() {return description;}
@@ -47,7 +43,8 @@ public class ServiceProvider extends User{
     @Override
     public String toString() {
         return "ServiceProvider{" +
-                "profileImage='" + profileImage + '\'' +
+                super.toString() +
+                ", profileImage='" + profileImage + '\'' +
                 ", description='" + description + '\'' +
                 ", rate=" + rate +
                 ", serviceType=" + serviceType +
@@ -107,7 +104,7 @@ public class ServiceProvider extends User{
 
         @Override
         protected Builder self() {
-            return null;
+            return this;
         }
 
         public ServiceProvider build() {return new ServiceProvider(this);}
