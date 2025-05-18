@@ -46,7 +46,7 @@ public class ServiceProvider extends User{
                 super.toString() +
                 ", profileImage='" + profileImage + '\'' +
                 ", description='" + description + '\'' +
-                ", rate=" + rate +
+                ", rate=R" + rate +
                 ", serviceType=" + serviceType +
                 ", bookings=" + bookings +
                 ", messages=" + messages +
