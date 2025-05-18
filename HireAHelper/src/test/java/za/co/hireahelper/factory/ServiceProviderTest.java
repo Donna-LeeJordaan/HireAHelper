@@ -15,9 +15,9 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ServiceProviderTest {
 
-    private static ServiceType gardener = new ServiceType("S1","Gardener");
-    private static ServiceType painter = new ServiceType("S2","Painter");
-    private static ServiceType plumber = new ServiceType("S3","Plumber");
+    private static  ServiceType gardener = new ServiceType.Builder().setTypeId("S1").setTypeName("Gardener").build();
+    private static  ServiceType painter = new ServiceType.Builder().setTypeId("S2").setTypeName("Painter").build();
+    private static  ServiceType plumber = new ServiceType.Builder().setTypeId("S3").setTypeName("Plumber").build();
     private static List<Booking> bookings = new ArrayList<>();
     private static List<Message> messages = new ArrayList<>();
 
@@ -43,7 +43,7 @@ public class ServiceProviderTest {
 
     @Test
     @Order(3)
-    public void testCreateServiceProviderThatFailsInvalidEmail() {
+    public void testCreateServiceProviderWithInvalidEmail() {
         ServiceProvider sp4 = ServiceProviderFactory.createServiceProvider(
                 "SP4", "Ameer Arai", "ameeraraigmail.com", "ameer04", "06423456789","ameer.jpeg", "Skilled Gardener 7 years experience",250, gardener ,bookings, messages);
         assertNull(sp4);
@@ -52,7 +52,7 @@ public class ServiceProviderTest {
 
     @Test
     @Order(4)
-    public void testCreateServiceProviderThatFailsInvalidMobile() {
+    public void testCreateServiceProviderWithInvalidMobile() {
         ServiceProvider sp5 = ServiceProviderFactory.createServiceProvider(
                 "SP4", "Donna Lee", "donnalee@gmail.com", "donna04", "065ttc785","donna.jpeg", "Skilled Painter 9 years experience",550, painter ,bookings, messages);
         assertNull(sp5);
@@ -61,7 +61,7 @@ public class ServiceProviderTest {
 
     @Test
     @Order(5)
-    public void testCreateServiceProviderThatFailsNullFields() {
+    public void testCreateServiceProviderWithNullFields() {
         ServiceProvider sp6 = ServiceProviderFactory.createServiceProvider(
                 "", "", "NaidooK@gmail.com", "", "0631234567","naidoo.jpeg", "Skilled plumber 35 years experience",700, plumber,bookings, messages);
         assertNull(sp6);
