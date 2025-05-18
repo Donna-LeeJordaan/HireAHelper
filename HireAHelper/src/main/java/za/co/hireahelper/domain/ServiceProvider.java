@@ -25,6 +25,10 @@ public class ServiceProvider extends User{
         this.messages = builder.messages;
     }
 
+    public static Builder builder() {
+        return new Builder();
+    }
+
     public String getProfileImage() {return profileImage;}
 
     public String getDescription() {return description;}
