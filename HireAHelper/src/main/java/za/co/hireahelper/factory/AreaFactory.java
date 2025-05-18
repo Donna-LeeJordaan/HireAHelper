@@ -1,6 +1,6 @@
 package za.co.hireahelper.factory;
 
-//Ameeruddin arai 230190839
+//Ameeruddin Arai 230190839
 
 import za.co.hireahelper.domain.Area;
 import za.co.hireahelper.util.Helper;
