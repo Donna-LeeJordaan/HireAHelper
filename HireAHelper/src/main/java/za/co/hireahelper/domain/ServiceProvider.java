@@ -1,6 +1,8 @@
-/*Moegamat Tauriq Osman
-  Student nr: 230599125
- */
+/* ServiceProvider.java
+
+   Author: MT Osman (230599125)
+
+   Date: 18 May 2025 */
 
 package za.co.hireahelper.domain;
 
@@ -17,12 +19,17 @@ public class ServiceProvider extends User{
     protected ServiceProvider() {}
 
     private ServiceProvider(Builder builder){
+        super(builder);
         this.profileImage = builder.profileImage;
         this.description = builder.description;
         this.rate = builder.rate;
         this.serviceType = builder.serviceType;
         this.bookings = builder.bookings;
         this.messages = builder.messages;
+    }
+
+    public static Builder builder() {
+        return new Builder();
     }
 
     public String getProfileImage() {return profileImage;}
@@ -37,7 +44,7 @@ public class ServiceProvider extends User{
 
     public List<Message> getMessages() {return messages;}
 
-    public static class Builder{
+    public static class Builder extends User.Builder{
         private String profileImage;
         private String description;
         private double rate;
@@ -76,6 +83,7 @@ public class ServiceProvider extends User{
         }
 
         public Builder copy(ServiceProvider serviceProvider){
+            super.copy(serviceProvider);
             this.profileImage = serviceProvider.profileImage;
             this.description = serviceProvider.description;
             this.rate = serviceProvider.rate;
@@ -83,6 +91,11 @@ public class ServiceProvider extends User{
             this.bookings = serviceProvider.bookings;
             this.messages = serviceProvider.messages;
             return this;
+        }
+
+        @Override
+        protected User.Builder self() {
+            return null;
         }
 
         public ServiceProvider build() {return new ServiceProvider(this);}
