@@ -16,14 +16,29 @@ import java.util.List;
 
 public class ServiceProviderFactory {
 
-    public static ServiceProvider createServiceProvider(String profileImage, String description, double rate, ServiceType serviceType,
-                                                        List<Booking> bookings, List<Message> messages) {
+    public static ServiceProvider createServiceProvider(String userId, String name, String email, String password, String mobileNumber,String profileImage,
+                                                        String description, double rate, ServiceType serviceType, List<Booking> bookings, List<Message> messages) {
 
-        if (Helper.isNullOrEmpty(profileImage) || Helper.isNullOrEmpty(description) || !Helper.isValidRate(rate) || serviceType == null) {
+        if (Helper.isNullOrEmpty(userId) || Helper.isNullOrEmpty(name) || Helper.isNullOrEmpty(email) ||Helper.isNullOrEmpty(password) ||
+                Helper.isNullOrEmpty(mobileNumber) ||Helper.isNullOrEmpty(profileImage) || Helper.isNullOrEmpty(description) ||
+                rate <= 0 || serviceType == null || bookings == null || messages == null) {
             return null;
         }
 
-        return ServiceProvider.builder()
+        if (!Helper.isValidEmail(email)) {
+            return null;
+        }
+
+        if (!Helper.isValidMobileNumber(mobileNumber)) {
+            return null;
+        }
+
+        return new ServiceProvider.Builder()
+                .setUserId(userId)
+                .setName(name)
+                .setEmail(email)
+                .setPassword(password)
+                .setMobileNumber(mobileNumber)
                 .setProfileImage(profileImage)
                 .setDescription(description)
                 .setRate(rate)
@@ -32,4 +47,5 @@ public class ServiceProviderFactory {
                 .setMessages(messages)
                 .build();
     }
+
 }
