@@ -1,6 +1,6 @@
 /* User.java
 
-   Author: S Hendricks (221095136)
+   Author: S Hendricks(221095136)
 
    Date: 18 May 2025 */
 
