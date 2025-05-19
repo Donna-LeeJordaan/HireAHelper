@@ -1,4 +1,4 @@
-/* User.java
+/* ClientFactoryTest.java
 
    Author: S Hendricks(221095136)
 

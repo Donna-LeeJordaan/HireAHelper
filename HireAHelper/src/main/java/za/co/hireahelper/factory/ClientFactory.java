@@ -1,4 +1,4 @@
-/* User.java
+/* ClientFactory.java
 
    Author: S Hendricks(221095136)
 
