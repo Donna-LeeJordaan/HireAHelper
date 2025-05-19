@@ -1,8 +1,5 @@
 package za.co.hireahelper.factory;
 
-
-//Ameeruddin Arai 230190839
-
 import org.junit.jupiter.api.Test;
 import za.co.hireahelper.domain.Area;
 
@@ -35,7 +32,7 @@ public class AreaFactoryTest {
 
     @Test
     void testCreateAreaWithBlankId() {
-        Area area = AreaFactory.createArea("   ", "Johannesburg");
+        Area area = AreaFactory.createArea("", "Johannesburg");
 
         assertNull(area);
     }

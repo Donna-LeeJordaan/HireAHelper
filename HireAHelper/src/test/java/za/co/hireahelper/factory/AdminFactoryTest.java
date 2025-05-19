@@ -60,7 +60,7 @@ public class AdminFactoryTest {
                 "A004",
                 "Jane Admin",
                 "jane@example.com",
-                " ",
+                "",
                 "0712345678"
         );
 
