@@ -1,8 +1,6 @@
-package za.co.hireahelper.domain;
-
 //Ameeruddin Arai  student number:230190839
 
-
+package za.co.hireahelper.domain;
 
 public class Admin extends User {
 

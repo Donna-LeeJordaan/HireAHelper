@@ -1,8 +1,6 @@
-package za.co.hireahelper.domain;
-
 //Ameeruddin Arai student no; 230190839
 
-
+package za.co.hireahelper.domain;
 
 import java.util.Objects;
 
