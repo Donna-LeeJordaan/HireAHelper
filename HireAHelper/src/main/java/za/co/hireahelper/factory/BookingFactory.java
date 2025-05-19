@@ -11,6 +11,7 @@ import za.co.hireahelper.domain.Client;
 import za.co.hireahelper.domain.ServiceProvider;
 import za.co.hireahelper.util.Helper;
 
+import java.util.Arrays;
 import java.util.Date;
 
 public class BookingFactory {
@@ -20,6 +21,16 @@ public class BookingFactory {
             return null;
         }
 
+
+        // Validate date is not in the past
+        if (serviceDate.before(new Date())) {
+            return null;
+        }
+
+        // Validate status is one of allowed values
+        if (!Arrays.asList("Confirmed", "Pending", "Cancelled", "Completed").contains(status)) {
+            return null;
+        }
         return Booking.builder()
                 .setBookingId(bookingId)
                 .setServiceDate(serviceDate)

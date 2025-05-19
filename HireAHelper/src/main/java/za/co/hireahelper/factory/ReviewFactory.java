@@ -22,6 +22,11 @@ public class ReviewFactory {
             return null;
         }
 
+        // Add future timestamp validation
+        if (timeStamp.isAfter(LocalDateTime.now())) {
+            return null;
+        }
+
         return Review.builder()
                 .setReviewId(reviewId)
                 .setRating(rating)
