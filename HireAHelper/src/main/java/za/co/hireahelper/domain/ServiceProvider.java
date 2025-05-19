@@ -16,7 +16,7 @@ public class ServiceProvider extends User{
     private List<Booking> bookings;
     private List<Message> messages;
 
-    protected ServiceProvider() {}
+    private ServiceProvider() {super();}
 
     private ServiceProvider(Builder builder){
         super(builder);
@@ -26,10 +26,6 @@ public class ServiceProvider extends User{
         this.serviceType = builder.serviceType;
         this.bookings = builder.bookings;
         this.messages = builder.messages;
-    }
-
-    public static Builder builder() {
-        return new Builder();
     }
 
     public String getProfileImage() {return profileImage;}
@@ -44,7 +40,20 @@ public class ServiceProvider extends User{
 
     public List<Message> getMessages() {return messages;}
 
-    public static class Builder extends User.Builder{
+    @Override
+    public String toString() {
+        return "ServiceProvider{" +
+                super.toString() +
+                ", profileImage='" + profileImage + '\'' +
+                ", description='" + description + '\'' +
+                ", rate=R" + rate +
+                ", serviceType=" + serviceType +
+                ", bookings=" + bookings +
+                ", messages=" + messages +
+                '}';
+    }
+
+    public static class Builder extends User.Builder<ServiceProvider.Builder>{
         private String profileImage;
         private String description;
         private double rate;
@@ -94,8 +103,8 @@ public class ServiceProvider extends User{
         }
 
         @Override
-        protected User.Builder self() {
-            return null;
+        protected Builder self() {
+            return this;
         }
 
         public ServiceProvider build() {return new ServiceProvider(this);}
