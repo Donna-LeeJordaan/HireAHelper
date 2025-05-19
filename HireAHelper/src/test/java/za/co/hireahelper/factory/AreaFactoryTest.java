@@ -1,11 +1,9 @@
-package za.co.hireahelper.factory;
-
-
 //Ameeruddin Arai 230190839
+
+package za.co.hireahelper.factory;
 
 import org.junit.jupiter.api.Test;
 import za.co.hireahelper.domain.Area;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class AreaFactoryTest {

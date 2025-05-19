@@ -1,6 +1,7 @@
 // Gabriel Kiewietz
 // 230990703
 // 18 May 2024
+
 package za.co.hireahelper.domain;
 
 import java.time.LocalDateTime;

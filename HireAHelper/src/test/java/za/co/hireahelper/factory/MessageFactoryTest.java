@@ -1,14 +1,12 @@
-package za.co.hireahelper.factory;
-
 // Gabriel Kiewietz
 // 230990703
 // 18 May 2024
 
+package za.co.hireahelper.factory;
+
 import org.junit.jupiter.api.Test;
 import za.co.hireahelper.domain.Message;
-
 import java.time.LocalDateTime;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class MessageFactoryTest {
