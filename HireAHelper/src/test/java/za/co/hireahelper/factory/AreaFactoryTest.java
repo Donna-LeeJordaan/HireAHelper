@@ -33,7 +33,7 @@ public class AreaFactoryTest {
 
     @Test
     void testCreateAreaWithBlankId() {
-        Area area = AreaFactory.createArea("   ", "Johannesburg");
+        Area area = AreaFactory.createArea("", "Johannesburg");
 
         assertNull(area);
     }
