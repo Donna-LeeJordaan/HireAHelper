@@ -1,6 +1,6 @@
 package za.co.hireahelper.domain;
 
-//Ameeruddin Arai  student no:230190839
+//Ameeruddin Arai  student number:230190839
 
 public class Admin extends User {
 

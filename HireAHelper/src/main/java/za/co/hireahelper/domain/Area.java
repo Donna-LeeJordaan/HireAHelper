@@ -1,6 +1,6 @@
 package za.co.hireahelper.domain;
 
-//Ameeruddin Arai 230190839
+//Ameeruddin Arai student no; 230190839
 import java.util.Objects;
 
 public class Area extends User{
