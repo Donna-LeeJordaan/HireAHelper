@@ -4,7 +4,6 @@
 
    Date: 18 May 2025 */
 
-
 package za.co.hireahelper.factory;
 
 import za.co.hireahelper.domain.Booking;
