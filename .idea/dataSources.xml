@@ -15,10 +15,11 @@
       </jdbc-additional-properties>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="HireAHelperdb@localhost" uuid="bf7533cf-2c5f-4375-88f6-2d6d8d9a1ba8">
+    <data-source source="LOCAL" name="HireAHelperdb@localhost" uuid="b5d27d15-6a2a-4db3-ba5d-2157ce932b7f">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <imported>true</imported>
+      <remarks>$PROJECT_DIR$/HireAHelper/src/main/resources/application.properties</remarks>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://localhost:3306/HireAHelperdb?createDatabaseIfNotExist=true</jdbc-url>
       <jdbc-additional-properties>
