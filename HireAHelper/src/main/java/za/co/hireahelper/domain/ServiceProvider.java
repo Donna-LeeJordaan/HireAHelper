@@ -6,17 +6,27 @@
 
 package za.co.hireahelper.domain;
 
+import jakarta.persistence.*;
+
 import java.util.List;
 
+@Entity
 public class ServiceProvider extends User{
     private String profileImage;
     private String description;
     private double rate;
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "service_type_id")
     private ServiceType serviceType;
+
+    @OneToMany(mappedBy = "serviceProvider", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Booking> bookings;
+
+    @OneToMany(mappedBy = "serviceProvider", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Message> messages;
 
-    private ServiceProvider() {super();}
+    protected ServiceProvider() {super();}
 
     private ServiceProvider(Builder builder){
         super(builder);
