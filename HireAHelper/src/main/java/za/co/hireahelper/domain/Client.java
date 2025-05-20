@@ -1,4 +1,4 @@
-/* User.java
+/* Client.java
 
    Author: S Hendricks (221095136)
 
