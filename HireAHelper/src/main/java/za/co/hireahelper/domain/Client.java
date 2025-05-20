@@ -2,18 +2,26 @@
 
    Author: S Hendricks (221095136)
 
-   Date: 18 May 2025 */
+   Date: 18 May 2025 updated on 25 May 2025 */
 
 package za.co.hireahelper.domain;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.OneToMany;
 import java.util.List;
 
+@Entity
 public class Client extends User {
 
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Booking> bookings;
+
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Message> messages;
 
-    private Client() {
+    protected Client() {
         super();
     }
 
