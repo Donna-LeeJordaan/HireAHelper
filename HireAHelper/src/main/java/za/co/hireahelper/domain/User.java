@@ -2,12 +2,16 @@
 
    Author: S Hendricks (221095136)
 
-   Date: 18 May 2025 */
+   Date: 18 May 2025 updated on 25 May 2025*/
 
 package za.co.hireahelper.domain;
 
+import jakarta.persistence.*;
+
+@MappedSuperclass
 public abstract class User {
 
+    @Id
     private String userId;
     private String name;
     private String email;
@@ -17,7 +21,7 @@ public abstract class User {
     protected User() {
     }
 
-    protected User(Builder<?> builder) {     //Builder<?> necessary to make the constructor flexible enough to work with any subclass.
+    protected User(Builder<?> builder) {   //Builder<?> necessary to make the constructor flexible enough to work with any subclass of Builder.
         this.userId = builder.userId;
         this.name = builder.name;
         this.email = builder.email;
@@ -56,7 +60,7 @@ public abstract class User {
                 '}';
     }
 
-    public static abstract class Builder<T extends Builder<T>> {  //Generic <T> pattern in the abstract User is better for inheritance and fluent chaining in subclasses.
+    public static abstract class Builder<T extends Builder<T>> {  //generic <T> pattern in the abstract User is better for inheritance and fluent chaining in subclasses.
         private String userId;
         private String name;
         private String email;
@@ -102,4 +106,3 @@ public abstract class User {
         public abstract User build();
     }
 }
-

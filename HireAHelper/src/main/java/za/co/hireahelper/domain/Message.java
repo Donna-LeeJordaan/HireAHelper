@@ -4,8 +4,11 @@
 
 package za.co.hireahelper.domain;
 
+import jakarta.persistence.Entity;
+
 import java.time.LocalDateTime;
 
+@Entity
 public class Message {
     private String messageId;
     private LocalDateTime timeStamp;
