@@ -1,3 +1,8 @@
+/* ReviewRepository.java
+
+   Author: D.Jordaan (230613152)
+
+   Date:21 May 2025 */
 package za.co.hireahelper.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,10 +14,6 @@ import java.util.Optional;
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, String> {
     //Custom query methods can be defined here if needed
-
-
-    @Override
-    Optional<Review> findById(String s);
 
 
 }

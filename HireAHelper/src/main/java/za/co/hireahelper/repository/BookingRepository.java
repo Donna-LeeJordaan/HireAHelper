@@ -1,3 +1,8 @@
+/* BookingRepository.java
+
+   Author: D.Jordaan (230613152)
+
+   Date:21 May 2025 */
 package za.co.hireahelper.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,9 +14,5 @@ import java.util.Optional;
 @Repository
 public interface BookingRepository extends JpaRepository<Booking, String> {
     //Custom query methods can be defined here if needed
-    //For example, findByCity(String city):
-    //Example:
 
-    @Override
-    Optional<Booking> findById(String s);
 }
