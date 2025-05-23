@@ -8,23 +8,21 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
-
+@Entity
 public class Message {
 
     @Id
     private String messageId;
-
     private LocalDateTime timeStamp;
     private String content;
     @ManyToOne
     @JoinColumn(name = "client_id")
     private Client client;
-
     @ManyToOne
     @JoinColumn(name = "service_provider_id")
     private ServiceProvider serviceProvider;
 
-    private Message() {}
+    protected Message() {}
 
     private Message(Builder builder) {
         this.messageId = builder.messageId;

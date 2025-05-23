@@ -1,4 +1,4 @@
-//Ameeruddin Arai student no; 230190839
+//Ameeruddin Arai student no: 230190839
 
 package za.co.hireahelper.domain;
 
@@ -10,7 +10,6 @@ public class Area extends User{
     private String name;
 
     private Area() {
-
     }
 
     private Area(Builder builder) {
