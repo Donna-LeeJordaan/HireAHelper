@@ -4,16 +4,12 @@
 
    Date: 18 May 2025 */
 
-// PJO class for Booking
-
 package za.co.hireahelper.domain;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-
 import java.util.Date;
 
 @Entity
-
 public class Booking {
     @Id
     private String bookingId;
