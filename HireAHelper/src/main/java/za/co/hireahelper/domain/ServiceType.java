@@ -4,7 +4,13 @@
 
 package za.co.hireahelper.domain;
 
+import jakarta.persistence.*;
+import java.util.List;
+
+
 public class ServiceType {
+
+    @Id
     private String typeId;
     private String typeName;
 
@@ -13,6 +19,8 @@ public class ServiceType {
     private ServiceType(Builder builder) {
         this.typeId = builder.typeId;
         this.typeName = builder.typeName;
+
+
     }
 
     public String getTypeId() {
