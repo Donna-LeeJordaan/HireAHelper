@@ -1,4 +1,15 @@
+/*   Date: 25 May 2025 */
+//Ameeruddin Arai 230190839
 package za.co.hireahelper.repository;
 
-public interface AreaRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+import za.co.hireahelper.domain.Area;
+
+import java.util.Optional;
+
+@Repository
+public interface AreaRepository extends JpaRepository<Area, String> {
+    // Custom query methods can be defined here if needed
 }
+
