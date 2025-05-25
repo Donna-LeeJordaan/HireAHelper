@@ -7,6 +7,9 @@
 package za.co.hireahelper.domain;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+
 import java.util.Date;
 
 @Entity
@@ -18,7 +21,12 @@ public class Booking {
     private String notes;
 
     // Relationships
+    @ManyToOne
+    @JoinColumn(name = "client_id", nullable = false)
     private Client client;
+
+    @ManyToOne
+    @JoinColumn(name = "service_id", nullable = false)
     private ServiceProvider serviceProvider;
 
     protected Booking() {}
