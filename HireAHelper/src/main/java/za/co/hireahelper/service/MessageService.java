@@ -1,4 +1,10 @@
+
 package za.co.hireahelper.service;
 
-public interface MessageService {
+import za.co.hireahelper.domain.Message;
+import java.util.List;
+
+public interface MessageService extends IService<Message, String> {
+    List<Message> getAll();
 }
+
