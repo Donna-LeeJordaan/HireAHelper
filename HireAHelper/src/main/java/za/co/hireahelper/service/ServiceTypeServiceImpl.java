@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import za.co.hireahelper.domain.ServiceType;
 import za.co.hireahelper.repository.ServiceTypeRepository;
-
 import java.util.List;
 
 @Service
