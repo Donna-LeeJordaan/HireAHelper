@@ -5,7 +5,7 @@
 package za.co.hireahelper.domain;
 
 import jakarta.persistence.*;
-
+//check problem line 16
 
 @Entity
 public class ServiceType {
