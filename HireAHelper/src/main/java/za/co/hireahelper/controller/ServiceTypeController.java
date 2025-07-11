@@ -11,7 +11,7 @@ import za.co.hireahelper.service.ServiceTypeService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/servicetype")
+@RequestMapping("/ServiceType")
 public class ServiceTypeController {
 
     private final ServiceTypeService service;

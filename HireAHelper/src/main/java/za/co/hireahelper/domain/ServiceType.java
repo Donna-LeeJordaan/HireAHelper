@@ -5,7 +5,7 @@
 package za.co.hireahelper.domain;
 
 import jakarta.persistence.*;
-import java.util.List;
+//check problem line 16
 
 @Entity
 public class ServiceType {
@@ -13,8 +13,13 @@ public class ServiceType {
     @Id
     private String typeId;
     private String typeName;
+    private String serviceTypeId;
 
     protected ServiceType() {}
+
+    public String getServiceTypeId() {
+        return serviceTypeId;
+    }
 
     private ServiceType(Builder builder) {
         this.typeId = builder.typeId;
@@ -29,6 +34,7 @@ public class ServiceType {
         return typeName;
     }
 
+
     @Override
     public String toString() {
         return "ServiceType{" +
@@ -36,6 +42,10 @@ public class ServiceType {
                 ", typeName='" + typeName + '\'' +
                 '}';
     }
+
+    public String getDescription() {
+
+    return serviceTypeId;}
 
     public static class Builder {
         private String typeId;
@@ -59,6 +69,10 @@ public class ServiceType {
 
         public ServiceType build() {
             return new ServiceType(this);
+        }
+
+        public Builder setDescription() {
+            return null;
         }
     }
 }
