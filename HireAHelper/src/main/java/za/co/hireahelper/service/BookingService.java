@@ -1,4 +1,14 @@
+/* BookingService.java
+
+   Author: D.Jordaan (230613152)
+
+   Date: 13 July 2025 */
 package za.co.hireahelper.service;
 
-public interface BookingService {
+import za.co.hireahelper.domain.Booking;
+
+import java.util.List;
+
+public interface BookingService extends IService<Booking, String> {
+    List<Booking> getAll();
 }
