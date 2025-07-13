@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import za.co.hireahelper.domain.Admin;
 import za.co.hireahelper.repository.AdminRepository;
-import za.co.hireahelper.service.AdminService;
 
 import java.util.List;
 import java.util.Optional;
@@ -33,7 +32,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Admin update(Admin admin) {
-        if (adminRepository.existsById(admin.getAdminId())) {
+        if (adminRepository.existsById(admin.getId())) { // FIXED here
             return adminRepository.save(admin);
         }
         return null;
