@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import za.co.hireahelper.domain.Review;
 import za.co.hireahelper.repository.ReviewRepository;
-
 import java.util.List;
 
 @Service

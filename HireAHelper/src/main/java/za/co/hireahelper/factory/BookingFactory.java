@@ -10,7 +10,6 @@ import za.co.hireahelper.domain.Booking;
 import za.co.hireahelper.domain.Client;
 import za.co.hireahelper.domain.ServiceProvider;
 import za.co.hireahelper.util.Helper;
-
 import java.util.Arrays;
 import java.util.Date;
 

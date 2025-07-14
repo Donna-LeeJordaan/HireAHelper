@@ -11,7 +11,6 @@ import za.co.hireahelper.domain.ServiceType;
 import za.co.hireahelper.domain.Booking;
 import za.co.hireahelper.domain.Message;
 import za.co.hireahelper.util.Helper;
-
 import java.util.List;
 
 public class ServiceProviderFactory {

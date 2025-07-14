@@ -1,11 +1,11 @@
-package za.co.hireahelper.service;
 // Ameeruddin Arai 230190839
+
+package za.co.hireahelper.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import za.co.hireahelper.domain.Area;
 import za.co.hireahelper.repository.AreaRepository;
-
 import java.util.List;
 import java.util.Optional;
 

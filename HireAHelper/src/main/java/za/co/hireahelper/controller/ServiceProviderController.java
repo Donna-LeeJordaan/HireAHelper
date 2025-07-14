@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import za.co.hireahelper.domain.ServiceProvider;
 import za.co.hireahelper.service.ServiceProviderService;
 import java.util.List;
+
 @RestController
 @RequestMapping("/serviceProvider")
 public class ServiceProviderController {
