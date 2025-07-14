@@ -1,13 +1,14 @@
 package za.co.hireahelper.service;
-//Ameeruddin Arai 230190839
-//14 June 2025
+// Ameeruddin Arai 230190839
 
 import za.co.hireahelper.domain.Area;
-
 import java.util.List;
 
-public interface AreaService extends IService<Area, String> {
+public interface AreaService {
+    Area create(Area area);
+    Area read(String areaId);
+    Area update(Area area);
+    boolean delete(String areaId);
     List<Area> getAll();
 }
-
 
