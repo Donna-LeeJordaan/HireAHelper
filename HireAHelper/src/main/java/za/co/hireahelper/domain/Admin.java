@@ -22,6 +22,14 @@ public class Admin extends User {
         return "Admin{" + super.toString() + "}";
     }
 
+    public String getId() {
+        return "";
+    }
+
+    public String getAdminId() {
+        return null;
+    }
+
     public static class Builder extends User.Builder<Builder> {
 
         @Override

@@ -13,9 +13,7 @@ public class AdminFactoryTest {
         Admin admin = AdminFactory.createAdmin(
                 "A001",
                 "John Doe",
-                "admin@example.com",
-                "securePass123",
-                "0712345678"
+                "admin@example.com"
         );
 
         assertNotNull(admin);
@@ -31,9 +29,7 @@ public class AdminFactoryTest {
         Admin admin = AdminFactory.createAdmin(
                 "A002",
                 "",
-                "admin@example.com",
-                "password",
-                "0712345678"
+                "admin@example.com"
         );
 
         assertNull(admin);
@@ -44,9 +40,7 @@ public class AdminFactoryTest {
         Admin admin = AdminFactory.createAdmin(
                 "A003",
                 "Jane Admin",
-                null,
-                "password",
-                "0712345678"
+                null
         );
 
         assertNull(admin);
@@ -57,9 +51,7 @@ public class AdminFactoryTest {
         Admin admin = AdminFactory.createAdmin(
                 "A004",
                 "Jane Admin",
-                "jane@example.com",
-                "",
-                "0712345678"
+                "jane@example.com"
         );
 
         assertNull(admin);

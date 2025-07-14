@@ -1,4 +1,3 @@
-//Ameeruddin Arai 230190839
 package za.co.hireahelper.controller;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -24,7 +23,7 @@ class AdminControllerTest {
     @Autowired
     private TestRestTemplate restTemplate;
 
-    private static final String BASE_URL = "http://localhost:8080/HireAHelper/admin";
+    private final String BASE_URL = "/HireAHelper/admin";
 
     @BeforeAll
     public static void setUp() {
@@ -43,11 +42,12 @@ class AdminControllerTest {
         assertNotNull(postResponse);
         assertEquals(HttpStatus.OK, postResponse.getStatusCode());
 
-        Admin adminSaved = postResponse.getBody();
-        assertNotNull(adminSaved);
-        assertEquals(admin.getAdminId(), adminSaved.getAdminId());
+        Admin saved = postResponse.getBody();
+        assertNotNull(saved);
+        assertEquals(admin.getAdminId(), saved.getAdminId());
 
-        System.out.println("Created: " + adminSaved);
+        admin = saved; // update reference with saved data from DB
+        System.out.println("Created: " + saved);
     }
 
     @Test
@@ -56,31 +56,32 @@ class AdminControllerTest {
         ResponseEntity<Admin> response = restTemplate.getForEntity(url, Admin.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
 
-        Admin adminRead = response.getBody();
-        assertNotNull(adminRead);
-        assertEquals(admin.getAdminId(), adminRead.getAdminId());
+        Admin read = response.getBody();
+        assertNotNull(read);
+        assertEquals(admin.getAdminId(), read.getAdminId());
 
-        System.out.println("Read: " + adminRead);
+        System.out.println("Read: " + read);
     }
 
     @Test
     void c_update() {
-        Admin updatedAdmin = new Admin.Builder()
+        Admin updated = new Admin.Builder()
                 .copy(admin)
                 .setName("Fatima P. Updated")
                 .build();
 
         String url = BASE_URL + "/update";
-        restTemplate.put(url, updatedAdmin);
+        restTemplate.put(url, updated);
 
-        ResponseEntity<Admin> response = restTemplate.getForEntity(BASE_URL + "/read/" + updatedAdmin.getAdminId(), Admin.class);
+        ResponseEntity<Admin> response = restTemplate.getForEntity(BASE_URL + "/read/" + updated.getAdminId(), Admin.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
 
-        Admin adminUpdated = response.getBody();
-        assertNotNull(adminUpdated);
-        assertEquals("Fatima P. Updated", adminUpdated.getName());
+        Admin updatedResponse = response.getBody();
+        assertNotNull(updatedResponse);
+        assertEquals("Fatima P. Updated", updatedResponse.getName());
 
-        System.out.println("Updated: " + adminUpdated);
+        admin = updatedResponse; // update reference
+        System.out.println("Updated: " + updatedResponse);
     }
 
     @Test
@@ -91,7 +92,6 @@ class AdminControllerTest {
 
         Admin[] admins = response.getBody();
         assertNotNull(admins);
-
         System.out.println("All Admins:");
         for (Admin a : admins) {
             System.out.println(a);
@@ -105,9 +105,8 @@ class AdminControllerTest {
 
         ResponseEntity<Admin> response = restTemplate.getForEntity(BASE_URL + "/read/" + admin.getAdminId(), Admin.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNull(response.getBody()); // Ensure null after deletion
 
-        assertNull(response.getBody());
-
-        System.out.println("Deleted: true");
+        System.out.println("Deleted Admin ID: " + admin.getAdminId());
     }
 }
