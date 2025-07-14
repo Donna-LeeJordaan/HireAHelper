@@ -1,11 +1,11 @@
-package za.co.hireahelper.controller;
 //Ameeruddin Arai 230190839
+
+package za.co.hireahelper.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import za.co.hireahelper.domain.Admin;
 import za.co.hireahelper.service.AdminService;
-
 import java.util.List;
 
 @RestController

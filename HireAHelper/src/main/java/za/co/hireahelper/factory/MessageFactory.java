@@ -5,7 +5,6 @@
 package za.co.hireahelper.factory;
 
 import za.co.hireahelper.domain.Message;
-
 import java.time.LocalDateTime;
 
 public class MessageFactory {
