@@ -1,5 +1,6 @@
-package za.co.hireahelper.controller;
 // Ameeruddin Arai 230190839
+
+package za.co.hireahelper.controller;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
@@ -12,9 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import za.co.hireahelper.domain.Area;
 import za.co.hireahelper.factory.AreaFactory;
-
 import java.util.Objects;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)

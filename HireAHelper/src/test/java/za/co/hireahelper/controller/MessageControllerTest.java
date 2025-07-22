@@ -15,10 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import za.co.hireahelper.domain.Message;
 import za.co.hireahelper.factory.MessageFactory;
-
 import java.time.LocalDateTime;
 import java.util.Objects;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)

@@ -3,6 +3,7 @@
    Author: D.Jordaan (230613152)
 
    Date: 13 July 2025 */
+
 package za.co.hireahelper.service;
 
 import org.junit.jupiter.api.MethodOrderer;
@@ -14,9 +15,7 @@ import za.co.hireahelper.domain.Booking;
 import za.co.hireahelper.domain.Client;
 import za.co.hireahelper.domain.ServiceProvider;
 import za.co.hireahelper.factory.BookingFactory;
-
 import java.util.Date;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest

@@ -21,7 +21,6 @@ import za.co.hireahelper.domain.Client;
 import za.co.hireahelper.domain.ServiceProvider;
 import java.util.Date;
 import java.util.Collections;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
