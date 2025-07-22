@@ -1,16 +1,15 @@
-package za.co.hireahelper.service;
 // Ameeruddin Arai 230190839
+
+package za.co.hireahelper.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import za.co.hireahelper.domain.Area;
 import za.co.hireahelper.repository.AreaRepository;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
