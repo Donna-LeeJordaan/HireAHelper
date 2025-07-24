@@ -26,9 +26,9 @@ public class ServiceTypeController {
         return service.create(serviceType);
     }
 
-    @GetMapping("/read/{serviceTypeId}")
-    public ServiceType read(@PathVariable String serviceTypeId) {
-        return service.read(serviceTypeId);
+    @GetMapping("/read/{typeId}")
+    public ServiceType read(@PathVariable String typeId) {
+        return service.read(typeId);
     }
 
     @PutMapping("/update")
@@ -36,9 +36,9 @@ public class ServiceTypeController {
         return service.update(serviceType);
     }
 
-    @DeleteMapping("/delete/{serviceTypeId}")
-    public boolean delete(@PathVariable String serviceTypeId) {
-        return service.delete(serviceTypeId);
+    @DeleteMapping("/delete/{typeId}")
+    public boolean delete(@PathVariable String typeId) {
+        return service.delete(typeId);
     }
 
     @GetMapping("/all")

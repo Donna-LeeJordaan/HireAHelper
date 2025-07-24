@@ -26,8 +26,8 @@ public class ServiceTypeServiceImpl implements ServiceTypeService {
     }
 
     @Override
-    public ServiceType read(String serviceTypeId) {
-        return this.repository.findById(serviceTypeId).orElse(null);
+    public ServiceType read(String typeId) {
+        return this.repository.findById(typeId).orElse(null);
     }
 
     @Override

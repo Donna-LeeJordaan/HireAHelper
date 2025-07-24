@@ -42,19 +42,19 @@ class ServiceTypeControllerTest {
 
         ServiceType created = postResponse.getBody();
         assertNotNull(created);
-        assertEquals(serviceType.getServiceTypeId(), created.getServiceTypeId());
+        assertEquals(serviceType.gettypeId(), created.gettypeId());
 
         System.out.println("Created: " + created);
     }
 
     @Test
     void b_read() {
-        ResponseEntity<ServiceType> response = restTemplate.getForEntity(BASE_URL + "/read/" + serviceType.getServiceTypeId(), ServiceType.class);
+        ResponseEntity<ServiceType> response = restTemplate.getForEntity(BASE_URL + "/read/" + serviceType.gettypeId(), ServiceType.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
 
         ServiceType read = response.getBody();
         assertNotNull(read);
-        assertEquals(serviceType.getServiceTypeId(), read.getServiceTypeId());
+        assertEquals(serviceType.gettypeId(), read.gettypeId());
 
         System.out.println("Read: " + read);
     }
@@ -67,7 +67,7 @@ class ServiceTypeControllerTest {
                 .build();
 
         restTemplate.put(BASE_URL + "/update", updated);
-        ResponseEntity<ServiceType> response = restTemplate.getForEntity(BASE_URL + "/read/" + updated.getServiceTypeId(), ServiceType.class);
+        ResponseEntity<ServiceType> response = restTemplate.getForEntity(BASE_URL + "/read/" + updated.gettypeId(), ServiceType.class);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals("Updated plumbing description", Objects.requireNonNull(response.getBody()).getDescription());
@@ -91,8 +91,8 @@ class ServiceTypeControllerTest {
 
     @Test
     void e_delete() {
-        restTemplate.delete(BASE_URL + "/delete/" + serviceType.getServiceTypeId());
-        ResponseEntity<ServiceType> response = restTemplate.getForEntity(BASE_URL + "/read/" + serviceType.getServiceTypeId(), ServiceType.class);
+        restTemplate.delete(BASE_URL + "/delete/" + serviceType.gettypeId());
+        ResponseEntity<ServiceType> response = restTemplate.getForEntity(BASE_URL + "/read/" + serviceType.gettypeId(), ServiceType.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNull(response.getBody());
 
