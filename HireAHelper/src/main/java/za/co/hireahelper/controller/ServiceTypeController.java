@@ -25,7 +25,7 @@ public class ServiceTypeController {
     public ServiceType create(@RequestBody ServiceType serviceType) {
         return service.create(serviceType);
     }
-//typeid
+//typeid1
 
     @GetMapping("/read/{typeId}")
     public ServiceType read(@PathVariable String typeId) {
