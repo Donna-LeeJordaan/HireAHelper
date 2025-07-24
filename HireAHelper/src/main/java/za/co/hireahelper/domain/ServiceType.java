@@ -1,7 +1,7 @@
 // Gabriel Kiewietz
 // 230990703
 // 18 May 2024
-//nn
+//nnn
 package za.co.hireahelper.domain;
 
 import jakarta.persistence.*;
