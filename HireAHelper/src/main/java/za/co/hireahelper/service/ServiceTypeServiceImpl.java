@@ -26,8 +26,8 @@ public class ServiceTypeServiceImpl implements ServiceTypeService {
     }
 
     @Override
-    public ServiceType read(String serviceTypeId) {
-        return this.repository.findById(serviceTypeId).orElse(null);
+    public ServiceType read(String typeId) {
+        return this.repository.findById(typeId).orElse(null);
     }
 
     @Override
@@ -36,9 +36,9 @@ public class ServiceTypeServiceImpl implements ServiceTypeService {
     }
 
     @Override
-    public boolean delete(String serviceTypeId) {
-        if (this.repository.existsById(serviceTypeId)) {
-            this.repository.deleteById(serviceTypeId);
+    public boolean delete(String typeId) {
+        if (this.repository.existsById(typeId)) {
+            this.repository.deleteById(typeId);
             return true;
         }
         return false;

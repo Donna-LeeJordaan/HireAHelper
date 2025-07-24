@@ -34,7 +34,7 @@ class ServiceTypeServiceTest {
 
     @Test
     void b_read() {
-        ServiceType read = service.read(serviceType.getServiceTypeId());
+        ServiceType read = service.read(serviceType.gettypeId());
         assertNotNull(read);
         System.out.println("Read: " + read);
     }
@@ -60,7 +60,7 @@ class ServiceTypeServiceTest {
 
     @Test
     void e_delete() {
-        boolean deleted = service.delete(serviceType.getServiceTypeId());
+        boolean deleted = service.delete(serviceType.gettypeId());
         assertTrue(deleted);
         System.out.println("Deleted: " + true);
     }
