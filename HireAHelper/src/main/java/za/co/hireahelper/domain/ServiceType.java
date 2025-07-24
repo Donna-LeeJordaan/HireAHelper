@@ -16,10 +16,6 @@ public class ServiceType {
 
     protected ServiceType() {}
 
-    public String gettypeId() {
-        return typeId;
-    }
-
     private ServiceType(Builder builder) {
         this.typeId = builder.typeId;
         this.typeName = builder.typeName;
