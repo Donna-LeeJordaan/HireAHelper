@@ -1,5 +1,5 @@
-//Ameeruddin Arai 23019083
-//14 June 2025
+// Ameeruddin Arai 230190839
+// 24 July 2025
 
 package za.co.hireahelper.service;
 
@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import za.co.hireahelper.domain.Admin;
 import za.co.hireahelper.factory.AdminFactory;
+
 import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -23,7 +25,9 @@ class AdminServiceTest {
     private static final Admin admin = AdminFactory.createAdmin(
             "admin123",
             "Fatima Patel",
-            "fatima.patel@example.com"
+            "fatima.patel@example.com",
+            "securePass123",
+            "0712345678"
     );
 
     @Test

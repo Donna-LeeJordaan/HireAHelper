@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import za.co.hireahelper.domain.Admin;
 import za.co.hireahelper.factory.AdminFactory;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -31,7 +32,9 @@ class AdminControllerTest {
         admin = AdminFactory.createAdmin(
                 "admin001",
                 "Fatima Patel",
-                "fatima.patel@example.com"
+                "fatima.patel@example.com",
+                "securePass123",
+                "0712345678"
         );
         assertNotNull(admin);
     }

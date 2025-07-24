@@ -1,10 +1,11 @@
-//Ameeruddin Arai 230190839
-// 15 July 2025
+// Ameeruddin Arai 230190839
+// 24 July 2025
 
 package za.co.hireahelper.factory;
 
 import org.junit.jupiter.api.Test;
 import za.co.hireahelper.domain.Admin;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class AdminFactoryTest {
@@ -14,7 +15,9 @@ public class AdminFactoryTest {
         Admin admin = AdminFactory.createAdmin(
                 "A001",
                 "John Doe",
-                "admin@example.com"
+                "admin@example.com",
+                "securePass123",
+                "0712345678"
         );
 
         assertNotNull(admin);
@@ -30,7 +33,9 @@ public class AdminFactoryTest {
         Admin admin = AdminFactory.createAdmin(
                 "A002",
                 "",
-                "admin@example.com"
+                "admin@example.com",
+                "securePass123",
+                "0712345678"
         );
 
         assertNull(admin);
@@ -41,7 +46,9 @@ public class AdminFactoryTest {
         Admin admin = AdminFactory.createAdmin(
                 "A003",
                 "Jane Admin",
-                null
+                null,
+                "securePass123",
+                "0712345678"
         );
 
         assertNull(admin);
@@ -52,10 +59,24 @@ public class AdminFactoryTest {
         Admin admin = AdminFactory.createAdmin(
                 "A004",
                 "Jane Admin",
-                "jane@example.com"
+                "jane@example.com",
+                "",
+                "0712345678"
+        );
+
+        assertNull(admin);
+    }
+
+    @Test
+    void testCreateAdminWithMissingMobileNumber() {
+        Admin admin = AdminFactory.createAdmin(
+                "A005",
+                "Jane Admin",
+                "jane@example.com",
+                "securePass123",
+                ""
         );
 
         assertNull(admin);
     }
 }
-
