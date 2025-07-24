@@ -1,7 +1,7 @@
 //Gabriel Kiewietz
 // 230990703
 // 10 July 2025
-
+//ww
 package za.co.hireahelper.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +25,11 @@ public class ServiceTypeController {
     public ServiceType create(@RequestBody ServiceType serviceType) {
         return service.create(serviceType);
     }
+//typeid11
 
-    @GetMapping("/read/{serviceTypeId}")
-    public ServiceType read(@PathVariable String serviceTypeId) {
-        return service.read(serviceTypeId);
+    @GetMapping("/read/{typeId}")
+    public ServiceType read(@PathVariable String typeId) {
+        return service.read(typeId);
     }
 
     @PutMapping("/update")
@@ -36,9 +37,9 @@ public class ServiceTypeController {
         return service.update(serviceType);
     }
 
-    @DeleteMapping("/delete/{serviceTypeId}")
-    public boolean delete(@PathVariable String serviceTypeId) {
-        return service.delete(serviceTypeId);
+    @DeleteMapping("/delete/{typeId}")
+    public boolean delete(@PathVariable String typeId) {
+        return service.delete(typeId);
     }
 
     @GetMapping("/all")

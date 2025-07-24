@@ -12,12 +12,12 @@ public class ServiceType {
     @Id
     private String typeId;
     private String typeName;
-    private String serviceTypeId;
+
 
     protected ServiceType() {}
 
-    public String getServiceTypeId() {
-        return serviceTypeId;
+    public String gettypeId() {
+        return typeId;
     }
 
     private ServiceType(Builder builder) {
@@ -44,7 +44,7 @@ public class ServiceType {
 
     public String getDescription() {
 
-    return serviceTypeId;}
+    return typeId;}
 
     public static class Builder {
         private String typeId;
