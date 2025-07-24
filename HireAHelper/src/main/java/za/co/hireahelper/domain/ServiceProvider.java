@@ -16,7 +16,7 @@ public class ServiceProvider extends User{
     private double rate;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "service_type_id")
+    @JoinColumn(name = "type_id")
     private ServiceType serviceType;
 
     @OneToMany(mappedBy = "serviceProvider", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
