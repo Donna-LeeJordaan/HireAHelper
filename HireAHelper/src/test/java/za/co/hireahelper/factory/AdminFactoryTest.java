@@ -5,7 +5,6 @@ package za.co.hireahelper.factory;
 
 import org.junit.jupiter.api.Test;
 import za.co.hireahelper.domain.Admin;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class AdminFactoryTest {
