@@ -7,7 +7,6 @@
 package za.co.hireahelper.domain;
 
 import jakarta.persistence.*;
-
 import java.time.LocalDateTime;
 
 @Entity

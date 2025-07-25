@@ -1,7 +1,7 @@
 //Gabriel Kiewietz
 // 230990703
 // 10 July 2025
-//ww
+
 package za.co.hireahelper.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
