@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import za.co.hireahelper.domain.Area;
 import za.co.hireahelper.domain.ServiceProvider;
 import za.co.hireahelper.domain.ServiceType;
 import za.co.hireahelper.factory.ServiceProviderFactory;
@@ -26,10 +27,14 @@ public class ServiceProviderServiceTest {
     private ServiceProviderService service;
 
     ServiceType gardener = ServiceTypeFactory.createServiceType("S1", "Gardener");
+    Area area = new Area.Builder()
+            .setAreaId("A1")
+            .setName("Cape Town")
+            .build();
 
     private ServiceProvider serviceProvider = ServiceProviderFactory.createServiceProvider(
             "sp1","Saliegh Haroun","saliegh@gmail.com","SalieghH1234","0665485568",
-            "saliegh.jpeg","Experienced gardener with 15 years experience",668,gardener,Collections.emptyList(),
+            area,"saliegh.jpeg", "Experienced gardener with 15 years experience",668.0,gardener,Collections.emptyList(),
             Collections.emptyList());
 
     @Test

@@ -18,12 +18,13 @@ public class ServiceProviderTest {
     private static  ServiceType gardener = new ServiceType.Builder().setTypeId("S1").setTypeName("Gardener").build();
     private static  ServiceType painter = new ServiceType.Builder().setTypeId("S2").setTypeName("Painter").build();
     private static  ServiceType plumber = new ServiceType.Builder().setTypeId("S3").setTypeName("Plumber").build();
+    private static Area area = new Area.Builder().setAreaId("A1").setName("Cape Town").build();
     private static List<Booking> bookings = new ArrayList<>();
     private static List<Message> messages = new ArrayList<>();
 
 
-    private static ServiceProvider sp1 = ServiceProviderFactory.createServiceProvider("SP1", "Tauriq Osman", "moegamattauriqosman@gmail.com", "Tauriq04", "0611234567", "tauriq.jpeg", "Skilled Gardener with 15 years experience", 350, gardener, bookings, messages );
-    private static ServiceProvider sp2 = ServiceProviderFactory.createServiceProvider("SP2", "Saadiqah Hendricks", "saadiqahhendricks@gmail.com", "Saadiqah02", "0681234567", "saadiqah.jpeg", "Skilled Gardener with 10 years experience", 450, painter, bookings, messages );
+    private static ServiceProvider sp1 = ServiceProviderFactory.createServiceProvider("SP1", "Tauriq Osman", "moegamattauriqosman@gmail.com", "Tauriq04", "0611234567", area ,"tauriq.jpeg","Skilled Gardener with 15 years experience", 350.0, gardener, bookings, messages );
+    private static ServiceProvider sp2 = ServiceProviderFactory.createServiceProvider("SP2", "Saadiqah Hendricks", "saadiqahhendricks@gmail.com", "Saadiqah02", "0681234567", area ,"saadiqah.jpeg", "Skilled Painter with 10 years experience", 450.0, painter, bookings, messages );
 
     @Test
     @Order(1)
@@ -43,7 +44,7 @@ public class ServiceProviderTest {
     @Order(3)
     public void testCreateServiceProviderWithInvalidEmail() {
         ServiceProvider sp3 = ServiceProviderFactory.createServiceProvider(
-                "SP3", "Ameer Arai", "ameeraraigmail.com", "ameer04", "06423456789","ameer.jpeg", "Skilled Gardener 7 years experience",250, gardener ,bookings, messages);
+                "SP3", "Ameer Arai", "ameeraraigmail.com", "ameer04", "06423456789",area ,"ameer.jpeg", "Skilled Gardener 7 years experience",250, gardener ,bookings, messages);
         assertNull(sp3);
         System.out.println(sp3);
     }
@@ -52,7 +53,7 @@ public class ServiceProviderTest {
     @Order(4)
     public void testCreateServiceProviderWithInvalidMobile() {
         ServiceProvider sp4 = ServiceProviderFactory.createServiceProvider(
-                "SP4", "Donna Lee", "donnalee@gmail.com", "donna04", "065ttc785","donna.jpeg", "Skilled Painter 9 years experience",550, painter ,bookings, messages);
+                "SP4", "Donna Lee", "donnalee@gmail.com", "donna04", "065ttc785",area, "donna.jpeg", "Skilled Painter 9 years experience",550, painter ,bookings, messages);
         assertNull(sp4);
         System.out.println(sp4);
     }
@@ -61,7 +62,7 @@ public class ServiceProviderTest {
     @Order(5)
     public void testCreateServiceProviderWithNullFields() {
         ServiceProvider sp5 = ServiceProviderFactory.createServiceProvider(
-                null, null, "NaidooK@gmail.com", null, "0631234567","naidoo.jpeg", "Skilled plumber 35 years experience",700, plumber,bookings, messages);
+                null, null, "NaidooK@gmail.com", null, "0631234567",area,"naidoo.jpeg", "Skilled plumber 35 years experience",700, plumber,bookings, messages);
         assertNull(sp5);
         System.out.println(sp5);
     }

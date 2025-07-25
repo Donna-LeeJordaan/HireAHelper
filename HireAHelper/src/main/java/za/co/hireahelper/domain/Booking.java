@@ -1,19 +1,16 @@
 /* Booking.java
-
    Author: D.Jordaan (230613152)
-
-   Date: 18 May 2025 */
+   Date: 18 May 2025 / modified on 25 July 2025
+*/
 
 package za.co.hireahelper.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import java.util.Date;
 
 @Entity
 public class Booking {
+
     @Id
     private String bookingId;
     private Date serviceDate;
@@ -26,7 +23,7 @@ public class Booking {
     private Client client;
 
     @ManyToOne
-    @JoinColumn(name = "service_id", nullable = false)
+    @JoinColumn(name = "service_provider_id", nullable = false)
     private ServiceProvider serviceProvider;
 
     protected Booking() {}

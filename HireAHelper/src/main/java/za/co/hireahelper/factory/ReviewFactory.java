@@ -12,7 +12,6 @@ import za.co.hireahelper.domain.ServiceProvider;
 import za.co.hireahelper.util.Helper;
 import java.time.LocalDateTime;
 
-
 public class ReviewFactory {
     public static Review CreateReview(String reviewId, int rating, String comment, LocalDateTime timeStamp, Client client, ServiceProvider serviceProvider){
         if (Helper.isNullOrEmpty(reviewId) || !Helper.isValidRate(rating)

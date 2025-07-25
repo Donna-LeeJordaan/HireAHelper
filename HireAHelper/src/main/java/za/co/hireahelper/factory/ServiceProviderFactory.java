@@ -6,21 +6,18 @@
 
 package za.co.hireahelper.factory;
 
-import za.co.hireahelper.domain.ServiceProvider;
-import za.co.hireahelper.domain.ServiceType;
-import za.co.hireahelper.domain.Booking;
-import za.co.hireahelper.domain.Message;
+import za.co.hireahelper.domain.*;
 import za.co.hireahelper.util.Helper;
 import java.util.List;
 
 public class ServiceProviderFactory {
 
-    public static ServiceProvider createServiceProvider(String userId, String name, String email, String password, String mobileNumber,String profileImage,
+    public static ServiceProvider createServiceProvider(String userId, String name, String email, String password, String mobileNumber, Area area, String profileImage,
                                                         String description, double rate, ServiceType serviceType, List<Booking> bookings, List<Message> messages) {
 
         if (Helper.isNullOrEmpty(userId) || Helper.isNullOrEmpty(name) || Helper.isNullOrEmpty(email) ||Helper.isNullOrEmpty(password) ||
                 Helper.isNullOrEmpty(mobileNumber) ||Helper.isNullOrEmpty(profileImage) || Helper.isNullOrEmpty(description) ||
-                rate <= 0 || serviceType == null || bookings == null || messages == null) {
+                rate <= 0 || area ==null || serviceType == null || bookings == null || messages == null) {
             return null;
         }
 
@@ -38,6 +35,7 @@ public class ServiceProviderFactory {
                 .setEmail(email)
                 .setPassword(password)
                 .setMobileNumber(mobileNumber)
+                .setArea(area)
                 .setProfileImage(profileImage)
                 .setDescription(description)
                 .setRate(rate)

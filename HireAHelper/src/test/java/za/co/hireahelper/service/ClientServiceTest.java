@@ -1,8 +1,9 @@
-/* ClientServiceTest.java
+/* ClientFactoryTest.java
 
-   Author: S Hendricks (221095136)
+   Author: S Hendricks(221095136)
 
-   Date: 09 July 2025 */
+   Date: 18 May 2025 Updated 24 July 2025
+*/
 
 package za.co.hireahelper.service;
 
@@ -11,9 +12,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import za.co.hireahelper.domain.Area;
+import za.co.hireahelper.domain.Booking;
 import za.co.hireahelper.domain.Client;
+import za.co.hireahelper.domain.Message;
 import za.co.hireahelper.factory.ClientFactory;
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -23,53 +28,70 @@ class ClientServiceTest {
     @Autowired
     private ClientService service;
 
-    private static final Client client = ClientFactory.createClient(
-            "client123",
-            "Aalia Moosa",
-            "aalia.moosa@example.com",
-            "securePass123",
-            "0712345678",
-            Collections.emptyList(),
-            Collections.emptyList()
-    );
+    private static Client client;
+
+    static {
+        List<Booking> bookings = new ArrayList<>();
+        List<Message> messages = new ArrayList<>();
+
+        Area area = new Area.Builder()
+                .setAreaId("area001")
+                .setName("Cape Town Central")
+                .build();
+
+        client = ClientFactory.createClient(
+                "user001",
+                "Amina",
+                "amina@example.com",
+                "password123",
+                "0823456789",
+                area,
+                bookings,
+                messages
+        );
+    }
 
     @Test
     void a_create() {
         Client created = service.create(client);
         assertNotNull(created);
-        System.out.println("Created: " + created);
+        assertEquals(client.getUserId(), created.getUserId());
+        System.out.println("Created Client: " + created);
     }
 
     @Test
     void b_read() {
         Client read = service.read(client.getUserId());
         assertNotNull(read);
-        System.out.println("Read: " + read);
+        System.out.println("Read Client: " + read);
     }
 
     @Test
-    void d_update() {
+    void c_update() {
         Client updatedClient = new Client.Builder()
                 .copy(client)
-                .setName("Aalia M. Updated")
+                .setEmail("amina.updated@example.com")
                 .build();
 
         Client updated = service.update(updatedClient);
         assertNotNull(updated);
-        System.out.println("Updated: " + updated);
+        assertEquals("amina.updated@example.com", updated.getEmail());
+        System.out.println("Updated Client: " + updated);
     }
 
     @Test
-    void e_getAll() {
-        var allClients = service.getAll();
-        assertNotNull(allClients);
-        System.out.println("All clients: " + allClients);
+    void d_getAll() {
+        List<Client> clients = service.getAll();
+        assertNotNull(clients);
+        assertTrue(clients.size() > 0);
+        System.out.println("All Clients:");
+        clients.forEach(System.out::println);
     }
 
     @Test
-    void f_delete() {
+    void e_delete() {
         boolean deleted = service.delete(client.getUserId());
         assertTrue(deleted);
-        System.out.println("Deleted: " + deleted);
+        System.out.println("Deleted Client with userId: " + client.getUserId());
     }
 }

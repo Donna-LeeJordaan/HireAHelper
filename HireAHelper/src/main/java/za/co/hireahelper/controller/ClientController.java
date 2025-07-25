@@ -2,7 +2,8 @@
 
    Author: S Hendricks (221095136)
 
-   Date: 09 July 2025 */
+   Date: 09 July 2025
+*/
 
 package za.co.hireahelper.controller;
 

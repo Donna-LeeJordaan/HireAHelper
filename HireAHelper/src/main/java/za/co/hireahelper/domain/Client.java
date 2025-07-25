@@ -2,14 +2,12 @@
 
    Author: S Hendricks (221095136)
 
-   Date: 18 May 2025 updated on 25 May 2025 */
+   Date: 18 May 2025, updated on 25 July 2025
+*/
 
 package za.co.hireahelper.domain;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
@@ -41,11 +39,10 @@ public class Client extends User {
 
     @Override
     public String toString() {
-        return "Client{" +
-                super.toString() +
-                ", bookings=" + bookings +
-                ", messages=" + messages +
-                '}';
+        return super.toString().replace("User", "Client")  // reuse parent output
+                + ", bookings=" + bookings
+                + ", messages=" + messages
+                + '}';
     }
 
     public static class Builder extends User.Builder<Builder> {
@@ -63,7 +60,7 @@ public class Client extends User {
         }
 
         public Builder copy(Client client) {
-            super.copy(client);
+            super.copy(client); // This now copies userId, name, email, password, mobileNumber, and area
             this.bookings = client.bookings;
             this.messages = client.messages;
             return this;
@@ -80,4 +77,5 @@ public class Client extends User {
         }
     }
 }
+
 

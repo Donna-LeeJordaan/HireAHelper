@@ -2,7 +2,8 @@
 
    Author: S Hendricks (221095136)
 
-   Date: 18 May 2025 updated on 25 May 2025*/
+   Date: 18 May 2025, updated on 24 July 2025
+*/
 
 package za.co.hireahelper.domain;
 
@@ -18,15 +19,20 @@ public abstract class User {
     private String password;
     private String mobileNumber;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "area_id", referencedColumnName = "areaId")
+    private Area area;
+
     protected User() {
     }
 
-    protected User(Builder<?> builder) {   //Builder<?> necessary to make the constructor flexible enough to work with any subclass of Builder.
+    protected User(Builder<?> builder) {
         this.userId = builder.userId;
         this.name = builder.name;
         this.email = builder.email;
         this.password = builder.password;
         this.mobileNumber = builder.mobileNumber;
+        this.area = builder.area;
     }
 
     public String getUserId() {
@@ -49,6 +55,10 @@ public abstract class User {
         return mobileNumber;
     }
 
+    public Area getArea() {
+        return area;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -57,15 +67,17 @@ public abstract class User {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", mobileNumber='" + mobileNumber + '\'' +
+                ", area=" + (area != null ? area.getName() : "null") +
                 '}';
     }
 
-    public static abstract class Builder<T extends Builder<T>> {  //generic <T> pattern in the abstract User is better for inheritance and fluent chaining in subclasses.
+    public static abstract class Builder<T extends Builder<T>> {
         private String userId;
         private String name;
         private String email;
         private String password;
         private String mobileNumber;
+        private Area area;
 
         public T setUserId(String userId) {
             this.userId = userId;
@@ -92,12 +104,18 @@ public abstract class User {
             return self();
         }
 
+        public T setArea(Area area) {
+            this.area = area;
+            return self();
+        }
+
         public T copy(User user) {
             this.userId = user.userId;
             this.name = user.name;
             this.email = user.email;
             this.password = user.password;
             this.mobileNumber = user.mobileNumber;
+            this.area = user.area;
             return self();
         }
 
@@ -105,4 +123,5 @@ public abstract class User {
 
         public abstract User build();
     }
+
 }

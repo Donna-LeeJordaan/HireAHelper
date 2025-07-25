@@ -10,23 +10,27 @@ import java.time.LocalDateTime;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class MessageFactoryTest {
+
     @Test
     void testCreateValidMessage() {
-        Message message = MessageFactory.createMessage("msg123", LocalDateTime.now(), "Hello!");
+        Message message = MessageFactory.createMessage("This is a message", LocalDateTime.now(), "Hello!");
+        System.out.println("Created Message: " + message); // for Sanity
         assertNotNull(message);
-        assertEquals("msg123", message.getMessageId());
+        assertEquals("This is a message", message.getMessageId());
         assertEquals("Hello!", message.getContent());
     }
 
     @Test
     void testCreateMessageWithNullValues() {
         Message message = MessageFactory.createMessage(null, LocalDateTime.now(), "Hello!");
+        System.out.println("Message with null ID: " + message); // for sanity
         assertNull(message);
     }
 
     @Test
     void testCreateMessageWithEmptyContent() {
-        Message message = MessageFactory.createMessage("msg123", LocalDateTime.now(), "");
+        Message message = MessageFactory.createMessage("This is a message", LocalDateTime.now(), "");
+        System.out.println("Message with empty content: " + message); // for Sanity
         assertNull(message);
     }
 }

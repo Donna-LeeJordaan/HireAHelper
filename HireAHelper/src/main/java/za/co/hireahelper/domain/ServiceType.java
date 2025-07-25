@@ -1,7 +1,7 @@
 // Gabriel Kiewietz
 // 230990703
 // 18 May 2024
-
+//nnn2
 package za.co.hireahelper.domain;
 
 import jakarta.persistence.*;
@@ -12,13 +12,9 @@ public class ServiceType {
     @Id
     private String typeId;
     private String typeName;
-    private String serviceTypeId;
+
 
     protected ServiceType() {}
-
-    public String getServiceTypeId() {
-        return serviceTypeId;
-    }
 
     private ServiceType(Builder builder) {
         this.typeId = builder.typeId;
@@ -44,7 +40,7 @@ public class ServiceType {
 
     public String getDescription() {
 
-    return serviceTypeId;}
+    return typeId;}
 
     public static class Builder {
         private String typeId;

@@ -2,11 +2,13 @@
 
    Author: S Hendricks(221095136)
 
-   Date: 18 May 2025 */
+   Date: 18 May 2025 Updated 24 July 2025
+*/
 
 package za.co.hireahelper.factory;
 
 import org.junit.jupiter.api.*;
+import za.co.hireahelper.domain.Area;
 import za.co.hireahelper.domain.Booking;
 import za.co.hireahelper.domain.Client;
 import za.co.hireahelper.domain.Message;
@@ -20,14 +22,23 @@ class ClientFactoryTest {
     private static List<Booking> bookings = new ArrayList<>();
     private static List<Message> messages = new ArrayList<>();
 
+    // Generic placeholder Area for all tests
+    private static Area genericArea = new Area.Builder()
+            .setAreaId("area001")
+            .setName("Area")
+            .build();
+
     private static Client c1 = ClientFactory.createClient(
-            "user001", "Jannie", "jannie@example.com", "password123", "0823456789", bookings, messages);
+            "user001", "Amina", "amina@example.com", "password123", "0823456789",
+            genericArea, bookings, messages);
 
     private static Client c2 = ClientFactory.createClient(
-            "user002", "Sasha", "sasha@example.com", "password456", "0834567890", bookings, messages);
+            "user002", "Yusuf", "yusuf@example.com", "password456", "0834567890",
+            genericArea, bookings, messages);
 
     private static Client c3 = ClientFactory.createClient(
-            "user003", "Thabo", "thabo@example.com", "password789", "0845678901", bookings, messages);
+            "user003", "Fatima", "fatima@example.com", "password789", "0845678901",
+            genericArea, bookings, messages);
 
     @Test
     @Order(1)
@@ -47,7 +58,9 @@ class ClientFactoryTest {
     @Order(3)
     public void testCreateClientThatFailsInvalidEmail() {
         Client c4 = ClientFactory.createClient(
-                "user004", "Karien", "karien-at-example.com", "password000", "0823456789", bookings, messages);
+                "user004", "Imran", "imran-at-example.com", "password000", "0823456789",
+                genericArea, bookings, messages);
+        System.out.println("Client c4 = " + c4);  // will print null if invalid
         assertNull(c4);
     }
 
@@ -55,7 +68,9 @@ class ClientFactoryTest {
     @Order(4)
     public void testCreateClientThatFailsInvalidMobile() {
         Client c5 = ClientFactory.createClient(
-                "user005", "Zainab", "zainab@example.com", "password111", "abc1234567", bookings, messages);
+                "user005", "Zainab", "zainab@example.com", "password111", "abc1234567",
+                genericArea, bookings, messages);
+        System.out.println("Client c5 = " + c5);
         assertNull(c5);
     }
 
@@ -63,9 +78,12 @@ class ClientFactoryTest {
     @Order(5)
     public void testCreateClientThatFailsNullFields() {
         Client c6 = ClientFactory.createClient(
-                null, "Riaan", "riaan@example.com", "password222", "0823456789", bookings, messages);
+                null, "Rashid", "rashid@example.com", "password222", "0823456789",
+                genericArea, bookings, messages);
+        System.out.println("Client c6 = " + c6);
         assertNull(c6);
     }
+
 
     @Test
     @Order(6)
@@ -74,3 +92,5 @@ class ClientFactoryTest {
         // Todo: Add future test cases here
     }
 }
+
+
