@@ -12,11 +12,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import za.co.hireahelper.domain.ServiceProvider;
-import za.co.hireahelper.domain.ServiceType;
+import za.co.hireahelper.domain.*;
 import za.co.hireahelper.factory.ServiceProviderFactory;
 import za.co.hireahelper.factory.ServiceTypeFactory;
+
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -28,23 +31,30 @@ public class ServiceProviderControllerTest {
     @Autowired
     private TestRestTemplate restTemplate;
 
-    private String BASE_URL = "http://localhost:8080/HireAHelper/serviceProvider";
+    private static final String BASE_URL = "http://localhost:8080/HireAHelper/serviceProvider";
 
     @BeforeAll
     public static void setUp(){
 
         ServiceType gardener = ServiceTypeFactory.createServiceType("S1", "Gardener");
+        Area area = new Area.Builder()
+                .setAreaId("A1")
+                .setName("Cape Town")
+                .build();
         assertNotNull(gardener, "ServiceType null");
 
+        List<Booking> bookings = new ArrayList<>();
+        List<Message> messages = new ArrayList<>();
+
         serviceProvider = ServiceProviderFactory.createServiceProvider("sp1","Saliegh Haroun", "saliegh@gmail.com", "salieghH1234",
-                "0665485568", "saliegh.jpeg", "Experienced gardener with 15 years experience.", 668,
-                gardener, Collections.emptyList(),Collections.emptyList());
+                "0665485568",area, "saliegh.jpeg", "Experienced gardener with 15 years experience.", 668.0,
+                gardener, bookings,messages);
     }
 
     @Test
     void a_create() {
         String url = BASE_URL + "/create";
-        ResponseEntity<ServiceProvider> postResponse = restTemplate.postForEntity(url, serviceProvider, ServiceProvider.class);
+        ResponseEntity <ServiceProvider> postResponse = restTemplate.postForEntity(url, serviceProvider, ServiceProvider.class);
         assertNotNull(postResponse);
         assertEquals(HttpStatus.OK, postResponse.getStatusCode());
 
