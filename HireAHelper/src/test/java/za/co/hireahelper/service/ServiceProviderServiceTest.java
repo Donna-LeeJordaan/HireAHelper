@@ -11,12 +11,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import za.co.hireahelper.domain.Area;
-import za.co.hireahelper.domain.ServiceProvider;
-import za.co.hireahelper.domain.ServiceType;
+import za.co.hireahelper.domain.*;
 import za.co.hireahelper.factory.ServiceProviderFactory;
 import za.co.hireahelper.factory.ServiceTypeFactory;
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -32,10 +32,13 @@ public class ServiceProviderServiceTest {
             .setName("Cape Town")
             .build();
 
+    List<Booking> bookings = new ArrayList<>();
+    List<Message> messages = new ArrayList<>();
+
     private ServiceProvider serviceProvider = ServiceProviderFactory.createServiceProvider(
             "sp1","Saliegh Haroun","saliegh@gmail.com","SalieghH1234","0665485568",
-            area,"saliegh.jpeg", "Experienced gardener with 15 years experience",668.0,gardener,Collections.emptyList(),
-            Collections.emptyList());
+            area,"saliegh.jpeg", "Experienced gardener with 15 years experience",668.0,gardener,bookings,
+            messages);
 
     @Test
     void a_create() {
