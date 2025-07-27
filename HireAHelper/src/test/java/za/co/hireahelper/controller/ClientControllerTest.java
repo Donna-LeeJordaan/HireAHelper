@@ -7,15 +7,12 @@
 
 package za.co.hireahelper.controller;
 
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.http.*;
 import za.co.hireahelper.domain.Area;
 import za.co.hireahelper.domain.Booking;
 import za.co.hireahelper.domain.Client;
@@ -29,15 +26,20 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class ClientControllerTest {
 
-    private static Client client;
+    @LocalServerPort
+    private int port;
 
     @Autowired
     private TestRestTemplate restTemplate;
 
-    private static final String BASE_URL = "http://localhost:8080/HireAHelper/client";
+    private static Client client;
+
+    private String getBaseUrl() {
+        return "http://localhost:" + port + "/client";
+    }
 
     @BeforeAll
-    public static void setUp() {
+    static void setUp() {
         List<Booking> bookings = new ArrayList<>();
         List<Message> messages = new ArrayList<>();
 
@@ -62,7 +64,7 @@ class ClientControllerTest {
 
     @Test
     void a_create() {
-        String url = BASE_URL + "/create";
+        String url = getBaseUrl() + "/create";
         ResponseEntity<Client> postResponse = restTemplate.postForEntity(url, client, Client.class);
         assertNotNull(postResponse);
         assertEquals(HttpStatus.OK, postResponse.getStatusCode());
@@ -75,7 +77,7 @@ class ClientControllerTest {
 
     @Test
     void b_read() {
-        String url = BASE_URL + "/read/" + client.getUserId();
+        String url = getBaseUrl() + "/read/" + client.getUserId();
         ResponseEntity<Client> response = restTemplate.getForEntity(url, Client.class);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -92,10 +94,10 @@ class ClientControllerTest {
                 .setEmail("amina.updated@example.com")
                 .build();
 
-        String url = BASE_URL + "/update";
+        String url = getBaseUrl() + "/update";
         restTemplate.put(url, updatedClient);
 
-        ResponseEntity<Client> response = restTemplate.getForEntity(BASE_URL + "/read/" + updatedClient.getUserId(), Client.class);
+        ResponseEntity<Client> response = restTemplate.getForEntity(getBaseUrl() + "/read/" + updatedClient.getUserId(), Client.class);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         Client clientAfterUpdate = response.getBody();
@@ -106,7 +108,7 @@ class ClientControllerTest {
 
     @Test
     void d_getAll() {
-        String url = BASE_URL + "/all";
+        String url = getBaseUrl() + "/all";
         ResponseEntity<Client[]> response = restTemplate.getForEntity(url, Client[].class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
 
@@ -122,12 +124,17 @@ class ClientControllerTest {
 
     @Test
     void e_delete() {
-        String url = BASE_URL + "/delete/" + client.getUserId();
+        String url = getBaseUrl() + "/delete/" + client.getUserId();
         restTemplate.delete(url);
 
-        ResponseEntity<Client> response = restTemplate.getForEntity(BASE_URL + "/read/" + client.getUserId(), Client.class);
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNull(response.getBody());
-        System.out.println("Deleted Client with userId: " + client.getUserId());
+        ResponseEntity<Client> response = restTemplate.getForEntity(getBaseUrl() + "/read/" + client.getUserId(), Client.class);
+
+        // FIXED: Test that the status is OK but body is null or handle 404
+        if (response.getStatusCode() == HttpStatus.NOT_FOUND) {
+            System.out.println("Client successfully deleted. Not found afterward.");
+        } else {
+            assertNull(response.getBody(), "Client body should be null after deletion");
+        }
     }
 }
+

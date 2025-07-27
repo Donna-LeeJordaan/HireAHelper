@@ -39,11 +39,9 @@ public class Client extends User {
 
     @Override
     public String toString() {
-        return super.toString().replace("User", "Client")  // reuse parent output
-                + ", bookings=" + bookings
-                + ", messages=" + messages
-                + '}';
+        return "Client{userId='" + getUserId() + "', name='" + getName() + "', email='" + getEmail() + "'}";
     }
+
 
     public static class Builder extends User.Builder<Builder> {
         private List<Booking> bookings;
