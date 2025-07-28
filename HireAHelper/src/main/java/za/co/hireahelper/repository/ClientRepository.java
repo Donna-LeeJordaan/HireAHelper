@@ -1,7 +1,5 @@
 /* ClientRepository.java
-
    Author: S Hendricks (221095136)
-
    Date: 25 May 2025 */
 
 package za.co.hireahelper.repository;

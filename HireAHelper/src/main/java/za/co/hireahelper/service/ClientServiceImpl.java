@@ -1,7 +1,5 @@
 /* ClientServiceImpl.java
-
    Author: S Hendricks (221095136)
-
    Date: 09 July 2025 */
 
 package za.co.hireahelper.service;

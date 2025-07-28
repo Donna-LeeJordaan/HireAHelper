@@ -1,8 +1,6 @@
 /* ClientFactory.java
-
    Author: S Hendricks(221095136)
-
-   Date: 18 May 2025 Updated 24 July 2025
+   Date: 18 May 2025
 */
 
 package za.co.hireahelper.factory;
