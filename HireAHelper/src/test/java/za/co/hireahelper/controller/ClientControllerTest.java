@@ -129,7 +129,6 @@ class ClientControllerTest {
 
         ResponseEntity<Client> response = restTemplate.getForEntity(getBaseUrl() + "/read/" + client.getUserId(), Client.class);
 
-        // FIXED: Test that the status is OK but body is null or handle 404
         if (response.getStatusCode() == HttpStatus.NOT_FOUND) {
             System.out.println("Client successfully deleted. Not found afterward.");
         } else {
