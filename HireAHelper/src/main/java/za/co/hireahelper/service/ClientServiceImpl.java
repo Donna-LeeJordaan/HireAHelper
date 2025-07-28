@@ -6,14 +6,16 @@ package za.co.hireahelper.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import za.co.hireahelper.domain.Client;
 import za.co.hireahelper.repository.ClientRepository;
+import za.co.hireahelper.service.ClientService;
 import java.util.List;
 
 @Service
 public class ClientServiceImpl implements ClientService {
 
-    private final ClientRepository repository;
+    private ClientRepository repository;
 
     @Autowired
     public ClientServiceImpl(ClientRepository repository) {
@@ -26,8 +28,8 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Client read(String userId) {
-        return this.repository.findById(userId).orElse(null);
+    public Client read(String id) {
+        return this.repository.findById(id).orElse(null);
     }
 
     @Override
@@ -36,9 +38,9 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public boolean delete(String userId) {
-        if (this.repository.existsById(userId)) {
-            this.repository.deleteById(userId);
+    public boolean delete(String id) {
+        if (this.repository.existsById(id)) {
+            this.repository.deleteById(id);
             return true;
         }
         return false;
@@ -49,4 +51,3 @@ public class ClientServiceImpl implements ClientService {
         return this.repository.findAll();
     }
 }
-

@@ -11,10 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.*;
-import za.co.hireahelper.domain.Area;
-import za.co.hireahelper.domain.Booking;
-import za.co.hireahelper.domain.Client;
-import za.co.hireahelper.domain.Message;
+import za.co.hireahelper.domain.*;
 import za.co.hireahelper.factory.ClientFactory;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,10 +37,11 @@ class ClientControllerTest {
     static void setUp() {
         List<Booking> bookings = new ArrayList<>();
         List<Message> messages = new ArrayList<>();
+        List<Review> reviews = new ArrayList<>();
 
         Area area = new Area.Builder()
                 .setAreaId("area001")
-                .setName("Cape Town Central")
+                .setName("Athlone")
                 .build();
 
         client = ClientFactory.createClient(
@@ -54,11 +52,13 @@ class ClientControllerTest {
                 "0823456789",
                 area,
                 bookings,
-                messages
+                messages,
+                reviews
         );
 
         assertNotNull(client, "Client should be created by the factory");
     }
+
 
     @Test
     void a_create() {
