@@ -24,27 +24,17 @@ public class ServiceProviderController {
     }
 
     @PostMapping("/create")
-    public ServiceProvider create(@RequestBody ServiceProvider serviceProvider) {
-        return service.create(serviceProvider);
-    }
+    public ServiceProvider create(@RequestBody ServiceProvider serviceProvider) {return service.create(serviceProvider);}
 
     @GetMapping("/read/{userId}")
-    public ServiceProvider read(@PathVariable String userId) {
-        return service.read(userId);
-    }
+    public ServiceProvider read(@PathVariable String userId) {return service.read(userId);}
 
     @PutMapping("/update")
-    public ServiceProvider update(@RequestBody ServiceProvider serviceProvider) {
-        return service.update(serviceProvider);
-    }
+    public ServiceProvider update(@RequestBody ServiceProvider serviceProvider) {return service.update(serviceProvider);}
 
     @DeleteMapping("/delete/{userId}")
-    public boolean delete(@PathVariable String userId) {
-        return service.delete(userId);
-    }
+    public boolean delete(@PathVariable String userId) {return service.delete(userId);}
 
     @GetMapping("/all")
-    public List<ServiceProvider> getAll() {
-        return service.getAll();
-    }
+    public List<ServiceProvider> getAll() {return service.getAll();}
 }

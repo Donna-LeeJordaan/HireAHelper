@@ -11,6 +11,7 @@ import java.util.List;
 
 @Entity
 public class ServiceProvider extends User{
+
     private String profileImage;
     private String description;
     private double rate;
@@ -49,16 +50,23 @@ public class ServiceProvider extends User{
 
     public List<Message> getMessages() {return messages;}
 
+
     @Override
     public String toString() {
         return "ServiceProvider{" +
                 super.toString() +
-                ", profileImage='" + profileImage + '\'' +
-                ", description='" + description + '\'' +
-                ", rate=R" + rate +
-                ", serviceType=" + serviceType +
-                ", bookings=" + bookings +
-                ", messages=" + messages +
+                "userId='" + getUserId() + '\'' +
+                ", name='" + getName() + '\'' +
+                ", email='" + getEmail() + '\'' +
+                ", password='" + getPassword() + '\'' +
+                ", mobileNumber='" + getMobileNumber() + '\'' +
+                ", areaId='" + (getArea() != null ? getArea().getAreaId() : "null") + '\'' +
+                ", profileImage='" + getProfileImage() + '\'' +
+                ", description='" + getDescription() + '\'' +
+                ", rate=R" + getRate() +
+                ", serviceType=" + getServiceType() +
+                ", bookings=" + getBookings() +
+                ", messages=" + getMessages() +
                 '}';
     }
 

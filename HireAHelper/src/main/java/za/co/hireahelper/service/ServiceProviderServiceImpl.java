@@ -18,19 +18,13 @@ public class ServiceProviderServiceImpl implements ServiceProviderService {
     private final ServiceProviderRepository repository;
 
     @Autowired
-    public ServiceProviderServiceImpl(ServiceProviderRepository repository) {
-        this.repository = repository;
-    }
+    public ServiceProviderServiceImpl(ServiceProviderRepository repository) {this.repository = repository;}
 
     @Override
-    public ServiceProvider create(ServiceProvider serviceProvider) {
-        return this.repository.save(serviceProvider);
-    }
+    public ServiceProvider create(ServiceProvider serviceProvider) {return this.repository.save(serviceProvider);}
 
     @Override
-    public ServiceProvider read(String userId) {
-        return this.repository.findById(userId).orElse(null);
-    }
+    public ServiceProvider read(String userId) {return this.repository.findById(userId).orElse(null);}
 
     @Override
     public ServiceProvider update(ServiceProvider serviceProvider) {
@@ -47,7 +41,6 @@ public class ServiceProviderServiceImpl implements ServiceProviderService {
     }
 
     @Override
-    public List<ServiceProvider> getAll() {
-        return this.repository.findAll();
-    }
+    public List<ServiceProvider> getAll() {return this.repository.findAll();}
+
 }
