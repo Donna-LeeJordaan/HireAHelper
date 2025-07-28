@@ -8,7 +8,7 @@ package za.co.hireahelper.domain;
 import jakarta.persistence.*;
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)  // or SINGLE_TABLE or TABLE_PER_CLASS based on design
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class User {
 
     @Id

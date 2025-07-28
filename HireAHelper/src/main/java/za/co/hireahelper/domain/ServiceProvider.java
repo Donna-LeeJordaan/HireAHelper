@@ -1,8 +1,7 @@
 /* ServiceProvider.java
-
    Author: MT Osman (230599125)
-
-   Date: 18 May 2025 */
+   Date: 18 May 2025
+*/
 
 package za.co.hireahelper.domain;
 
@@ -10,14 +9,15 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
-public class ServiceProvider extends User{
+public class ServiceProvider extends User {
 
     private String profileImage;
     private String description;
     private double rate;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private ServiceType serviceType;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "service_type_id", referencedColumnName = "typeId", nullable = false)
+    private ServiceType serviceType;  //GET BACK TO THIS
 
     @OneToMany(mappedBy = "serviceProvider", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Booking> bookings;
@@ -25,9 +25,14 @@ public class ServiceProvider extends User{
     @OneToMany(mappedBy = "serviceProvider", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Message> messages;
 
-    protected ServiceProvider() {super();}
+    @OneToMany(mappedBy = "serviceProvider", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Review> reviews;
 
-    private ServiceProvider(Builder builder){
+    protected ServiceProvider() {
+        super();
+    }
+
+    private ServiceProvider(Builder builder) {
         super(builder);
         this.profileImage = builder.profileImage;
         this.description = builder.description;
@@ -35,20 +40,37 @@ public class ServiceProvider extends User{
         this.serviceType = builder.serviceType;
         this.bookings = builder.bookings;
         this.messages = builder.messages;
+        this.reviews = builder.reviews;
     }
 
-    public String getProfileImage() {return profileImage;}
+    public String getProfileImage() {
+        return profileImage;
+    }
 
-    public String getDescription() {return description;}
+    public String getDescription() {
+        return description;
+    }
 
-    public double getRate() {return rate;}
+    public double getRate() {
+        return rate;
+    }
 
-    public ServiceType getServiceType() {return serviceType;}
 
-    public List<Booking> getBookings() {return bookings;}
+    public ServiceType getServiceType() {
+        return serviceType;
+    }
 
-    public List<Message> getMessages() {return messages;}
+    public List<Booking> getBookings() {
+        return bookings;
+    }
 
+    public List<Message> getMessages() {
+        return messages;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
 
     @Override
     public String toString() {
@@ -63,19 +85,21 @@ public class ServiceProvider extends User{
                 ", profileImage='" + getProfileImage() + '\'' +
                 ", description='" + getDescription() + '\'' +
                 ", rate=R" + getRate() +
-                ", serviceType=" + getServiceType() +
-                ", bookings=" + getBookings() +
-                ", messages=" + getMessages() +
+                ", serviceType=" + (serviceType != null ? serviceType.getTypeId() : "null") +
+                ", bookings=" + (bookings != null ? bookings.size() : 0) +
+                ", messages=" + (messages != null ? messages.size() : 0) +
+                ", reviews=" + (reviews != null ? reviews.size() : 0) +
                 '}';
     }
 
-    public static class Builder extends User.Builder<ServiceProvider.Builder>{
+    public static class Builder extends User.Builder<ServiceProvider.Builder> {
         private String profileImage;
         private String description;
         private double rate;
         private ServiceType serviceType;
         private List<Booking> bookings;
         private List<Message> messages;
+        private List<Review> reviews;
 
         public Builder setProfileImage(String profileImage) {
             this.profileImage = profileImage;
@@ -107,7 +131,12 @@ public class ServiceProvider extends User{
             return this;
         }
 
-        public Builder copy(ServiceProvider serviceProvider){
+        public Builder setReviews(List<Review> reviews) {
+            this.reviews = reviews;
+            return this;
+        }
+
+        public Builder copy(ServiceProvider serviceProvider) {
             super.copy(serviceProvider);
             this.profileImage = serviceProvider.profileImage;
             this.description = serviceProvider.description;
@@ -115,6 +144,7 @@ public class ServiceProvider extends User{
             this.serviceType = serviceProvider.serviceType;
             this.bookings = serviceProvider.bookings;
             this.messages = serviceProvider.messages;
+            this.reviews = serviceProvider.reviews;
             return this;
         }
 
@@ -123,7 +153,9 @@ public class ServiceProvider extends User{
             return this;
         }
 
-        public ServiceProvider build() {return new ServiceProvider(this);}
-
+        public ServiceProvider build() {
+            return new ServiceProvider(this);
+        }
     }
 }
+

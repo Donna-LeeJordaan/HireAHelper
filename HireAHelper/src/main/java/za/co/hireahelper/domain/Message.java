@@ -4,7 +4,6 @@
 
 package za.co.hireahelper.domain;
 
-import jakarta.persistence.Entity;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -13,11 +12,15 @@ public class Message {
 
     @Id
     private String messageId;
+
     private LocalDateTime timeStamp;
+
     private String content;
+
     @ManyToOne
     @JoinColumn(name = "client_id")
     private Client client;
+
     @ManyToOne
     @JoinColumn(name = "service_provider_id")
     private ServiceProvider serviceProvider;
@@ -28,6 +31,8 @@ public class Message {
         this.messageId = builder.messageId;
         this.timeStamp = builder.timeStamp;
         this.content = builder.content;
+        this.client = builder.client;
+        this.serviceProvider = builder.serviceProvider;
     }
 
     public String getMessageId() {
@@ -42,12 +47,22 @@ public class Message {
         return content;
     }
 
+    public Client getClient() {
+        return client;
+    }
+
+    public ServiceProvider getServiceProvider() {
+        return serviceProvider;
+    }
+
     @Override
     public String toString() {
         return "Message{" +
                 "messageId='" + messageId + '\'' +
                 ", timeStamp=" + timeStamp +
                 ", content='" + content + '\'' +
+                ", clientId=" + (client != null ? client.getUserId() : "null") +
+                ", serviceProviderId=" + (serviceProvider != null ? serviceProvider.getUserId() : "null") +
                 '}';
     }
 
@@ -55,6 +70,8 @@ public class Message {
         private String messageId;
         private LocalDateTime timeStamp;
         private String content;
+        private Client client;
+        private ServiceProvider serviceProvider;
 
         public Builder setMessageId(String messageId) {
             this.messageId = messageId;
@@ -71,10 +88,22 @@ public class Message {
             return this;
         }
 
+        public Builder setClient(Client client) {
+            this.client = client;
+            return this;
+        }
+
+        public Builder setServiceProvider(ServiceProvider serviceProvider) {
+            this.serviceProvider = serviceProvider;
+            return this;
+        }
+
         public Builder copy(Message message) {
             this.messageId = message.messageId;
             this.timeStamp = message.timeStamp;
             this.content = message.content;
+            this.client = message.client;
+            this.serviceProvider = message.serviceProvider;
             return this;
         }
 

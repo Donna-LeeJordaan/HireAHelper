@@ -2,7 +2,8 @@
 
    Author: D.Jordaan (230613152)
 
-   Date: 18 May 2025 */
+   Date: 18 May 2025
+*/
 
 package za.co.hireahelper.domain;
 
@@ -17,7 +18,7 @@ public class Review {
     private String comment;
     private LocalDateTime timeStamp;
 
-    //Relationships
+    // Relationships
     @ManyToOne
     @JoinColumn(name = "client_id", nullable = false)
     private Client client;
@@ -64,6 +65,18 @@ public class Review {
 
     public ServiceProvider getServiceProvider() {
         return serviceProvider;
+    }
+
+    @Override
+    public String toString() {
+        return "Review{" +
+                "reviewId='" + reviewId + '\'' +
+                ", rating=" + rating +
+                ", comment='" + comment + '\'' +
+                ", timeStamp=" + timeStamp +
+                ", clientId=" + (client != null ? client.getUserId() : "null") +
+                ", serviceProviderId=" + (serviceProvider != null ? serviceProvider.getUserId() : "null") +
+                '}';
     }
 
     public static class Builder {
