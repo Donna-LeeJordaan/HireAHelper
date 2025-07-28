@@ -39,9 +39,18 @@ public class Client extends User {
 
     @Override
     public String toString() {
-        return "Client{userId='" + getUserId() + "', name='" + getName() + "', email='" + getEmail() + "'}";
-    }
+        return "Client{" +
+                "userId='" + getUserId() + '\'' +
+                ", name='" + getName() + '\'' +
+                ", email='" + getEmail() + '\'' +
+                ", password='" + getPassword() + '\'' +
+                ", mobileNumber='" + getMobileNumber() + '\'' +
+                ", areaId='" + (getArea() != null ? getArea().getAreaId() : "null") + '\'' +
+                '}';
 
+        //should not include bookings and messages in the toString() method if they are lazily loaded
+
+    }
 
     public static class Builder extends User.Builder<Builder> {
         private List<Booking> bookings;
@@ -58,7 +67,7 @@ public class Client extends User {
         }
 
         public Builder copy(Client client) {
-            super.copy(client); // This now copies userId, name, email, password, mobileNumber, and area
+            super.copy(client); // Copies userId, name, email, password, mobileNumber, and area
             this.bookings = client.bookings;
             this.messages = client.messages;
             return this;
