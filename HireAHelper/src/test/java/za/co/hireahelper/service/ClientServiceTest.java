@@ -1,8 +1,6 @@
-/* ClientFactoryTest.java
-
+/* ClientServiceTest.java
    Author: S Hendricks(221095136)
-
-   Date: 18 May 2025 Updated 24 July 2025
+   Date: 18 May 2025
 */
 
 package za.co.hireahelper.service;
@@ -17,6 +15,7 @@ import za.co.hireahelper.domain.Booking;
 import za.co.hireahelper.domain.Client;
 import za.co.hireahelper.domain.Message;
 import za.co.hireahelper.factory.ClientFactory;
+import za.co.hireahelper.repository.AreaRepository;
 import java.util.ArrayList;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
@@ -27,6 +26,9 @@ class ClientServiceTest {
 
     @Autowired
     private ClientService service;
+
+    @Autowired
+    private AreaRepository areaRepository;
 
     private static Client client;
 
@@ -53,6 +55,9 @@ class ClientServiceTest {
 
     @Test
     void a_create() {
+        // Save the area first to avoid foreign key constraint failure
+        areaRepository.save(client.getArea());
+
         Client created = service.create(client);
         assertNotNull(created);
         assertEquals(client.getUserId(), created.getUserId());
@@ -95,3 +100,4 @@ class ClientServiceTest {
         System.out.println("Deleted Client with userId: " + client.getUserId());
     }
 }
+
