@@ -9,7 +9,8 @@ package za.co.hireahelper.domain;
 
 import jakarta.persistence.*;
 
-@MappedSuperclass
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class User {
 
     @Id
