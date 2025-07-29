@@ -12,6 +12,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import za.co.hireahelper.domain.Client;
@@ -19,21 +20,27 @@ import za.co.hireahelper.domain.Review;
 import za.co.hireahelper.domain.ServiceProvider;
 import za.co.hireahelper.factory.ReviewFactory;
 import java.time.LocalDateTime;
-import java.util.Date;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class ReviewControllerTest {
 
+    @LocalServerPort
+    private int port;
+
+    @Autowired
+    private TestRestTemplate restTemplate;
+
     private static Review review;
     private static Client client;
     private static ServiceProvider serviceProvider;
 
-    private static final String BASE_URL = "http://localhost:8080/HireAHelper/review";
+    private String getBaseUrl() {
+        return "http://localhost:" + port + "/review";
+    }
 
-    @Autowired
-    private TestRestTemplate restTemplate;
+
 
     @BeforeAll
     static void setUp() {
@@ -46,9 +53,6 @@ class ReviewControllerTest {
                 .setUserId("sp-001")
                 .setName("Test Provider")
                 .build();
-
-
-
 
         review = ReviewFactory.CreateReview(
                 "rev-001",
@@ -63,7 +67,7 @@ class ReviewControllerTest {
 
     @Test
     void a_create() {
-        String url = BASE_URL + "/create";
+        String url = getBaseUrl() + "/create";
         ResponseEntity<Review> postResponse = restTemplate.postForEntity(url, review, Review.class);
         assertNotNull(postResponse);
         assertEquals(HttpStatus.OK, postResponse.getStatusCode());
@@ -72,15 +76,12 @@ class ReviewControllerTest {
         assertNotNull(saved);
         assertEquals(review.getReviewId(), saved.getReviewId());
 
-        // Keep the saved object (in case the API sets fields like timestamps/ids)
-        review = saved;
-
         System.out.println("Created: " + saved);
     }
 
     @Test
     void b_read() {
-        String url = BASE_URL + "/read/" + review.getReviewId();
+        String url = getBaseUrl() + "/read/" + review.getReviewId();
         ResponseEntity<Review> response = restTemplate.getForEntity(url, Review.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
 
@@ -99,11 +100,11 @@ class ReviewControllerTest {
                 .setComment("Updated comment")
                 .build();
 
-        String url = BASE_URL + "/update";
+        String url = getBaseUrl() + "/update";
         restTemplate.put(url, updated);
 
         ResponseEntity<Review> response = restTemplate.getForEntity(
-                BASE_URL + "/read/" + updated.getReviewId(),
+                getBaseUrl() + "/read/" + updated.getReviewId(),
                 Review.class
         );
 
@@ -121,7 +122,7 @@ class ReviewControllerTest {
 
     @Test
     void d_getAll() {
-        String url = BASE_URL + "/all";
+        String url = getBaseUrl() + "/all";
         ResponseEntity<Review[]> response = restTemplate.getForEntity(url, Review[].class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
 
@@ -137,15 +138,14 @@ class ReviewControllerTest {
 
     @Test
     void e_delete() {
-        String url = BASE_URL + "/delete/" + review.getReviewId();
+        String url = getBaseUrl() + "/delete/" + review.getReviewId();
         restTemplate.delete(url);
 
         ResponseEntity<Review> response = restTemplate.getForEntity(
-                BASE_URL + "/read/" + review.getReviewId(),
+                getBaseUrl() + "/read/" + review.getReviewId(),
                 Review.class
         );
 
-        // Mirror your BookingControllerTest behaviour (OK + null body)
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNull(response.getBody());
 

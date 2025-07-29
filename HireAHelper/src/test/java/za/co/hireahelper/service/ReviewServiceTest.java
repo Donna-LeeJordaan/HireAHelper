@@ -1,4 +1,4 @@
-/* ReviewControllerTest.java
+/* ReviewServiceTest.java
 
    Author: D.Jordaan (230613152)
 
@@ -6,9 +6,7 @@
 
 package za.co.hireahelper.service;
 
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import za.co.hireahelper.domain.Review;
@@ -45,22 +43,30 @@ class ReviewServiceTest {
     );
 
     @Test
+    @Order(1)
     void a_create() {
         Review created = service.create(review);
         assertNotNull(created);
+        assertEquals("REV-001", created.getReviewId());
         assertEquals(5, created.getRating());
+        assertEquals("Excellent service!", created.getComment());
+        assertEquals(client, created.getClient());
+        assertEquals(provider, created.getServiceProvider());
         System.out.println("Created: " + created);
     }
 
     @Test
+    @Order(2)
     void b_read() {
         Review read = service.read(review.getReviewId());
         assertNotNull(read);
+        assertEquals("REV-001", read.getReviewId());
         assertEquals("Excellent service!", read.getComment());
         System.out.println("Read: " + read);
     }
 
     @Test
+    @Order(3)
     void c_update() {
         Review updatedReview = new Review.Builder()
                 .copy(review)
@@ -71,25 +77,33 @@ class ReviewServiceTest {
         Review updated = service.update(updatedReview);
         assertNotNull(updated);
         assertEquals(4, updated.getRating());
+        assertEquals("Very good service", updated.getComment());
         System.out.println("Updated: " + updated);
     }
 
     @Test
+    @Order(4)
     void d_getAll() {
         var allReviews = service.getAll();
         assertNotNull(allReviews);
-        assertFalse(allReviews.isEmpty());
+        assertTrue(allReviews.size() >= 1);
         System.out.println("All reviews: " + allReviews.size());
     }
 
     @Test
+    @Order(5)
     void e_delete() {
         boolean deleted = service.delete(review.getReviewId());
         assertTrue(deleted);
+
+        // Verify the review is actually deleted
+        Review deletedReview = service.read(review.getReviewId());
+        assertNull(deletedReview);
         System.out.println("Deleted: " + true);
     }
 
     @Test
+    @Order(6)
     void f_createInvalidRating() {
         Review invalidReview = new Review.Builder()
                 .copy(review)
@@ -97,9 +111,9 @@ class ReviewServiceTest {
                 .setRating(6) // Invalid rating
                 .build();
 
-     //   assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             service.create(invalidReview);
-     //   });
+        });
         System.out.println("Invalid rating test passed");
     }
 }
