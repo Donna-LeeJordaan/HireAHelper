@@ -5,32 +5,48 @@
 package za.co.hireahelper.factory;
 
 import org.junit.jupiter.api.Test;
+import za.co.hireahelper.domain.Client;
 import za.co.hireahelper.domain.Message;
+import za.co.hireahelper.domain.ServiceProvider;
 import java.time.LocalDateTime;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class MessageFactoryTest {
+class MessageFactoryTest {
 
     @Test
-    void testCreateValidMessage() {
-        Message message = MessageFactory.createMessage("This is a message", LocalDateTime.now(), "Hello!");
-        System.out.println("Created Message: " + message); // for Sanity
+    void createMessage_ValidInput_ReturnsMessage() {
+        // Arrange
+        Client client = new Client.Builder().setUserId("CL001").build();
+        ServiceProvider provider = new ServiceProvider.Builder().setUserId("SP001").build();
+
+
+        Message message = MessageFactory.createMessage(
+                "MSG001",
+                LocalDateTime.now(),
+                "Test message",
+                client,
+                provider
+        );
+
+
         assertNotNull(message);
-        assertEquals("This is a message", message.getMessageId());
-        assertEquals("Hello!", message.getContent());
+        assertEquals("MSG001", message.getMessageId());
+        assertEquals(client, message.getClient());
     }
 
     @Test
-    void testCreateMessageWithNullValues() {
-        Message message = MessageFactory.createMessage(null, LocalDateTime.now(), "Hello!");
-        System.out.println("Message with null ID: " + message); // for sanity
-        assertNull(message);
-    }
+    void createMessage_NullInput_ReturnsNull() {
 
-    @Test
-    void testCreateMessageWithEmptyContent() {
-        Message message = MessageFactory.createMessage("This is a message", LocalDateTime.now(), "");
-        System.out.println("Message with empty content: " + message); // for Sanity
+        Message message = MessageFactory.createMessage(
+                null,
+                LocalDateTime.now(),
+                "Test",
+                null,
+                null
+        );
+
+
+
         assertNull(message);
     }
 }
