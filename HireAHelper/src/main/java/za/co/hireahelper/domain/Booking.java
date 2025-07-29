@@ -17,7 +17,6 @@ public class Booking {
     private String status;
     private String notes;
 
-    // Relationships
     @ManyToOne
     @JoinColumn(name = "client_id", nullable = false)
     private Client client;
@@ -64,6 +63,18 @@ public class Booking {
 
     public ServiceProvider getServiceProvider() {
         return serviceProvider;
+    }
+
+    @Override
+    public String toString() {
+        return "Booking{" +
+                "bookingId='" + bookingId + '\'' +
+                ", serviceDate=" + serviceDate +
+                ", status='" + status + '\'' +
+                ", notes='" + notes + '\'' +
+                ", clientId=" + (client != null ? client.getUserId() : "null") +
+                ", serviceProviderId=" + (serviceProvider != null ? serviceProvider.getUserId() : "null") +
+                '}';
     }
 
     // Builder class
@@ -120,3 +131,4 @@ public class Booking {
         }
     }
 }
+

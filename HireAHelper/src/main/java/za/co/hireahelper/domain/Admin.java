@@ -1,4 +1,4 @@
-//Ameeruddin Arai  student number:230190839
+// Ameeruddin Arai  student number: 230190839
 
 package za.co.hireahelper.domain;
 
@@ -22,14 +22,6 @@ public class Admin extends User {
         return "Admin{" + super.toString() + "}";
     }
 
-    public String getId() {
-        return "";
-    }
-
-    public String getAdminId() {
-        return null;
-    }
-
     public static class Builder extends User.Builder<Builder> {
 
         @Override
@@ -48,3 +40,4 @@ public class Admin extends User {
         }
     }
 }
+
