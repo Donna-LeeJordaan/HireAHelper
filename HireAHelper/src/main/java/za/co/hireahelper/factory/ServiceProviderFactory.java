@@ -13,11 +13,11 @@ import java.util.List;
 public class ServiceProviderFactory {
 
     public static ServiceProvider createServiceProvider(String userId, String name, String email, String password, String mobileNumber, Area area, String profileImage,
-                                                        String description, double rate, ServiceType serviceType, List<Booking> bookings, List<Message> messages) {
+                                                        String description, double rate, ServiceType serviceType, List<Booking> bookings, List<Message> messages, List<Review> reviews) {
 
         if (Helper.isNullOrEmpty(userId) || Helper.isNullOrEmpty(name) || Helper.isNullOrEmpty(email) ||Helper.isNullOrEmpty(password) ||
                 Helper.isNullOrEmpty(mobileNumber) ||Helper.isNullOrEmpty(profileImage) || Helper.isNullOrEmpty(description) ||
-                rate <= 0 || area ==null || serviceType == null || bookings == null || messages == null) {
+                rate <= 0 || area ==null || serviceType == null || bookings == null || messages == null || reviews == null) {
             return null;
         }
 
@@ -42,6 +42,7 @@ public class ServiceProviderFactory {
                 .setServiceType(serviceType)
                 .setBookings(bookings)
                 .setMessages(messages)
+                .setReviews(reviews)
                 .build();
     }
 
