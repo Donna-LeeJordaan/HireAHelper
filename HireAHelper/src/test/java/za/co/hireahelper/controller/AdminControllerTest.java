@@ -52,7 +52,7 @@ class AdminControllerTest {
 
         Admin saved = postResponse.getBody();
         assertNotNull(saved);
-        assertEquals(admin.getAdminId(), saved.getAdminId());
+        assertEquals(admin.getUserId(), saved.getUserId());
 
         admin = saved; // update reference with saved data from DB
         System.out.println("CREATE successful: " + saved);
@@ -61,7 +61,7 @@ class AdminControllerTest {
     @Test
     void b_read() {
         System.out.println("Starting READ test...");
-        String url = BASE_URL + "/read/" + admin.getAdminId();
+        String url = BASE_URL + "/read/" + admin.getUserId();
         ResponseEntity<Admin> response = restTemplate.getForEntity(url, Admin.class);
 
         System.out.println("GET Response: " + response);
@@ -69,7 +69,7 @@ class AdminControllerTest {
 
         Admin read = response.getBody();
         assertNotNull(read);
-        assertEquals(admin.getAdminId(), read.getAdminId());
+        assertEquals(admin.getUserId(), read.getUserId());
 
         System.out.println("READ successful: " + read);
     }
@@ -86,7 +86,7 @@ class AdminControllerTest {
         restTemplate.put(url, updated);
         System.out.println("PUT request sent for update.");
 
-        ResponseEntity<Admin> response = restTemplate.getForEntity(BASE_URL + "/read/" + updated.getAdminId(), Admin.class);
+        ResponseEntity<Admin> response = restTemplate.getForEntity(BASE_URL + "/read/" + updated.getUserId(), Admin.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
 
         Admin updatedResponse = response.getBody();
@@ -117,15 +117,15 @@ class AdminControllerTest {
     @Test
     void e_delete() {
         System.out.println("Starting DELETE test...");
-        String url = BASE_URL + "/delete/" + admin.getAdminId();
+        String url = BASE_URL + "/delete/" + admin.getUserId();
         restTemplate.delete(url);
-        System.out.println("DELETE request sent for ID: " + admin.getAdminId());
+        System.out.println("DELETE request sent for ID: " + admin.getUserId());
 
-        ResponseEntity<Admin> response = restTemplate.getForEntity(BASE_URL + "/read/" + admin.getAdminId(), Admin.class);
+        ResponseEntity<Admin> response = restTemplate.getForEntity(BASE_URL + "/read/" + admin.getUserId(), Admin.class);
         System.out.println("READ after DELETE Response: " + response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNull(response.getBody()); // Ensure null after deletion
 
-        System.out.println("DELETE successful for Admin ID: " + admin.getAdminId());
+        System.out.println("DELETE successful for Admin ID: " + admin.getUserId());
     }
 }

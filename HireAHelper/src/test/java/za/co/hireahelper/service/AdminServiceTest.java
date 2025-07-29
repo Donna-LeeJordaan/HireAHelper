@@ -39,7 +39,7 @@ class AdminServiceTest {
     @Test
     void b_read() {
         System.out.println("\n--- Running READ test ---");
-        Admin read = service.read(admin.getAdminId());
+        Admin read = service.read(admin.getUserId());
         assertNotNull(read);
         System.out.println("Read Admin: " + read);
     }
@@ -70,8 +70,8 @@ class AdminServiceTest {
     @Test
     void f_delete() {
         System.out.println("\n--- Running DELETE test ---");
-        boolean deleted = service.delete(admin.getAdminId());
+        boolean deleted = service.delete(admin.getUserId());
         assertTrue(deleted);
-        System.out.println("Deleted Admin ID " + admin.getAdminId() + ": " + deleted);
+        System.out.println("Deleted Admin ID " + admin.getUserId() + ": " + deleted);
     }
 }

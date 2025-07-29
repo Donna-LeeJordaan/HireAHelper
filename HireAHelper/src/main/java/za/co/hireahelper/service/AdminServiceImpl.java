@@ -32,7 +32,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Admin update(Admin admin) {
-        if (adminRepository.existsById(admin.getId())) { // FIXED here
+        if (adminRepository.existsById(admin.getUserId())) { // FIXED here
             return adminRepository.save(admin);
         }
         return null;
