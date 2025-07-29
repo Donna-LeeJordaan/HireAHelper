@@ -5,10 +5,7 @@
 
 package za.co.hireahelper.factory;
 
-import za.co.hireahelper.domain.Client;
-import za.co.hireahelper.domain.Booking;
-import za.co.hireahelper.domain.Message;
-import za.co.hireahelper.domain.Area;
+import za.co.hireahelper.domain.*;
 import za.co.hireahelper.util.Helper;
 import java.util.List;
 
@@ -16,11 +13,11 @@ public class ClientFactory {
 
     public static Client createClient(String userId, String name, String email, String password, String mobileNumber,
                                       Area area,
-                                      List<Booking> bookings, List<Message> messages) {
+                                      List<Booking> bookings, List<Message> messages, List<Review> reviews) {
 
         if (Helper.isNullOrEmpty(userId) || Helper.isNullOrEmpty(name) || Helper.isNullOrEmpty(email)
                 || Helper.isNullOrEmpty(password) || Helper.isNullOrEmpty(mobileNumber)
-                || area == null || bookings == null || messages == null) {
+                || area == null || bookings == null || messages == null || reviews == null) {
             return null;
         }
 
@@ -41,7 +38,7 @@ public class ClientFactory {
                 .setArea(area)
                 .setBookings(bookings)
                 .setMessages(messages)
+                .setReviews(reviews)
                 .build();
     }
 }
-
