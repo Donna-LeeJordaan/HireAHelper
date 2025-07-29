@@ -5,12 +5,11 @@
 package za.co.hireahelper.factory;
 
 import za.co.hireahelper.domain.ServiceType;
+import za.co.hireahelper.util.Helper;
 
 public class ServiceTypeFactory {
-
     public static ServiceType createServiceType(String typeId, String typeName) {
-        if (typeId == null || typeId.isEmpty()
-                || typeName == null || typeName.isEmpty()) {
+        if (Helper.isNullOrEmpty(typeId) || Helper.isNullOrEmpty(typeName)) {
             return null;
         }
 

@@ -11,40 +11,33 @@ import za.co.hireahelper.service.ServiceTypeService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/ServiceType")
+@RequestMapping("/api/service-types")
 public class ServiceTypeController {
-
-    private final ServiceTypeService service;
-
     @Autowired
-    public ServiceTypeController(ServiceTypeService service) {
-        this.service = service;
-    }
+    private ServiceTypeService service;
 
-    @PostMapping("/create")
+    @PostMapping
     public ServiceType create(@RequestBody ServiceType serviceType) {
         return service.create(serviceType);
     }
-//typeid11
 
-    @GetMapping("/read/{typeId}")
+    @GetMapping("/{typeId}")
     public ServiceType read(@PathVariable String typeId) {
         return service.read(typeId);
     }
 
-    @PutMapping("/update")
+    @PutMapping
     public ServiceType update(@RequestBody ServiceType serviceType) {
         return service.update(serviceType);
     }
 
-    @DeleteMapping("/delete/{typeId}")
+    @DeleteMapping("/{typeId}")
     public boolean delete(@PathVariable String typeId) {
         return service.delete(typeId);
     }
 
-    @GetMapping("/all")
+    @GetMapping
     public List<ServiceType> getAll() {
         return service.getAll();
     }
 }
-
