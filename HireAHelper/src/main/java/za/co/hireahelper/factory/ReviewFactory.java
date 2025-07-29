@@ -1,8 +1,7 @@
 /* ReviewFactory.java
-
    Author: D.Jordaan (230613152)
-
-   Date: 18 May 2025 */
+   Date: 25 July 2025
+*/
 
 package za.co.hireahelper.factory;
 
@@ -13,13 +12,14 @@ import za.co.hireahelper.util.Helper;
 import java.time.LocalDateTime;
 
 public class ReviewFactory {
-    public static Review CreateReview(String reviewId, int rating, String comment, LocalDateTime timeStamp, Client client, ServiceProvider serviceProvider){
+    public static Review createReview(String reviewId, int rating, String comment,
+                                      LocalDateTime timeStamp, Client client, ServiceProvider serviceProvider) {
         if (Helper.isNullOrEmpty(reviewId) || !Helper.isValidRate(rating)
                 || client == null || serviceProvider == null || timeStamp == null) {
             return null;
         }
 
-        // Add future timestamp validation
+        // Validate timestamp is not in the future
         if (timeStamp.isAfter(LocalDateTime.now())) {
             return null;
         }
@@ -28,11 +28,9 @@ public class ReviewFactory {
                 .setReviewId(reviewId)
                 .setRating(rating)
                 .setComment(comment)
+                .setTimeStamp(timeStamp)
                 .setClient(client)
                 .setServiceProvider(serviceProvider)
-                .setTimeStamp(timeStamp)
                 .build();
     }
 }
-
-
