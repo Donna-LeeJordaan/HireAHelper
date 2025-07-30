@@ -6,20 +6,14 @@
 
 package za.co.hireahelper.service;
 
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 import za.co.hireahelper.domain.*;
-import za.co.hireahelper.factory.ServiceProviderFactory;
-import za.co.hireahelper.factory.ServiceTypeFactory;
-import za.co.hireahelper.repository.AreaRepository;
-import za.co.hireahelper.repository.ServiceTypeRepository;
-
+import za.co.hireahelper.factory.*;
 import java.util.ArrayList;
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -29,67 +23,78 @@ public class ServiceProviderServiceTest {
     @Autowired
     private ServiceProviderService service;
 
-    @Autowired
-    private AreaRepository areaRepository;
+    private static ServiceProvider serviceProvider;
 
-    ServiceType serviceType = new ServiceType.Builder()
-            .setTypeId("S1")
-            .setTypeName("Gardener")
-            .build();
-    Area area = new Area.Builder()
-            .setAreaId("A1")
-            .setName("Cape Town")
-            .build();
+    @BeforeAll
+    public static void setUp(){
+        ServiceType serviceType = new ServiceType.Builder()
+                .setTypeId("S1")
+                .setTypeName("Gardener")
+                .build();
+        assertNotNull(serviceType, "Service Type creation failed");
 
-    List<Booking> bookings = new ArrayList<>();
-    List<Message> messages = new ArrayList<>();
+        Area area = new Area.Builder()
+                .setAreaId("A1")
+                .setName("Cape Town")
+                .build();
+        assertNotNull(area, "Area creation failed");
 
-    private ServiceProvider serviceProvider = ServiceProviderFactory.createServiceProvider(
-            "sp1","Saliegh Haroun","saliegh@gmail.com","SalieghH1234","0665485568",
-            area,"saliegh.jpeg", "Experienced gardener with 15 years experience",668.0,serviceType ,bookings,
-            messages);
+        List<Booking> bookings = new ArrayList<>();
+        List<Message> messages = new ArrayList<>();
+        List<Review> reviews = new ArrayList<>();
+
+        serviceProvider = ServiceProviderFactory.createServiceProvider(
+                "sp1","Tauriq", "tauriq@gmail.com",
+                "tauriq01", "0677754479", area,
+                "tauriq.jpeg","Gardener with 15 years experience",
+                600.0, serviceType, bookings, messages, reviews);
+        assertNotNull(serviceProvider, "Service Provider creation failed");
+    }
 
     @Test
     void a_create() {
-        areaRepository.save(serviceProvider.getArea());
-
         ServiceProvider created = service.create(serviceProvider);
         assertNotNull(created);
+        assertEquals(serviceProvider.getUserId(), created.getUserId());
         System.out.println("Created:" + created);
     }
 
     @Test
+    @Transactional //transactional fetches the lazy loaded data without errors regarding the hibernate sessions closing
     void b_read() {
         ServiceProvider read = service.read(serviceProvider.getUserId());
         assertNotNull(read);
+        assertEquals(serviceProvider.getUserId(), read.getUserId());
         System.out.println("Read:" + read);
     }
 
     @Test
     void d_update() {
-        ServiceProvider updatedServiceProvider = new ServiceProvider.Builder()
+        ServiceProvider updated = new ServiceProvider.Builder()
                 .copy(serviceProvider)
-                .setName("Moegamat Saliegh Haroun")
+                .setEmail("tauriq01@example.com")
                 .build();
 
-        ServiceProvider updated = service.update(updatedServiceProvider);
-        assertNotNull(updated);
-        assertEquals("Moegamat Saliegh Haroun", updatedServiceProvider.getName());
+        ServiceProvider updatedProvider = service.update(updated);
+        assertNotNull(updatedProvider);
+        assertEquals("tauriq01@example.com", updatedProvider.getEmail());
         System.out.println("Updated:" + updated);
     }
 
     @Test
+    @Transactional
     void e_getAll() {
-        List<ServiceProvider> serviceProviders= service.getAll();
-        assertNotNull(serviceProviders);
-        System.out.println("All Service Providers:" + serviceProviders);
+        List<ServiceProvider> all= service.getAll();
+        assertNotNull(all);
+        assertFalse(all.isEmpty());
+        System.out.println("All Service Providers:" + all);
     }
 
     @Test
     void f_delete() {
         boolean deleted = service.delete(serviceProvider.getUserId());
         assertTrue(deleted);
-        System.out.println("Deleted Service Provider with userId:" + serviceProvider.getUserId());
+        System.out.println("Deleted:" + deleted);
     }
 }
 
