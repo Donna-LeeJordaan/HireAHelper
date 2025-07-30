@@ -56,6 +56,8 @@ public class Client extends User {
                 ", messages=" + (messages != null ? messages.size() : 0) +
                 ", reviews=" + (reviews != null ? reviews.size() : 0) +
                 '}';
+        // Null checks prevent NullPointerExceptions when LAZY-loaded fields aren’t initialized yet,
+        // ensuring safe and clear toString output during debugging.
     }
 
     public static class Builder extends User.Builder<Builder> {

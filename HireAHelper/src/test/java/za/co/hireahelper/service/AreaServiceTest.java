@@ -2,103 +2,75 @@
 
 package za.co.hireahelper.service;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
+import org.junit.jupiter.api.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 import za.co.hireahelper.domain.Area;
-import za.co.hireahelper.repository.AreaRepository;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
-class AreaServiceTest {
+@SpringBootTest
+@TestMethodOrder(MethodOrderer.MethodName.class)
+public class AreaServiceTest {
 
-    private AreaRepository areaRepository;
-    private AreaService areaService;
+    @Autowired
+    private AreaService service;
 
-    private Area area;
+    private static Area area;
 
-    @BeforeEach
-    void setUp() {
-        System.out.println("\n--- Setting up test environment ---");
-        areaRepository = mock(AreaRepository.class);
-        areaService = new AreaServiceImpl(areaRepository);
-
+    @BeforeAll
+    public static void setUp() {
         area = new Area.Builder()
-                .setAreaId("A100")
-                .setName("Cape Town North")
+                .setAreaId("area001")
+                .setName("Athlone")
                 .build();
-        System.out.println("Test Area created: " + area);
+        assertNotNull(area, "Area creation failed in setup");
     }
 
     @Test
-    void testCreate() {
-        System.out.println("\n--- Running testCreate ---");
-        when(areaRepository.save(area)).thenReturn(area);
-
-        Area created = areaService.create(area);
+    void a_create() {
+        Area created = service.create(area);
         assertNotNull(created);
-        assertEquals("A100", created.getAreaId());
-
-        System.out.println("Area created successfully: " + created);
-        verify(areaRepository, times(1)).save(area);
+        assertEquals(area.getAreaId(), created.getAreaId());
+        System.out.println("Created: " + created);
     }
 
     @Test
-    void testRead() {
-        System.out.println("\n--- Running testRead ---");
-        when(areaRepository.findById("A100")).thenReturn(Optional.of(area));
-
-        Area found = areaService.read("A100");
-        assertNotNull(found);
-        assertEquals("Cape Town North", found.getName());
-
-        System.out.println("Area read successfully: " + found);
-        verify(areaRepository, times(1)).findById("A100");
+    @Transactional
+    void b_read() {
+        Area read = service.read(area.getAreaId());
+        assertNotNull(read);
+        assertEquals(area.getName(), read.getName());
+        System.out.println("Read: " + read);
     }
 
     @Test
-    void testUpdate() {
-        System.out.println("\n--- Running testUpdate ---");
-        when(areaRepository.existsById("A100")).thenReturn(true);
-        when(areaRepository.save(area)).thenReturn(area);
+    void c_update() {
+        Area updated = new Area.Builder()
+                .copy(area)
+                .setName("Athlone Updated")
+                .build();
 
-        Area updated = areaService.update(area);
-        assertNotNull(updated);
-        assertEquals("A100", updated.getAreaId());
-
-        System.out.println("Area updated successfully: " + updated);
-        verify(areaRepository, times(1)).save(area);
+        Area result = service.update(updated);
+        assertNotNull(result);
+        assertEquals("Athlone Updated", result.getName());
+        System.out.println("Updated: " + result);
     }
 
     @Test
-    void testDelete() {
-        System.out.println("\n--- Running testDelete ---");
-        when(areaRepository.existsById("A100")).thenReturn(true);
-        doNothing().when(areaRepository).deleteById("A100");
-
-        boolean deleted = areaService.delete("A100");
-        assertTrue(deleted);
-
-        System.out.println("Area deleted successfully: " + deleted);
-        verify(areaRepository, times(1)).deleteById("A100");
+    @Transactional
+    void d_getAll() {
+        List<Area> all = service.getAll();
+        assertNotNull(all);
+        assertFalse(all.isEmpty());
+        System.out.println("All Areas: " + all);
     }
 
     @Test
-    void testGetAll() {
-        System.out.println("\n--- Running testGetAll ---");
-        List<Area> areas = Arrays.asList(area);
-        when(areaRepository.findAll()).thenReturn(areas);
-
-        List<Area> all = areaService.getAll();
-        assertEquals(1, all.size());
-        assertEquals("A100", all.get(0).getAreaId());
-
-        System.out.println("All areas retrieved successfully:");
-        all.forEach(System.out::println);
-
-        verify(areaRepository, times(1)).findAll();
+    void e_delete() {
+        boolean success = service.delete(area.getAreaId());
+        assertTrue(success);
+        System.out.println("Deleted: " + success);
     }
 }

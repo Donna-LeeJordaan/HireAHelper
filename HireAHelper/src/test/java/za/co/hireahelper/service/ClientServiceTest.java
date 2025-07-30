@@ -1,6 +1,7 @@
-/* ClientServiceImplTest.java
+/* ClientServiceTest.java
    Author: S Hendricks (221095136)
-   Date: 09 July 2025 */
+   Date: 09 July 2025
+*/
 
 package za.co.hireahelper.service;
 
@@ -22,16 +23,19 @@ public class ClientServiceTest {
     @Autowired
     private ClientService service;
 
+    @Autowired
+    private AreaService areaService;
+
     private static Client client;
 
-    private static Area genericArea = new Area.Builder()
+    private static final Area genericArea = new Area.Builder()
             .setAreaId("area001")
             .setName("Athlone")
             .build();
 
-    private static List bookings = new ArrayList<>();
-    private static List messages = new ArrayList<>();
-    private static List reviews = new ArrayList<>();
+    private static final List bookings = new ArrayList<>();
+    private static final List messages = new ArrayList<>();
+    private static final List reviews = new ArrayList<>();
 
     @BeforeAll
     public static void setUp() {
@@ -49,6 +53,15 @@ public class ClientServiceTest {
         assertNotNull(client, "Client creation failed in setup");
     }
 
+    @BeforeEach
+    public void persistArea() {
+        if (areaService.read(genericArea.getAreaId()) == null) {
+            areaService.create(genericArea);
+        }
+        // Ensures the Area entity with ID "area001" is saved in the database before each test runs,
+        // so that any Client referencing this Area can be persisted without errors.
+    }
+
     @Test
     void a_create() {
         Client created = service.create(client);
@@ -59,8 +72,6 @@ public class ClientServiceTest {
 
     @Test
     @Transactional
-        // @Transactional ensures the method runs within a database transaction
-        // and keeps the Hibernate session open, allowing lazy-loaded data to be fetched without errors.
     void b_read() {
         Client read = service.read(client.getUserId());
         assertNotNull(read);

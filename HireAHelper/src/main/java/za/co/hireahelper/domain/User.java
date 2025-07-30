@@ -68,6 +68,9 @@ public abstract class User {
                 ", mobileNumber='" + mobileNumber + '\'' +
                 ", area=" + (area != null ? area.getName() : "null") +
                 '}';
+        // Null checks prevent NullPointerExceptions when LAZY-loaded fields aren’t initialized yet,
+        // ensuring safe and clear toString output during debugging.
+
     }
 
     public static abstract class Builder<T extends Builder<T>> {
