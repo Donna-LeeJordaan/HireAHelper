@@ -11,12 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import za.co.hireahelper.domain.*;
-import za.co.hireahelper.factory.AreaFactory;
-import za.co.hireahelper.factory.ServiceProviderFactory;
-import za.co.hireahelper.factory.ServiceTypeFactory;
+import za.co.hireahelper.factory.*;
+import za.co.hireahelper.repository.AreaRepository;
+import za.co.hireahelper.repository.ServiceTypeRepository;
+
 import java.util.ArrayList;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
@@ -33,24 +33,41 @@ public class ServiceProviderControllerTest {
 
     private static ServiceProvider serviceProvider;
 
+    @Autowired
+    private AreaRepository areaRepository;
+
+    @Autowired
+    private ServiceTypeRepository serviceTypeRepository;
+
     private String getBaseUrl() {
         return "http://localhost:" + port + "/serviceProvider";
     }
 
-    @BeforeAll
-    public static void setUp(){
+    @BeforeEach
+    public void setUp(){
+        ServiceType serviceType = new ServiceType.Builder()
+                .setTypeId("S1")
+                .setTypeName("Gardener")
+                .build();
+        serviceTypeRepository.save(serviceType);
 
-        ServiceType gardener = ServiceTypeFactory.createServiceType("S1", "Gardener");
-        assertNotNull(gardener, "ServiceType null");
-
-        Area A1 = AreaFactory.createArea("A1","Cape Town");
+        Area area = new Area.Builder()
+                .setAreaId("A1")
+                .setName("Cape Town")
+                .build();
+        assertNotNull(area, "Area creation failed");
+        areaRepository.save(area);
 
         List<Booking> bookings = new ArrayList<>();
         List<Message> messages = new ArrayList<>();
+        List<Review> reviews = new ArrayList<>();
 
-        serviceProvider = ServiceProviderFactory.createServiceProvider("sp1","Saliegh Haroun", "saliegh@gmail.com", "salieghH1234",
-                "0665485568",A1, "saliegh.jpeg", "Experienced gardener with 15 years experience.", 668.0,
-                gardener, bookings,messages);
+        serviceProvider = ServiceProviderFactory.createServiceProvider(
+                "sp1","Tauriq", "tauriq@gmail.com",
+                "tauriq01", "0677754479", area,
+                "tauriq.jpeg","Gardener with 15 years experience",
+                600.0, serviceType, bookings, messages, reviews);
+        assertNotNull(serviceProvider, "Service Provider creation failed");
     }
 
     @Test
