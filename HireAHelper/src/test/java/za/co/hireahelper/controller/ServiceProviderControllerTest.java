@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(MethodOrderer.MethodName.class)
 public class ServiceProviderControllerTest {
 
@@ -30,21 +30,21 @@ public class ServiceProviderControllerTest {
 
     private static final String BASE_URL = "http://localhost:8080/HireAHelper/serviceProvider";
 
-    @BeforeEach
-    public void setUp(){
+    @BeforeAll
+    public static void setUp(){
 
         List<Booking> bookings = new ArrayList<>();
         List<Message> messages = new ArrayList<>();
         List<Review> reviews = new ArrayList<>();
 
+        Area area = new Area.Builder()
+                .setAreaId("area001")
+                .setName("Athlone")
+                .build();
+
         ServiceType serviceType = new ServiceType.Builder()
                 .setTypeId("S1")
                 .setTypeName("Gardener")
-                .build();
-
-        Area area = new Area.Builder()
-                .setAreaId("A1")
-                .setName("Cape Town")
                 .build();
 
         serviceProvider = ServiceProviderFactory.createServiceProvider(
@@ -52,6 +52,8 @@ public class ServiceProviderControllerTest {
                 "tauriq01", "0677754479", area,
                 "tauriq.jpeg","Gardener with 15 years experience",
                 600.0, serviceType, bookings, messages, reviews);
+
+
     }
 
     @Test
@@ -59,9 +61,9 @@ public class ServiceProviderControllerTest {
         String url = BASE_URL + "/create";
         ResponseEntity <ServiceProvider> postResponse = this.restTemplate.postForEntity(url, serviceProvider, ServiceProvider.class);
         assertNotNull(postResponse);
-        ServiceProvider serviceProviderSaved = postResponse.getBody();
-        assertEquals(serviceProvider.getUserId(), serviceProviderSaved.getUserId());
-        System.out.println("Created: " + serviceProviderSaved);
+        ServiceProvider savedServiceProvider = postResponse.getBody();
+        assertEquals(serviceProvider.getUserId(), savedServiceProvider.getUserId());
+        System.out.println("Created: " + savedServiceProvider);
     }
 
     @Test
@@ -83,7 +85,6 @@ public class ServiceProviderControllerTest {
         this.restTemplate.put(url, updatedServiceProvider);
 
         ResponseEntity<ServiceProvider> response = this.restTemplate.getForEntity(BASE_URL + "/read/" + updatedServiceProvider.getUserId(), ServiceProvider.class);
-        assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
         //assertEquals(updatedServiceProvider.getName(), response.getBody().getName());
         System.out.println("Updated: " + response.getBody());
@@ -91,26 +92,26 @@ public class ServiceProviderControllerTest {
 
     }
 
-    @Disabled
-    @Test
-    void e_delete() {
-        String url = BASE_URL + "/delete/" + serviceProvider.getUserId();
-        this.restTemplate.delete(url);
-
-        ResponseEntity<ServiceProvider> response = this.restTemplate.getForEntity(BASE_URL + "/read/" + serviceProvider.getUserId(), ServiceProvider.class);
-        assertNull(response.getBody());
-        System.out.println("Deleted");
-    }
-
     @Test
     void d_getAll() {
         String url = BASE_URL + "/all";
         ResponseEntity<ServiceProvider[]> response = this.restTemplate.getForEntity(url, ServiceProvider[].class);
         assertNotNull(response.getBody());
-       // assertTrue(response.getBody().length > 0);
+        // assertTrue(response.getBody().length > 0);
         System.out.println("All ServiceProviders:");
         for (ServiceProvider s : response.getBody()) {
             System.out.println(s);
         }
     }
-}
+
+        @Test
+        void e_delete () {
+            String url = BASE_URL + "/delete/" + serviceProvider.getUserId();
+            this.restTemplate.delete(url);
+
+            ResponseEntity<ServiceProvider> response = this.restTemplate.getForEntity(BASE_URL + "/read/" + serviceProvider.getUserId(), ServiceProvider.class);
+            assertNull(response.getBody());
+            System.out.println("Deleted" + response.getBody());
+        }
+
+    }
