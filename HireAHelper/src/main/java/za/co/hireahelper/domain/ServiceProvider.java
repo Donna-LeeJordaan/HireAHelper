@@ -75,7 +75,6 @@ public class ServiceProvider extends User {
     @Override
     public String toString() {
         return "ServiceProvider{" +
-                super.toString() +
                 "userId='" + getUserId() + '\'' +
                 ", name='" + getName() + '\'' +
                 ", email='" + getEmail() + '\'' +
