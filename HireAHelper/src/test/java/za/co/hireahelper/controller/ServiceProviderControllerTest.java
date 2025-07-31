@@ -10,9 +10,9 @@ import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.http.*;
+import org.springframework.http.ResponseEntity;
 import za.co.hireahelper.domain.*;
-import za.co.hireahelper.factory.*;
+import za.co.hireahelper.factory.ServiceProviderFactory;
 import java.util.ArrayList;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
@@ -111,7 +111,7 @@ public class ServiceProviderControllerTest {
 
             ResponseEntity<ServiceProvider> response = this.restTemplate.getForEntity(BASE_URL + "/read/" + serviceProvider.getUserId(), ServiceProvider.class);
             assertNull(response.getBody());
-            System.out.println("Deleted" + response.getBody());
+            System.out.println("Deleted: true");
         }
 
     }
