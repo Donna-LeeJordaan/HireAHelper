@@ -11,37 +11,32 @@ import za.co.hireahelper.service.MessageService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/message")
+@RequestMapping("/api/messages")
 public class MessageController {
-
-    private final MessageService service;
-
     @Autowired
-    public MessageController(MessageService service) {
-        this.service = service;
-    }
+    private MessageService service;
 
-    @PostMapping("/create")
+    @PostMapping
     public Message create(@RequestBody Message message) {
         return service.create(message);
     }
 
-    @GetMapping("/read/{messageId}")
+    @GetMapping("/{messageId}")
     public Message read(@PathVariable String messageId) {
         return service.read(messageId);
     }
 
-    @PutMapping("/update")
+    @PutMapping
     public Message update(@RequestBody Message message) {
         return service.update(message);
     }
 
-    @DeleteMapping("/delete/{messageId}")
+    @DeleteMapping("/{messageId}")
     public boolean delete(@PathVariable String messageId) {
         return service.delete(messageId);
     }
 
-    @GetMapping("/all")
+    @GetMapping
     public List<Message> getAll() {
         return service.getAll();
     }

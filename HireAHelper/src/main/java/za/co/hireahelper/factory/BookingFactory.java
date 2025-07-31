@@ -4,6 +4,7 @@
 
    Date: 18 May 2025 */
 
+
 package za.co.hireahelper.factory;
 
 import za.co.hireahelper.domain.Booking;
@@ -14,12 +15,12 @@ import java.util.Arrays;
 import java.util.Date;
 
 public class BookingFactory {
-    public static Booking Createbooking(String bookingId, Date serviceDate, String status, String notes, Client client, ServiceProvider serviceProvider) {
+    public static Booking createBooking(String bookingId, Date serviceDate, String status,
+                                        String notes, Client client, ServiceProvider serviceProvider) {
         if (Helper.isNullOrEmpty(bookingId) || serviceDate == null || Helper.isNullOrEmpty(status)
                 || client == null || serviceProvider == null) {
             return null;
         }
-
 
         // Validate date is not in the past
         if (serviceDate.before(new Date())) {
@@ -30,6 +31,7 @@ public class BookingFactory {
         if (!Arrays.asList("Confirmed", "Pending", "Cancelled", "Completed").contains(status)) {
             return null;
         }
+
         return Booking.builder()
                 .setBookingId(bookingId)
                 .setServiceDate(serviceDate)
@@ -40,4 +42,3 @@ public class BookingFactory {
                 .build();
     }
 }
-

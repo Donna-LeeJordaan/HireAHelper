@@ -6,20 +6,14 @@
 
 package za.co.hireahelper.service;
 
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 import za.co.hireahelper.domain.*;
-import za.co.hireahelper.factory.ServiceProviderFactory;
-import za.co.hireahelper.factory.ServiceTypeFactory;
-import za.co.hireahelper.repository.AreaRepository;
-import za.co.hireahelper.repository.ServiceTypeRepository;
-
+import za.co.hireahelper.factory.*;
 import java.util.ArrayList;
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -30,66 +24,91 @@ public class ServiceProviderServiceTest {
     private ServiceProviderService service;
 
     @Autowired
-    private AreaRepository areaRepository;
+    private AreaService areaService;
 
-    ServiceType serviceType = new ServiceType.Builder()
+    @Autowired
+    private ServiceTypeService serviceTypeService;
+
+    private static ServiceProvider serviceProvider;
+
+    private static final Area area = new Area.Builder()
+            .setAreaId("area001")
+            .setName("Athlone")
+            .build();
+
+    private static final ServiceType serviceType = new ServiceType.Builder()
             .setTypeId("S1")
             .setTypeName("Gardener")
             .build();
-    Area area = new Area.Builder()
-            .setAreaId("A1")
-            .setName("Cape Town")
-            .build();
 
-    List<Booking> bookings = new ArrayList<>();
-    List<Message> messages = new ArrayList<>();
+    private static final List<Booking> bookings = new ArrayList<>();
+    private static final List<Message> messages = new ArrayList<>();
+    private static final List<Review> reviews = new ArrayList<>();
 
-    private ServiceProvider serviceProvider = ServiceProviderFactory.createServiceProvider(
-            "sp1","Saliegh Haroun","saliegh@gmail.com","SalieghH1234","0665485568",
-            area,"saliegh.jpeg", "Experienced gardener with 15 years experience",668.0,serviceType ,bookings,
-            messages);
-
-    @Test
-    void a_create() {
-        areaRepository.save(serviceProvider.getArea());
-
-        ServiceProvider created = service.create(serviceProvider);
-        assertNotNull(created);
-        System.out.println("Created:" + created);
+    @BeforeAll
+    public static void setUp() {
+        serviceProvider = ServiceProviderFactory.createServiceProvider(
+                "sp1", "Tauriq", "tauriq@gmail.com",
+                "tauriq01", "0677754479", area,
+                "tauriq.jpeg", "Gardener with 15 years experience",
+                600.0, serviceType, bookings, messages, reviews);
+        assertNotNull(serviceProvider, "Service Provider creation failed");
     }
 
-    @Test
-    void b_read() {
-        ServiceProvider read = service.read(serviceProvider.getUserId());
-        assertNotNull(read);
-        System.out.println("Read:" + read);
+    @BeforeEach
+    public void setupDependencies() {
+        if (areaService.read(area.getAreaId()) == null) {
+            areaService.create(area);
+        }
+        if (serviceTypeService.read(serviceType.getTypeId()) == null) {
+            serviceTypeService.create(serviceType);
+        }
     }
 
-    @Test
-    void d_update() {
-        ServiceProvider updatedServiceProvider = new ServiceProvider.Builder()
-                .copy(serviceProvider)
-                .setName("Moegamat Saliegh Haroun")
-                .build();
+            @Test
+            void a_create () {
+                ServiceProvider created = service.create(serviceProvider);
+                assertNotNull(created);
+                assertEquals(serviceProvider.getUserId(), created.getUserId());
+                System.out.println("Created:" + created);
+            }
 
-        ServiceProvider updated = service.update(updatedServiceProvider);
-        assertNotNull(updated);
-        assertEquals("Moegamat Saliegh Haroun", updatedServiceProvider.getName());
-        System.out.println("Updated:" + updated);
-    }
+            @Test
+            @Transactional
+            void b_read () {
+                ServiceProvider read = service.read(serviceProvider.getUserId());
+                assertNotNull(read);
+                assertEquals(serviceProvider.getUserId(), read.getUserId());
+                System.out.println("Read:" + read);
+            }
 
-    @Test
-    void e_getAll() {
-        List<ServiceProvider> serviceProviders= service.getAll();
-        assertNotNull(serviceProviders);
-        System.out.println("All Service Providers:" + serviceProviders);
-    }
+            @Test
+            void c_update () {
+                ServiceProvider updated = new ServiceProvider.Builder()
+                        .copy(serviceProvider)
+                        .setEmail("tauriq01@example.com")
+                        .build();
 
-    @Test
-    void f_delete() {
-        boolean deleted = service.delete(serviceProvider.getUserId());
-        assertTrue(deleted);
-        System.out.println("Deleted Service Provider with userId:" + serviceProvider.getUserId());
-    }
-}
+                ServiceProvider updatedProvider = service.update(updated);
+                assertNotNull(updatedProvider);
+                assertEquals("tauriq01@example.com", updatedProvider.getEmail());
+                System.out.println("Updated:" + updated);
+            }
+
+            @Test
+            @Transactional
+            void d_getAll () {
+                List<ServiceProvider> all = service.getAll();
+                assertNotNull(all);
+                assertFalse(all.isEmpty());
+                System.out.println("All Service Providers:" + all);
+            }
+
+            @Test
+            void e_delete () {
+                boolean deleted = service.delete(serviceProvider.getUserId());
+                assertTrue(deleted);
+                System.out.println("Deleted:" + deleted);
+            }
+        }
 

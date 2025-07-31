@@ -1,8 +1,7 @@
 /* BookingControllerTest.java
-
    Author: D.Jordaan (230613152)
-
-   Date: 13 July 2025 */
+   Date: 25 July 2025
+*/
 
 package za.co.hireahelper.controller;
 
@@ -53,7 +52,7 @@ class BookingControllerTest {
                 .setName("Test Provider")
                 .build();
 
-        booking = BookingFactory.Createbooking(
+        booking = BookingFactory.createBooking(
                 "booking123",
                 new Date(System.currentTimeMillis() + 86400000), // Tomorrow
                 "Confirmed",
@@ -68,27 +67,30 @@ class BookingControllerTest {
     void a_create() {
         String url = getBaseUrl() + "/create";
         ResponseEntity<Booking> postResponse = restTemplate.postForEntity(url, booking, Booking.class);
+
         assertNotNull(postResponse);
         assertEquals(HttpStatus.OK, postResponse.getStatusCode());
 
-        Booking bookingSaved = postResponse.getBody();
-        assertNotNull(bookingSaved);
-        assertEquals(booking.getBookingId(), bookingSaved.getBookingId());
+        Booking createdBooking = postResponse.getBody();
+        assertNotNull(createdBooking);
+        assertEquals(booking.getBookingId(), createdBooking.getBookingId());
+        assertEquals(booking.getStatus(), createdBooking.getStatus());
 
-        System.out.println("Created: " + bookingSaved);
+        System.out.println("Created booking: " + createdBooking);
     }
 
     @Test
     void b_read() {
         String url = getBaseUrl() + "/read/" + booking.getBookingId();
         ResponseEntity<Booking> response = restTemplate.getForEntity(url, Booking.class);
+
         assertEquals(HttpStatus.OK, response.getStatusCode());
 
-        Booking bookingRead = response.getBody();
-        assertNotNull(bookingRead);
-        assertEquals(booking.getBookingId(), bookingRead.getBookingId());
+        Booking retrievedBooking = response.getBody();
+        assertNotNull(retrievedBooking);
+        assertEquals(booking.getBookingId(), retrievedBooking.getBookingId());
 
-        System.out.println("Read: " + bookingRead);
+        System.out.println("Retrieved booking: " + retrievedBooking);
     }
 
     @Test
@@ -96,35 +98,39 @@ class BookingControllerTest {
         Booking updatedBooking = new Booking.Builder()
                 .copy(booking)
                 .setStatus("Completed")
+                .setNotes("Updated notes")
                 .build();
 
         String url = getBaseUrl() + "/update";
         restTemplate.put(url, updatedBooking);
 
         ResponseEntity<Booking> response = restTemplate.getForEntity(
-                getBaseUrl()+ "/read/" + updatedBooking.getBookingId(),
+                getBaseUrl() + "/read/" + updatedBooking.getBookingId(),
                 Booking.class
         );
+
         assertEquals(HttpStatus.OK, response.getStatusCode());
 
-        Booking bookingUpdated = response.getBody();
-        assertNotNull(bookingUpdated);
-        assertEquals("Completed", bookingUpdated.getStatus());
+        Booking modifiedBooking = response.getBody();
+        assertNotNull(modifiedBooking);
+        assertEquals("Completed", modifiedBooking.getStatus());
+        assertEquals("Updated notes", modifiedBooking.getNotes());
 
-        System.out.println("Updated: " + bookingUpdated);
+        System.out.println("Updated booking: " + modifiedBooking);
     }
 
     @Test
     void d_getAll() {
         String url = getBaseUrl() + "/all";
         ResponseEntity<Booking[]> response = restTemplate.getForEntity(url, Booking[].class);
+
         assertEquals(HttpStatus.OK, response.getStatusCode());
 
         Booking[] bookings = response.getBody();
         assertNotNull(bookings);
         assertTrue(bookings.length > 0);
 
-        System.out.println("All Bookings:");
+        System.out.println("All bookings:");
         for (Booking b : bookings) {
             System.out.println(b);
         }
@@ -136,12 +142,13 @@ class BookingControllerTest {
         restTemplate.delete(url);
 
         ResponseEntity<Booking> response = restTemplate.getForEntity(
-                getBaseUrl()+ "/read/" + booking.getBookingId(),
+                getBaseUrl() + "/read/" + booking.getBookingId(),
                 Booking.class
         );
+
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNull(response.getBody());
 
-        System.out.println("Deleted: true");
+        System.out.println("Deleted booking with ID: " + booking.getBookingId());
     }
 }

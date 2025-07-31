@@ -17,7 +17,7 @@ public class ServiceProviderFactory {
 
         if (Helper.isNullOrEmpty(userId) || Helper.isNullOrEmpty(name) || Helper.isNullOrEmpty(email) ||Helper.isNullOrEmpty(password) ||
                 Helper.isNullOrEmpty(mobileNumber) ||Helper.isNullOrEmpty(profileImage) || Helper.isNullOrEmpty(description) ||
-                rate <= 0 || area ==null || serviceType == null || bookings == null || messages == null || reviews == null) {
+                rate <= 0 || area == null || serviceType == null || bookings == null || messages == null || reviews == null) {
             return null;
         }
 

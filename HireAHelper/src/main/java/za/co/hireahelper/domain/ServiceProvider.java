@@ -16,7 +16,7 @@ public class ServiceProvider extends User {
     private double rate;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "service_type_id", referencedColumnName = "typeId", nullable = false)
+    @JoinColumn(name = "type_id", nullable = false)
     private ServiceType serviceType;  //GET BACK TO THIS
 
     @OneToMany(mappedBy = "serviceProvider", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -75,7 +75,6 @@ public class ServiceProvider extends User {
     @Override
     public String toString() {
         return "ServiceProvider{" +
-                super.toString() +
                 "userId='" + getUserId() + '\'' +
                 ", name='" + getName() + '\'' +
                 ", email='" + getEmail() + '\'' +
