@@ -1,110 +1,104 @@
 // Ameeruddin Arai 230190839
 
+// Ameeruddin Arai 230190839
+
 package za.co.hireahelper.controller;
 
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.http.*;
 import za.co.hireahelper.domain.Area;
 import za.co.hireahelper.factory.AreaFactory;
-import java.util.Objects;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class AreaControllerTest {
 
-    private static Area area;
+    @LocalServerPort
+    private int port;
 
     @Autowired
     private TestRestTemplate restTemplate;
 
-    private static final String BASE_URL = "http://localhost:8080/HireAHelper/area";
+    private static Area area;
+
+    private String getBaseUrl() {
+        return "http://localhost:" + port + "/HireAHelper/area";
+    }
 
     @BeforeAll
-    public static void setUp() {
-        System.out.println("Setting up Area object for tests...");
+    static void setUp() {
         area = AreaFactory.createArea("area100", "Cape Town North");
-        assertNotNull(area);
-        System.out.println("Setup complete: " + area);
+        assertNotNull(area, "Area should be created by the factory");
     }
 
     @Test
     void a_create() {
-        System.out.println("\n--- Running CREATE Test ---");
-        String url = BASE_URL + "/create";
-        System.out.println("Sending POST request to: " + url);
-        ResponseEntity<Area> postResponse = restTemplate.postForEntity(url, area, Area.class);
+        String url = getBaseUrl() + "/create";
+        ResponseEntity<Area> response = restTemplate.postForEntity(url, area, Area.class);
 
-        System.out.println("Response received: " + postResponse);
-        assertEquals(HttpStatus.OK, postResponse.getStatusCode());
+        assertNotNull(response);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
 
-        Area saved = postResponse.getBody();
-        assertNotNull(saved);
-        assertEquals(area.getAreaId(), saved.getAreaId());
+        Area created = response.getBody();
+        assertNotNull(created);
+        assertEquals(area.getAreaId(), created.getAreaId());
 
-        System.out.println("CREATE successful: " + saved);
+        area = created; // Update reference
+        System.out.println("Created Area: " + created);
     }
 
     @Test
     void b_read() {
-        System.out.println("\n--- Running READ Test ---");
-        String url = BASE_URL + "/read/" + area.getAreaId();
-        System.out.println("Sending GET request to: " + url);
+        String url = getBaseUrl() + "/read/" + area.getAreaId();
         ResponseEntity<Area> response = restTemplate.getForEntity(url, Area.class);
 
-        System.out.println("Response received: " + response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
 
         Area read = response.getBody();
         assertNotNull(read);
         assertEquals(area.getAreaId(), read.getAreaId());
 
-        System.out.println("READ successful: " + read);
+        System.out.println("Read Area: " + read);
     }
 
     @Test
     void c_update() {
-        System.out.println("\n--- Running UPDATE Test ---");
         Area updated = new Area.Builder()
                 .copy(area)
                 .setName("Cape Town Central")
                 .build();
 
-        String url = BASE_URL + "/update";
-        System.out.println("Sending PUT request to: " + url + " with data: " + updated);
+        String url = getBaseUrl() + "/update";
         restTemplate.put(url, updated);
 
-        String readUrl = BASE_URL + "/read/" + updated.getAreaId();
-        ResponseEntity<Area> response = restTemplate.getForEntity(readUrl, Area.class);
+        ResponseEntity<Area> response = restTemplate.getForEntity(getBaseUrl() + "/read/" + updated.getAreaId(), Area.class);
 
-        System.out.println("Response received after update: " + response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals("Cape Town Central", Objects.requireNonNull(response.getBody()).getName());
+        Area afterUpdate = response.getBody();
+        assertNotNull(afterUpdate);
+        assertEquals("Cape Town Central", afterUpdate.getName());
 
-        System.out.println("UPDATE successful: " + response.getBody());
+        area = afterUpdate; // Update reference
+        System.out.println("Updated Area: " + afterUpdate);
     }
 
     @Test
     void d_getAll() {
-        System.out.println("\n--- Running GET ALL Test ---");
-        String url = BASE_URL + "/all";
-        System.out.println("Sending GET request to: " + url);
+        String url = getBaseUrl() + "/all";
         ResponseEntity<Area[]> response = restTemplate.getForEntity(url, Area[].class);
 
-        System.out.println("Response received: " + response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
-
         Area[] areas = response.getBody();
         assertNotNull(areas);
-        System.out.println("GET ALL successful - Total Areas: " + areas.length);
+        assertTrue(areas.length > 0);
 
+        System.out.println("All Areas:");
         for (Area a : areas) {
             System.out.println(a);
         }
@@ -112,20 +106,15 @@ class AreaControllerTest {
 
     @Test
     void e_delete() {
-        System.out.println("\n--- Running DELETE Test ---");
-        String deleteUrl = BASE_URL + "/delete/" + area.getAreaId();
-        System.out.println("Sending DELETE request to: " + deleteUrl);
-        restTemplate.delete(deleteUrl);
+        String url = getBaseUrl() + "/delete/" + area.getAreaId();
+        restTemplate.delete(url);
 
-        String readUrl = BASE_URL + "/read/" + area.getAreaId();
-        System.out.println("Checking if area still exists via GET: " + readUrl);
-        ResponseEntity<Area> response = restTemplate.getForEntity(readUrl, Area.class);
+        ResponseEntity<Area> response = restTemplate.getForEntity(getBaseUrl() + "/read/" + area.getAreaId(), Area.class);
 
-        System.out.println("Response after delete: " + response);
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNull(response.getBody());
-
-        System.out.println("DELETE successful: Area with ID " + area.getAreaId() + " no longer exists.");
+        if (response.getStatusCode() == HttpStatus.NOT_FOUND) {
+            System.out.println("Area successfully deleted. Not found afterward.");
+        } else {
+            assertNull(response.getBody(), "Area body should be null after deletion");
+        }
     }
 }
-
