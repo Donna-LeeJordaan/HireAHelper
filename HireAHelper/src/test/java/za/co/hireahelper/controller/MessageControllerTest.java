@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class MessageControllerTest {
 
     private static Message message;
-
+//3
     @Autowired
     private TestRestTemplate restTemplate;
 
