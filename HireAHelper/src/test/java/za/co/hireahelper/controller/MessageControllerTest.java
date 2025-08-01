@@ -1,88 +1,93 @@
-//Gabriel Kiewietz
-// 11 July 2025
-//230990703
+/* MessageControllerTest.java
+   Gabriel Kiewietz
+   31 July 2025
+*/
 
 package za.co.hireahelper.controller;
-
 
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.http.*;
-import za.co.hireahelper.domain.Client;
+import org.springframework.http.ResponseEntity;
 import za.co.hireahelper.domain.Message;
-import za.co.hireahelper.domain.ServiceProvider;
 import za.co.hireahelper.factory.MessageFactory;
+
 import java.time.LocalDateTime;
+
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@TestMethodOrder(MethodOrderer.MethodName.class)
 class MessageControllerTest {
-    @LocalServerPort
-    private int port;  // Injected test server port
 
+    private static Message message;
+//3
     @Autowired
     private TestRestTemplate restTemplate;
 
-    private static Message message;
-    private String baseUrl;
+    private static final String BASE_URL = "http://localhost:8080/HireAHelper/message";
 
     @BeforeAll
-    static void setup() {
-        // Create test Client and ServiceProvider
-        Client client = new Client.Builder()
-                .setUserId("CL001")
-                .setName("Test Client")
-                .build();
-
-        ServiceProvider provider = new ServiceProvider.Builder()
-                .setUserId("SP001")
-                .setName("Test Provider")
-                .build();
-
-        // Create test message
+    public static void setUp() {
         message = MessageFactory.createMessage(
-                "MSG001",
+                "msg001",
                 LocalDateTime.now(),
-                "Test message content",
-                client,
-                provider
+                "Hello, I would like to book your service."
         );
     }
 
-    @BeforeEach
-    void init() {
-        baseUrl = "http://localhost:" + port + "/api/messages";  // Dynamic URL
-    }
-
     @Test
-    @Order(1)
     void a_create() {
-        ResponseEntity<Message> response = restTemplate.postForEntity(
-                baseUrl,
-                message,
-                Message.class
-        );
-
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertNotNull(response.getBody());
-        assertEquals(message.getMessageId(), response.getBody().getMessageId());
+        String url = BASE_URL + "/create";
+        ResponseEntity<Message> postResponse = this.restTemplate.postForEntity(url, message, Message.class);
+        assertNotNull(postResponse);
+        Message savedMessage = postResponse.getBody();
+        assertEquals(message.getMessageId(), savedMessage.getMessageId());
+        System.out.println("Created: " + savedMessage);
     }
 
     @Test
-    @Order(2)
     void b_read() {
-        ResponseEntity<Message> response = restTemplate.getForEntity(
-                baseUrl + "/" + message.getMessageId(),
-                Message.class
-        );
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody());
+        String url = BASE_URL + "/read/" + message.getMessageId();
+        ResponseEntity<Message> response = this.restTemplate.getForEntity(url, Message.class);
+        assertEquals(message.getMessageId(), response.getBody().getMessageId());
+        System.out.println("Read: " + response.getBody());
     }
 
-    // Additional test methods (update, delete, getAll)...
+    @Test
+    void c_update() {
+        Message updatedMessage = new Message.Builder()
+                .copy(message)
+                .setContent("Updated content: Please confirm availability.")
+                .build();
+
+        String url = BASE_URL + "/update";
+        this.restTemplate.put(url, updatedMessage);
+
+        ResponseEntity<Message> response = this.restTemplate.getForEntity(BASE_URL + "/read/" + updatedMessage.getMessageId(), Message.class);
+        assertNotNull(response.getBody());
+        System.out.println("Updated: " + response.getBody());
+    }
+
+    @Test
+    void d_getAll() {
+        String url = BASE_URL + "/all";
+        ResponseEntity<Message[]> response = this.restTemplate.getForEntity(url, Message[].class);
+        assertNotNull(response.getBody());
+        System.out.println("All Messages:");
+        for (Message m : response.getBody()) {
+            System.out.println(m);
+        }
+    }
+
+    @Test
+    void e_delete() {
+        String url = BASE_URL + "/delete/" + message.getMessageId();
+        this.restTemplate.delete(url);
+
+        ResponseEntity<Message> response = this.restTemplate.getForEntity(BASE_URL + "/read/" + message.getMessageId(), Message.class);
+        assertNull(response.getBody());
+        System.out.println("Deleted: true");
+    }
 }
