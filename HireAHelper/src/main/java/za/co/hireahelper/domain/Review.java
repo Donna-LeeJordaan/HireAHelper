@@ -1,8 +1,6 @@
 /* Review.java
-
    Author: D.Jordaan (230613152)
-
-   Date: 18 May 2025
+   Date: 18 May 2025 / modified on 6 August 2025
 */
 
 package za.co.hireahelper.domain;
@@ -27,6 +25,10 @@ public class Review {
     @JoinColumn(name = "service_provider_id", nullable = false)
     private ServiceProvider serviceProvider;
 
+    @ManyToOne
+    @JoinColumn(name = "booking_id", nullable = false)
+    private Booking booking;
+
     protected Review() {
     }
 
@@ -37,6 +39,7 @@ public class Review {
         this.timeStamp = builder.timeStamp;
         this.client = builder.client;
         this.serviceProvider = builder.serviceProvider;
+        this.booking = builder.booking;
     }
 
     public static Builder builder() {
@@ -67,6 +70,10 @@ public class Review {
         return serviceProvider;
     }
 
+    public Booking getBooking() {
+        return booking;
+    }
+
     @Override
     public String toString() {
         return "Review{" +
@@ -76,6 +83,7 @@ public class Review {
                 ", timeStamp=" + timeStamp +
                 ", clientId=" + (client != null ? client.getUserId() : "null") +
                 ", serviceProviderId=" + (serviceProvider != null ? serviceProvider.getUserId() : "null") +
+                ", bookingId=" + (booking != null ? booking.getBookingId() : "null") +
                 '}';
     }
 
@@ -86,6 +94,7 @@ public class Review {
         private LocalDateTime timeStamp;
         private Client client;
         private ServiceProvider serviceProvider;
+        private Booking booking;
 
         public Builder setReviewId(String reviewId) {
             this.reviewId = reviewId;
@@ -117,6 +126,11 @@ public class Review {
             return this;
         }
 
+        public Builder setBooking(Booking booking) {
+            this.booking = booking;
+            return this;
+        }
+
         public Builder copy(Review review) {
             this.reviewId = review.reviewId;
             this.rating = review.rating;
@@ -124,6 +138,7 @@ public class Review {
             this.timeStamp = review.timeStamp;
             this.client = review.client;
             this.serviceProvider = review.serviceProvider;
+            this.booking = review.booking;
             return this;
         }
 

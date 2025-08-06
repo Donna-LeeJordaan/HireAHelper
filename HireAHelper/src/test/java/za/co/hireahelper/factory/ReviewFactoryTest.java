@@ -1,22 +1,23 @@
 /* ReviewFactoryTest.java
    Author: D.Jordaan (230613152)
-   Date: 25 July 2025
+   Date: 25 July 2025 / modified on 6 August 2025
 */
 
 package za.co.hireahelper.factory;
 
 import org.junit.jupiter.api.*;
-import za.co.hireahelper.domain.Client;
-import za.co.hireahelper.domain.Review;
-import za.co.hireahelper.domain.ServiceProvider;
+import za.co.hireahelper.domain.*;
 import java.time.LocalDateTime;
+import java.util.Date;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class ReviewFactoryTest {
+public class ReviewFactoryTest {
 
     private static Client client;
     private static ServiceProvider serviceProvider;
+    private static Booking booking;
     private static LocalDateTime currentTime;
     private static LocalDateTime pastTime;
     private static LocalDateTime futureTime;
@@ -33,6 +34,12 @@ class ReviewFactoryTest {
                 .setName("Test Provider")
                 .build();
 
+        booking = new Booking.Builder()
+                .setBookingId("booking123")
+                .setServiceDate(new Date(System.currentTimeMillis() + 86400000))
+                .setStatus("Confirmed")
+                .build();
+
         currentTime = LocalDateTime.now();
         pastTime = currentTime.minusDays(1);
         futureTime = currentTime.plusDays(1);
@@ -47,7 +54,8 @@ class ReviewFactoryTest {
                 "Excellent service!",
                 currentTime,
                 client,
-                serviceProvider
+                serviceProvider,
+                booking
         );
 
         assertNotNull(review);
@@ -56,6 +64,7 @@ class ReviewFactoryTest {
         assertEquals("Excellent service!", review.getComment());
         assertEquals(client, review.getClient());
         assertEquals(serviceProvider, review.getServiceProvider());
+        assertEquals(booking, review.getBooking());
         System.out.println("Created valid review: " + review);
     }
 
@@ -68,7 +77,8 @@ class ReviewFactoryTest {
                 "Future review",
                 futureTime,
                 client,
-                serviceProvider
+                serviceProvider,
+                booking
         );
 
         assertNull(review);
@@ -79,10 +89,12 @@ class ReviewFactoryTest {
     @Order(3)
     void c_createReviewWithInvalidRating() {
         // Test rating below minimum
-        assertNull(ReviewFactory.createReview("review125", 0, "Too low", currentTime, client, serviceProvider));
+        assertNull(ReviewFactory.createReview(
+                "review125", 0, "Too low", currentTime, client, serviceProvider, booking));
 
         // Test rating above maximum
-        assertNull(ReviewFactory.createReview("review126", 6, "Too high", currentTime, client, serviceProvider));
+        assertNull(ReviewFactory.createReview(
+                "review126", 6, "Too high", currentTime, client, serviceProvider, booking));
 
         System.out.println("Invalid rating tests passed");
     }
@@ -91,16 +103,24 @@ class ReviewFactoryTest {
     @Order(4)
     void d_createReviewWithNullFields() {
         // Test null reviewId
-        assertNull(ReviewFactory.createReview(null, 5, "Good", currentTime, client, serviceProvider));
+        assertNull(ReviewFactory.createReview(
+                null, 5, "Good", currentTime, client, serviceProvider, booking));
 
         // Test null timestamp
-        assertNull(ReviewFactory.createReview("review127", 5, "Good", null, client, serviceProvider));
+        assertNull(ReviewFactory.createReview(
+                "review127", 5, "Good", null, client, serviceProvider, booking));
 
         // Test null client
-        assertNull(ReviewFactory.createReview("review128", 5, "Good", currentTime, null, serviceProvider));
+        assertNull(ReviewFactory.createReview(
+                "review128", 5, "Good", currentTime, null, serviceProvider, booking));
 
         // Test null serviceProvider
-        assertNull(ReviewFactory.createReview("review129", 5, "Good", currentTime, client, null));
+        assertNull(ReviewFactory.createReview(
+                "review129", 5, "Good", currentTime, client, null, booking));
+
+        // Test null booking
+        assertNull(ReviewFactory.createReview(
+                "review130", 5, "Good", currentTime, client, serviceProvider, null));
 
         System.out.println("Null field validation tests passed");
     }
@@ -109,16 +129,18 @@ class ReviewFactoryTest {
     @Order(5)
     void e_createReviewWithEmptyStrings() {
         // Test empty reviewId
-        assertNull(ReviewFactory.createReview("", 5, "Good", currentTime, client, serviceProvider));
+        assertNull(ReviewFactory.createReview(
+                "", 5, "Good", currentTime, client, serviceProvider, booking));
 
         // Test empty comment (should be allowed)
         Review review = ReviewFactory.createReview(
-                "review130",
+                "review131",
                 3,
                 "",
                 currentTime,
                 client,
-                serviceProvider
+                serviceProvider,
+                booking
         );
         assertNotNull(review);
         assertEquals("", review.getComment());
@@ -137,7 +159,8 @@ class ReviewFactoryTest {
                     "Rating test " + i,
                     currentTime,
                     client,
-                    serviceProvider
+                    serviceProvider,
+                    booking
             );
 
             assertNotNull(review);

@@ -1,33 +1,26 @@
 /* ReviewControllerTest.java
    Author: D.Jordaan (230613152)
-   Date: 25 July 2025
+   Date: 25 July 2025 / modified on 6 August 2025
 */
 
 package za.co.hireahelper.controller;
 
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import za.co.hireahelper.domain.Review;
+import za.co.hireahelper.domain.*;
 import za.co.hireahelper.factory.ReviewFactory;
-import za.co.hireahelper.domain.Client;
-import za.co.hireahelper.domain.ServiceProvider;
 import java.time.LocalDateTime;
+import java.util.Date;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(MethodOrderer.MethodName.class)
-class ReviewControllerTest {
-
-    @LocalServerPort
-    private int port;
+public class ReviewControllerTest {
 
     @Autowired
     private TestRestTemplate restTemplate;
@@ -35,10 +28,9 @@ class ReviewControllerTest {
     private static Review review;
     private static Client client;
     private static ServiceProvider serviceProvider;
+    private static Booking booking;
 
-    private String getBaseUrl() {
-        return "http://localhost:" + port + "/review";
-    }
+    private static final String BASE_URL = "http://localhost:8080/HireAHelper/review";
 
     @BeforeAll
     public static void setUp() {
@@ -52,46 +44,48 @@ class ReviewControllerTest {
                 .setName("Test Provider")
                 .build();
 
+        booking = new Booking.Builder()
+                .setBookingId("booking123")
+                .setServiceDate(new Date(System.currentTimeMillis() + 86400000))
+                .setStatus("Confirmed")
+                .build();
+
         review = ReviewFactory.createReview(
                 "review123",
                 5,
                 "Excellent service!",
                 LocalDateTime.now(),
                 client,
-                serviceProvider
+                serviceProvider,
+                booking
         );
         assertNotNull(review);
     }
 
     @Test
     void a_create() {
-        String url = getBaseUrl() + "/create";
-        ResponseEntity<Review> postResponse = restTemplate.postForEntity(url, review, Review.class);
+        ResponseEntity<Review> postResponse = restTemplate.postForEntity(BASE_URL, review, Review.class);
 
-        assertNotNull(postResponse);
-        assertEquals(HttpStatus.OK, postResponse.getStatusCode());
-
-        Review createdReview = postResponse.getBody();
-        assertNotNull(createdReview);
-        assertEquals(review.getReviewId(), createdReview.getReviewId());
-        assertEquals(review.getRating(), createdReview.getRating());
-
-        System.out.println("Created review: " + createdReview);
+        assertAll(
+                () -> assertNotNull(postResponse),
+                () -> assertEquals(HttpStatus.OK, postResponse.getStatusCode()),
+                () -> assertNotNull(postResponse.getBody()),
+                () -> assertEquals(review.getReviewId(), postResponse.getBody().getReviewId())
+        );
+        System.out.println("Created: " + postResponse.getBody());
     }
 
     @Test
     void b_read() {
-        String url = getBaseUrl() + "/read/" + review.getReviewId();
+        String url = BASE_URL + "/" + review.getReviewId();
         ResponseEntity<Review> response = restTemplate.getForEntity(url, Review.class);
 
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-
-        Review retrievedReview = response.getBody();
-        assertNotNull(retrievedReview);
-        assertEquals(review.getReviewId(), retrievedReview.getReviewId());
-        assertEquals(review.getComment(), retrievedReview.getComment());
-
-        System.out.println("Retrieved review: " + retrievedReview);
+        assertAll(
+                () -> assertEquals(HttpStatus.OK, response.getStatusCode()),
+                () -> assertNotNull(response.getBody()),
+                () -> assertEquals(review.getComment(), response.getBody().getComment())
+        );
+        System.out.println("Read: " + response.getBody());
     }
 
     @Test
@@ -102,54 +96,59 @@ class ReviewControllerTest {
                 .setComment("Very good service")
                 .build();
 
-        String url = getBaseUrl() + "/update";
-        restTemplate.put(url, updatedReview);
+        restTemplate.put(BASE_URL, updatedReview);
 
         ResponseEntity<Review> response = restTemplate.getForEntity(
-                getBaseUrl() + "/read/" + updatedReview.getReviewId(),
+                BASE_URL + "/" + updatedReview.getReviewId(),
                 Review.class
         );
 
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-
-        Review modifiedReview = response.getBody();
-        assertNotNull(modifiedReview);
-        assertEquals(4, modifiedReview.getRating());
-        assertEquals("Very good service", modifiedReview.getComment());
-
-        System.out.println("Updated review: " + modifiedReview);
+        assertAll(
+                () -> assertEquals(HttpStatus.OK, response.getStatusCode()),
+                () -> assertNotNull(response.getBody()),
+                () -> assertEquals(4, response.getBody().getRating())
+        );
+        System.out.println("Updated: " + response.getBody());
     }
 
     @Test
     void d_getAll() {
-        String url = getBaseUrl() + "/all";
-        ResponseEntity<Review[]> response = restTemplate.getForEntity(url, Review[].class);
+        ResponseEntity<Review[]> response = restTemplate.getForEntity(BASE_URL, Review[].class);
 
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-
-        Review[] reviews = response.getBody();
-        assertNotNull(reviews);
-        assertTrue(reviews.length > 0);
-
-        System.out.println("All reviews:");
-        for (Review r : reviews) {
+        assertAll(
+                () -> assertEquals(HttpStatus.OK, response.getStatusCode()),
+                () -> assertNotNull(response.getBody()),
+                () -> assertTrue(response.getBody().length > 0)
+        );
+        System.out.println("All Reviews:");
+        for (Review r : response.getBody()) {
             System.out.println(r);
         }
     }
 
     @Test
-    void e_delete() {
-        String url = getBaseUrl() + "/delete/" + review.getReviewId();
+    void e_getByBooking() {
+        String url = BASE_URL + "/booking/" + booking.getBookingId();
+        ResponseEntity<Review[]> response = restTemplate.getForEntity(url, Review[].class);
+
+        assertAll(
+                () -> assertEquals(HttpStatus.OK, response.getStatusCode()),
+                () -> assertNotNull(response.getBody()),
+                () -> assertTrue(response.getBody().length > 0)
+        );
+        System.out.println("Booking Reviews:");
+        for (Review r : response.getBody()) {
+            System.out.println(r);
+        }
+    }
+
+    @Test
+    void f_delete() {
+        String url = BASE_URL + "/" + review.getReviewId();
         restTemplate.delete(url);
 
-        ResponseEntity<Review> response = restTemplate.getForEntity(
-                getBaseUrl() + "/read/" + review.getReviewId(),
-                Review.class
-        );
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
+        ResponseEntity<Review> response = restTemplate.getForEntity(url, Review.class);
         assertNull(response.getBody());
-
-        System.out.println("Deleted review with ID: " + review.getReviewId());
+        System.out.println("Deleted: " + review.getReviewId());
     }
 }

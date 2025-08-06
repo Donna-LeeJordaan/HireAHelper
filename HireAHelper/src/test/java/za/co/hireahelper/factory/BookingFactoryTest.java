@@ -1,24 +1,24 @@
 /* BookingFactoryTest.java
    Author: D.Jordaan (230613152)
-   Date: 25 July 2025
+   Date: 25 July 2025 /modified on 6 August 2025
 */
 
 package za.co.hireahelper.factory;
 
 import org.junit.jupiter.api.*;
-import za.co.hireahelper.domain.Booking;
-import za.co.hireahelper.domain.Client;
-import za.co.hireahelper.domain.ServiceProvider;
+import za.co.hireahelper.domain.*;
 import java.util.Date;
+import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class BookingFactoryTest {
+public class BookingFactoryTest {
 
     private static Client client;
     private static ServiceProvider serviceProvider;
     private static Date futureDate;
     private static Date pastDate;
+    private static List<Review> reviews;
 
     @BeforeAll
     static void setUp() {
@@ -34,6 +34,7 @@ class BookingFactoryTest {
 
         futureDate = new Date(System.currentTimeMillis() + 86400000); // Tomorrow
         pastDate = new Date(System.currentTimeMillis() - 86400000); // Yesterday
+        reviews = List.of(); // Empty reviews list for testing
     }
 
     @Test
@@ -45,7 +46,8 @@ class BookingFactoryTest {
                 "Confirmed",
                 "Test notes",
                 client,
-                serviceProvider
+                serviceProvider,
+                reviews
         );
 
         assertNotNull(booking);
@@ -53,6 +55,7 @@ class BookingFactoryTest {
         assertEquals("Confirmed", booking.getStatus());
         assertEquals(client, booking.getClient());
         assertEquals(serviceProvider, booking.getServiceProvider());
+        assertEquals(0, booking.getReviews().size());
         System.out.println("Created valid booking: " + booking);
     }
 
@@ -65,7 +68,8 @@ class BookingFactoryTest {
                 "Pending",
                 "Past date booking",
                 client,
-                serviceProvider
+                serviceProvider,
+                reviews
         );
 
         assertNull(booking);
@@ -81,7 +85,8 @@ class BookingFactoryTest {
                 "InvalidStatus",
                 "Invalid status booking",
                 client,
-                serviceProvider
+                serviceProvider,
+                reviews
         );
 
         assertNull(booking);
@@ -92,19 +97,19 @@ class BookingFactoryTest {
     @Order(4)
     void d_createBookingWithNullFields() {
         // Test null bookingId
-        assertNull(BookingFactory.createBooking(null, futureDate, "Confirmed", "Notes", client, serviceProvider));
+        assertNull(BookingFactory.createBooking(null, futureDate, "Confirmed", "Notes", client, serviceProvider, reviews));
 
         // Test null serviceDate
-        assertNull(BookingFactory.createBooking("booking126", null, "Confirmed", "Notes", client, serviceProvider));
+        assertNull(BookingFactory.createBooking("booking126", null, "Confirmed", "Notes", client, serviceProvider, reviews));
 
         // Test null status
-        assertNull(BookingFactory.createBooking("booking127", futureDate, null, "Notes", client, serviceProvider));
+        assertNull(BookingFactory.createBooking("booking127", futureDate, null, "Notes", client, serviceProvider, reviews));
 
         // Test null client
-        assertNull(BookingFactory.createBooking("booking128", futureDate, "Confirmed", "Notes", null, serviceProvider));
+        assertNull(BookingFactory.createBooking("booking128", futureDate, "Confirmed", "Notes", null, serviceProvider, reviews));
 
         // Test null serviceProvider
-        assertNull(BookingFactory.createBooking("booking129", futureDate, "Confirmed", "Notes", client, null));
+        assertNull(BookingFactory.createBooking("booking129", futureDate, "Confirmed", "Notes", client, null, reviews));
 
         System.out.println("Null field validation tests passed");
     }
@@ -113,10 +118,10 @@ class BookingFactoryTest {
     @Order(5)
     void e_createBookingWithEmptyStrings() {
         // Test empty bookingId
-        assertNull(BookingFactory.createBooking("", futureDate, "Confirmed", "Notes", client, serviceProvider));
+        assertNull(BookingFactory.createBooking("", futureDate, "Confirmed", "Notes", client, serviceProvider, reviews));
 
         // Test empty status
-        assertNull(BookingFactory.createBooking("booking130", futureDate, "", "Notes", client, serviceProvider));
+        assertNull(BookingFactory.createBooking("booking130", futureDate, "", "Notes", client, serviceProvider, reviews));
 
         System.out.println("Empty string validation tests passed");
     }
@@ -134,7 +139,8 @@ class BookingFactoryTest {
                     status,
                     "Test " + status + " booking",
                     client,
-                    serviceProvider
+                    serviceProvider,
+                    reviews
             );
 
             assertNotNull(booking);
@@ -142,5 +148,29 @@ class BookingFactoryTest {
         }
 
         System.out.println("All valid status values test passed");
+    }
+
+    @Test
+    @Order(7)
+    void g_createBookingWithReviews() {
+        Review review = new Review.Builder()
+                .setReviewId("review123")
+                .setRating(5)
+                .setComment("Excellent")
+                .build();
+
+        Booking booking = BookingFactory.createBooking(
+                "booking131",
+                futureDate,
+                "Confirmed",
+                "Booking with reviews",
+                client,
+                serviceProvider,
+                List.of(review)
+        );
+
+        assertNotNull(booking);
+        assertEquals(1, booking.getReviews().size());
+        System.out.println("Booking with reviews test passed");
     }
 }

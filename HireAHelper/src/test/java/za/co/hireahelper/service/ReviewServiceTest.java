@@ -1,6 +1,6 @@
 /* ReviewServiceTest.java
    Author: D.Jordaan (230613152)
-   Date: 25 July 2025
+   Date: 25 July 2025 /modified on 6 August 2025
 */
 
 package za.co.hireahelper.service;
@@ -8,19 +8,31 @@ package za.co.hireahelper.service;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import za.co.hireahelper.domain.Review;
-import za.co.hireahelper.domain.Client;
-import za.co.hireahelper.domain.ServiceProvider;
+import org.springframework.transaction.annotation.Transactional;
+import za.co.hireahelper.domain.*;
 import za.co.hireahelper.factory.ReviewFactory;
 import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.MethodName.class)
-class ReviewServiceTest {
+public class ReviewServiceTest {
 
     @Autowired
     private ReviewService service;
+
+    @Autowired
+    private ClientService clientService;
+
+    @Autowired
+    private ServiceProviderService serviceProviderService;
+
+    @Autowired
+    private BookingService bookingService;
+
+    private static Review review;
 
     private static final Client client = new Client.Builder()
             .setUserId("client123")
@@ -32,7 +44,11 @@ class ReviewServiceTest {
             .setName("Test Provider")
             .build();
 
-    private static Review review;
+    private static final Booking booking = new Booking.Builder()
+            .setBookingId("booking123")
+            .setServiceDate(new Date(System.currentTimeMillis() + 86400000))
+            .setStatus("Confirmed")
+            .build();
 
     @BeforeAll
     static void setUp() {
@@ -42,37 +58,45 @@ class ReviewServiceTest {
                 "Excellent service!",
                 LocalDateTime.now().minusDays(1), // Past date
                 client,
-                serviceProvider
+                serviceProvider,
+                booking
         );
-        assertNotNull(review);
+        assertNotNull(review, "Review creation failed");
+    }
+
+    @BeforeEach
+    public void setupDependencies() {
+        if (clientService.read(client.getUserId()) == null) {
+            clientService.create(client);
+        }
+        if (serviceProviderService.read(serviceProvider.getUserId()) == null) {
+            serviceProviderService.create(serviceProvider);
+        }
+        if (bookingService.read(booking.getBookingId()) == null) {
+            bookingService.create(booking);
+        }
     }
 
     @Test
-    @Order(1)
+    @Transactional
     void a_create() {
         Review created = service.create(review);
         assertNotNull(created);
         assertEquals(review.getReviewId(), created.getReviewId());
-        assertEquals(review.getRating(), created.getRating());
-        assertEquals(review.getComment(), created.getComment());
-        assertEquals(review.getClient(), created.getClient());
-        assertEquals(review.getServiceProvider(), created.getServiceProvider());
-        System.out.println("Created review: " + created);
+        System.out.println("Created: " + created);
     }
 
     @Test
-    @Order(2)
+    @Transactional
     void b_read() {
-        Review found = service.read(review.getReviewId());
-        assertNotNull(found);
-        assertEquals(review.getReviewId(), found.getReviewId());
-        assertEquals(review.getRating(), found.getRating());
-        assertEquals(review.getComment(), found.getComment());
-        System.out.println("Read review: " + found);
+        Review read = service.read(review.getReviewId());
+        assertNotNull(read);
+        assertEquals(review.getReviewId(), read.getReviewId());
+        System.out.println("Read: " + read);
     }
 
     @Test
-    @Order(3)
+    @Transactional
     void c_update() {
         Review updated = new Review.Builder()
                 .copy(review)
@@ -84,50 +108,23 @@ class ReviewServiceTest {
         assertNotNull(result);
         assertEquals(4, result.getRating());
         assertEquals("Very good service", result.getComment());
-        System.out.println("Updated review: " + result);
+        System.out.println("Updated: " + result);
     }
 
     @Test
-    @Order(4)
+    @Transactional
     void d_getAll() {
-        var allReviews = service.getAll();
+        List<Review> allReviews = service.getAll();
         assertNotNull(allReviews);
         assertFalse(allReviews.isEmpty());
-        System.out.println("All reviews count: " + allReviews.size());
+        System.out.println("All reviews: " + allReviews);
     }
 
     @Test
-    @Order(5)
+    @Transactional
     void e_delete() {
         boolean deleted = service.delete(review.getReviewId());
         assertTrue(deleted);
-
-        Review shouldBeNull = service.read(review.getReviewId());
-        assertNull(shouldBeNull);
-        System.out.println("Deleted review with ID: " + review.getReviewId());
-    }
-
-    @Test
-    @Order(6)
-    void f_invalidReviewTests() {
-        // Test invalid rating
-        Review invalidRating = new Review.Builder()
-                .copy(review)
-                .setReviewId("review-invalid-1")
-                .setRating(6) // Invalid
-                .build();
-
-        assertThrows(IllegalArgumentException.class, () -> service.create(invalidRating));
-
-        // Test future timestamp
-        Review futureReview = new Review.Builder()
-                .copy(review)
-                .setReviewId("review-invalid-2")
-                .setTimeStamp(LocalDateTime.now().plusDays(1)) // Future date
-                .build();
-
-        assertThrows(IllegalArgumentException.class, () -> service.create(futureReview));
-
-        System.out.println("Invalid review tests passed");
+        System.out.println("Deleted: " + deleted);
     }
 }

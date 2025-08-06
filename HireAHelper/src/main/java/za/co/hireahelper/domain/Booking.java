@@ -1,12 +1,13 @@
 /* Booking.java
    Author: D.Jordaan (230613152)
-   Date: 18 May 2025 / modified on 25 July 2025
+   Date: 18 May 2025 / modified on 6 August 2025
 */
 
 package za.co.hireahelper.domain;
 
 import jakarta.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Booking {
@@ -25,6 +26,9 @@ public class Booking {
     @JoinColumn(name = "service_provider_id", nullable = false)
     private ServiceProvider serviceProvider;
 
+    @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL)
+    private List<Review> reviews;
+
     protected Booking() {}
 
     private Booking(Builder builder) {
@@ -34,6 +38,7 @@ public class Booking {
         this.notes = builder.notes;
         this.client = builder.client;
         this.serviceProvider = builder.serviceProvider;
+        this.reviews = builder.reviews;
     }
 
     public static Builder builder() {
@@ -65,6 +70,10 @@ public class Booking {
         return serviceProvider;
     }
 
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
     @Override
     public String toString() {
         return "Booking{" +
@@ -74,6 +83,7 @@ public class Booking {
                 ", notes='" + notes + '\'' +
                 ", clientId=" + (client != null ? client.getUserId() : "null") +
                 ", serviceProviderId=" + (serviceProvider != null ? serviceProvider.getUserId() : "null") +
+                ", reviews=" + (reviews != null ? reviews.size() : 0) + " reviews" +
                 '}';
     }
 
@@ -85,6 +95,7 @@ public class Booking {
         private String notes;
         private Client client;
         private ServiceProvider serviceProvider;
+        private List<Review> reviews;
 
         public Builder setBookingId(String bookingId) {
             this.bookingId = bookingId;
@@ -116,6 +127,11 @@ public class Booking {
             return this;
         }
 
+        public Builder setReviews(List<Review> reviews) {
+            this.reviews = reviews;
+            return this;
+        }
+
         public Builder copy(Booking booking) {
             this.bookingId = booking.bookingId;
             this.serviceDate = booking.serviceDate;
@@ -123,6 +139,7 @@ public class Booking {
             this.notes = booking.notes;
             this.client = booking.client;
             this.serviceProvider = booking.serviceProvider;
+            this.reviews = booking.reviews;
             return this;
         }
 
@@ -131,4 +148,3 @@ public class Booking {
         }
     }
 }
-
