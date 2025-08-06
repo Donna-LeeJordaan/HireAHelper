@@ -16,7 +16,7 @@ public class MessageFactory {
     public static Message createMessage(String messageId, LocalDateTime timeStamp,
                                         String content, Client client,
                                         ServiceProvider serviceProvider) {
-
+//jjj
         if (Helper.isNullOrEmpty(messageId) ||
                 Helper.isNullOrEmpty(content) ||
                 timeStamp == null) {
@@ -35,4 +35,7 @@ public class MessageFactory {
     public static Message createMessage(String msg001, LocalDateTime now, String s) {
         return null;
     }
+
+    public static Message buildMessage(String msg01, String client01, String provider01, String s) {
+   return null; }
 }

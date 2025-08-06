@@ -1,7 +1,6 @@
-/* MessageControllerTest.java
-   Gabriel Kiewietz
-   31 July 2025
-*/
+// Gabriel Kiewietz
+// 230990703
+// 06 August 2025
 
 package za.co.hireahelper.controller;
 
@@ -9,85 +8,86 @@ import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import za.co.hireahelper.domain.Message;
 import za.co.hireahelper.factory.MessageFactory;
 
-import java.time.LocalDateTime;
-
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-@TestMethodOrder(MethodOrderer.MethodName.class)
-class MessageControllerTest {
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+public class MessageControllerTest {
 
     private static Message message;
-//3
+
     @Autowired
     private TestRestTemplate restTemplate;
 
-    private static final String BASE_URL = "http://localhost:8080/HireAHelper/message";
+    private final String BASE_URL = "http://localhost:8080/message";
 
     @BeforeAll
     public static void setUp() {
-        message = MessageFactory.createMessage(
-                "msg001",
-                LocalDateTime.now(),
-                "Hello, I would like to book your service."
-        );
+        message = MessageFactory.buildMessage("msg01", "client01", "provider01", "Hello, I need help with plumbing.");
     }
 
     @Test
-    void a_create() {
+    @Order(1)
+    void testCreate() {
         String url = BASE_URL + "/create";
-        ResponseEntity<Message> postResponse = this.restTemplate.postForEntity(url, message, Message.class);
-        assertNotNull(postResponse);
-        Message savedMessage = postResponse.getBody();
-        assertEquals(message.getMessageId(), savedMessage.getMessageId());
-        System.out.println("Created: " + savedMessage);
+        ResponseEntity<Message> response = restTemplate.postForEntity(url, message, Message.class);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+        System.out.println("Created: " + response.getBody());
     }
 
     @Test
-    void b_read() {
+    @Order(2)
+    void testRead() {
         String url = BASE_URL + "/read/" + message.getMessageId();
-        ResponseEntity<Message> response = this.restTemplate.getForEntity(url, Message.class);
-        assertEquals(message.getMessageId(), response.getBody().getMessageId());
+        ResponseEntity<Message> response = restTemplate.getForEntity(url, Message.class);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
         System.out.println("Read: " + response.getBody());
     }
 
     @Test
-    void c_update() {
+    @Order(3)
+    void testUpdate() {
+        String url = BASE_URL + "/update";
         Message updatedMessage = new Message.Builder()
                 .copy(message)
-                .setContent("Updated content: Please confirm availability.")
+                .setContent("Updated content: I now need help with electrical as well.")
                 .build();
+        restTemplate.put(url, updatedMessage);
 
-        String url = BASE_URL + "/update";
-        this.restTemplate.put(url, updatedMessage);
-
-        ResponseEntity<Message> response = this.restTemplate.getForEntity(BASE_URL + "/read/" + updatedMessage.getMessageId(), Message.class);
+        ResponseEntity<Message> response = restTemplate.getForEntity(BASE_URL + "/read/" + updatedMessage.getMessageId(), Message.class);
         assertNotNull(response.getBody());
+        assertEquals("Updated content: I now need help with electrical as well.", response.getBody().getContent());
         System.out.println("Updated: " + response.getBody());
     }
 
     @Test
-    void d_getAll() {
+    @Order(4)
+    void testGetAll() {
         String url = BASE_URL + "/all";
-        ResponseEntity<Message[]> response = this.restTemplate.getForEntity(url, Message[].class);
+        ResponseEntity<Message[]> response = restTemplate.getForEntity(url, Message[].class);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
+        assertTrue(response.getBody().length > 0);
         System.out.println("All Messages:");
-        for (Message m : response.getBody()) {
-            System.out.println(m);
+        for (Message msg : response.getBody()) {
+            System.out.println(msg);
         }
     }
 
     @Test
-    void e_delete() {
+    @Order(5)
+    void testDelete() {
         String url = BASE_URL + "/delete/" + message.getMessageId();
-        this.restTemplate.delete(url);
+        restTemplate.delete(url);
 
-        ResponseEntity<Message> response = this.restTemplate.getForEntity(BASE_URL + "/read/" + message.getMessageId(), Message.class);
+        ResponseEntity<Message> response = restTemplate.getForEntity(BASE_URL + "/read/" + message.getMessageId(), Message.class);
         assertNull(response.getBody());
-        System.out.println("Deleted: true");
+        System.out.println("Deleted: " + message.getMessageId());
     }
 }
