@@ -15,9 +15,9 @@ public class ServiceProvider extends User {
     private String description;
     private double rate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "type_id", nullable = false)
-    private ServiceType serviceType;  //GET BACK TO THIS
+    private ServiceType serviceType; //GET BACK TO THIS
 
     @OneToMany(mappedBy = "serviceProvider", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Booking> bookings;
@@ -80,14 +80,14 @@ public class ServiceProvider extends User {
                 ", email='" + getEmail() + '\'' +
                 ", password='" + getPassword() + '\'' +
                 ", mobileNumber='" + getMobileNumber() + '\'' +
-                ", areaId='" + (getArea() != null ? getArea().getAreaId() : "null") + '\'' +
-                ", profileImage='" + getProfileImage() + '\'' +
-                ", description='" + getDescription() + '\'' +
-                ", rate=R" + getRate() +
-                ", serviceType=" + (serviceType != null ? serviceType.getTypeId() : "null") +
-                ", bookings=" + (bookings != null ? bookings.size() : 0) +
-                ", messages=" + (messages != null ? messages.size() : 0) +
-                ", reviews=" + (reviews != null ? reviews.size() : 0) +
+                ", areaId='" + getArea() + '\'' +
+                ", profileImage='" + profileImage + '\'' +
+                ", description='" + description + '\'' +
+                ", rate=R" + rate +
+                ", serviceType=" + getServiceType()  +
+                ", bookings=" + getBookings() +
+                ", messages=" + getMessages() +
+                ", reviews=" + getReviews() +
                 '}';
     }
 
