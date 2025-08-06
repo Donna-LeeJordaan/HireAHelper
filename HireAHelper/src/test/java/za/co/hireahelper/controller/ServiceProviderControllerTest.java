@@ -28,6 +28,7 @@ public class ServiceProviderControllerTest {
     @Autowired
     private TestRestTemplate restTemplate;
 
+
     private static final String BASE_URL = "http://localhost:8080/HireAHelper/serviceProvider";
 
     @BeforeAll
