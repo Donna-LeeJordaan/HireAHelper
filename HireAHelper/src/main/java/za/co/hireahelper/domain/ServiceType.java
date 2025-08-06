@@ -15,7 +15,8 @@ public class ServiceType {
 
     private String typeName;
 
-    @OneToMany(mappedBy = "serviceType", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany
+            (mappedBy = "serviceType", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ServiceProvider> serviceProviders;
 
     protected ServiceType() {}
