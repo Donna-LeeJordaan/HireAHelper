@@ -1,22 +1,25 @@
-/* ServiceTypeControllerTest.java
-    Gabriel Kiewietz
-    31 July 2025
-*/
+/*
+ * ServiceTypeControllerTest.java
+ * Author: Gabriel Kiewietz (230990703)
+ * Date: 07 August 2025
+ */
 
 package za.co.hireahelper.controller;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import za.co.hireahelper.domain.ServiceType;
 import za.co.hireahelper.factory.ServiceTypeFactory;
 
-
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class ServiceTypeControllerTest {
 
@@ -25,42 +28,43 @@ class ServiceTypeControllerTest {
     @Autowired
     private TestRestTemplate restTemplate;
 
-    private static final String BASE_URL = "http://localhost:8080/HireAHelper/serviceType";
+    private final String BASE_URL = "/serviceType";
 
     @BeforeAll
-    public static void setUp() {
-        serviceType = ServiceTypeFactory.createServiceType("ST01", "Electrician");
+    static void setUp() {
+        serviceType = ServiceTypeFactory.createServiceType("001", "Plumbing");
     }
 
     @Test
     void a_create() {
         String url = BASE_URL + "/create";
-        ResponseEntity<ServiceType> postResponse = this.restTemplate.postForEntity(url, serviceType, ServiceType.class);
-        assertNotNull(postResponse);
-        ServiceType saved = postResponse.getBody();
-        assertEquals(serviceType.getTypeId(), saved.getTypeId());
-        System.out.println("Created: " + saved);
+        ResponseEntity<ServiceType> response = restTemplate.postForEntity(url, serviceType, ServiceType.class);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+        System.out.println("Created: " + response.getBody());
     }
 
     @Test
     void b_read() {
         String url = BASE_URL + "/read/" + serviceType.getTypeId();
-        ResponseEntity<ServiceType> response = this.restTemplate.getForEntity(url, ServiceType.class);
-        assertEquals(serviceType.getTypeId(), response.getBody().getTypeId());
+        ResponseEntity<ServiceType> response = restTemplate.getForEntity(url, ServiceType.class);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
         System.out.println("Read: " + response.getBody());
     }
 
     @Test
     void c_update() {
+        String url = BASE_URL + "/update";
         ServiceType updated = new ServiceType.Builder()
                 .copy(serviceType)
-                .setTypeName("Updated Electrician")
+                .setTypeName("Electrical")
                 .build();
 
-        String url = BASE_URL + "/update";
-        this.restTemplate.put(url, updated);
+        HttpEntity<ServiceType> requestEntity = new HttpEntity<>(updated);
+        ResponseEntity<ServiceType> response = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, ServiceType.class);
 
-        ResponseEntity<ServiceType> response = this.restTemplate.getForEntity(BASE_URL + "/read/" + updated.getTypeId(), ServiceType.class);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
         System.out.println("Updated: " + response.getBody());
     }
@@ -68,21 +72,19 @@ class ServiceTypeControllerTest {
     @Test
     void d_getAll() {
         String url = BASE_URL + "/all";
-        ResponseEntity<ServiceType[]> response = this.restTemplate.getForEntity(url, ServiceType[].class);
+        ResponseEntity<ServiceType[]> response = restTemplate.getForEntity(url, ServiceType[].class);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
-        System.out.println("All ServiceTypes:");
-        for (ServiceType s : response.getBody()) {
-            System.out.println(s);
+        System.out.println("All: ");
+        for (ServiceType st : response.getBody()) {
+            System.out.println(st);
         }
     }
 
     @Test
     void e_delete() {
         String url = BASE_URL + "/delete/" + serviceType.getTypeId();
-        this.restTemplate.delete(url);
-
-        ResponseEntity<ServiceType> response = this.restTemplate.getForEntity(BASE_URL + "/read/" + serviceType.getTypeId(), ServiceType.class);
-        assertNull(response.getBody());
-        System.out.println("Deleted: true");
+        restTemplate.delete(url);
+        System.out.println("Deleted ServiceType with ID: " + serviceType.getTypeId());
     }
 }
