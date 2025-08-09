@@ -43,4 +43,9 @@ public class ServiceProviderServiceImpl implements ServiceProviderService {
     @Override
     public List<ServiceProvider> getAll() {return this.repository.findAll();}
 
+    @Override
+    public List<ServiceProvider> findByServiceTypeName(String typeName) {
+        return List.of();
+    }
+
 }
