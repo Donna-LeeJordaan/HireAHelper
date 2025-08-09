@@ -11,4 +11,5 @@ import java.util.List;
 
 public interface ServiceProviderService extends IService<ServiceProvider, String>{
     List<ServiceProvider> getAll();
+    List<ServiceProvider> findByServiceTypeName(String typeName);
 }
