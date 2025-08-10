@@ -42,16 +42,16 @@ public class BookingServiceTest {
 
     @BeforeAll
     static void setUp() {
+        // Using the factory method with all required parameters
         booking = BookingFactory.createBooking(
                 "booking123",
                 new Date(System.currentTimeMillis() + 86400000), // Tomorrow
                 "Pending",
                 "Test notes",
                 client,
-                serviceProvider,
-                null // Reviews can be added later
+                serviceProvider
         );
-        assertNotNull(booking, "Booking creation failed");
+        assertNotNull(booking, "Booking creation failed - factory validation may have failed");
     }
 
     @BeforeEach
@@ -85,11 +85,16 @@ public class BookingServiceTest {
     @Test
     @Transactional
     void c_update() {
-        Booking updated = new Booking.Builder()
-                .copy(booking)
-                .setStatus("Confirmed")
-                .setNotes("Updated notes")
-                .build();
+        Booking updated = BookingFactory.createBooking(
+                booking.getBookingId(),
+                booking.getServiceDate(),
+                "Confirmed",
+                "Updated notes",
+                booking.getClient(),
+                booking.getServiceProvider(),
+                booking.getReviews()
+        );
+        assertNotNull(updated, "Updated booking validation failed");
 
         Booking result = service.update(updated);
         assertNotNull(result);

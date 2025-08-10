@@ -1,6 +1,6 @@
 /* ReviewServiceTest.java
    Author: D.Jordaan (230613152)
-   Date: 25 July 2025 /modified on 6 August 2025
+   Date: 25 July 2025 / modified on 6 August 2025
 */
 
 package za.co.hireahelper.service;
@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import za.co.hireahelper.domain.*;
 import za.co.hireahelper.factory.ReviewFactory;
+import za.co.hireahelper.factory.BookingFactory;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
@@ -44,14 +45,22 @@ public class ReviewServiceTest {
             .setName("Test Provider")
             .build();
 
-    private static final Booking booking = new Booking.Builder()
-            .setBookingId("booking123")
-            .setServiceDate(new Date(System.currentTimeMillis() + 86400000))
-            .setStatus("Confirmed")
-            .build();
+    private static Booking booking;
 
     @BeforeAll
     static void setUp() {
+        // Create booking first using BookingFactory
+        booking = BookingFactory.createBooking(
+                "booking123",
+                new Date(System.currentTimeMillis() + 86400000), // Tomorrow
+                "Confirmed",
+                "Test booking",
+                client,
+                serviceProvider
+        );
+        assertNotNull(booking, "Booking creation failed");
+
+        // Create review using ReviewFactory
         review = ReviewFactory.createReview(
                 "review123",
                 5,
@@ -61,7 +70,7 @@ public class ReviewServiceTest {
                 serviceProvider,
                 booking
         );
-        assertNotNull(review, "Review creation failed");
+        assertNotNull(review, "Review creation failed - factory validation may have failed");
     }
 
     @BeforeEach
@@ -98,11 +107,16 @@ public class ReviewServiceTest {
     @Test
     @Transactional
     void c_update() {
-        Review updated = new Review.Builder()
-                .copy(review)
-                .setRating(4)
-                .setComment("Very good service")
-                .build();
+        Review updated = ReviewFactory.createReview(
+                review.getReviewId(),
+                4,
+                "Very good service",
+                review.getTimeStamp(),
+                review.getClient(),
+                review.getServiceProvider(),
+                review.getBooking()
+        );
+        assertNotNull(updated, "Updated review validation failed");
 
         Review result = service.update(updated);
         assertNotNull(result);

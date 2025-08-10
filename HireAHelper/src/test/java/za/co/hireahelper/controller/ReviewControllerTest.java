@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(MethodOrderer.MethodName.class)
-public class ReviewControllerTest {
+class ReviewControllerTest {
 
     @Autowired
     private TestRestTemplate restTemplate;
