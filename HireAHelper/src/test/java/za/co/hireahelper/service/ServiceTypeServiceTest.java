@@ -24,7 +24,7 @@ class ServiceTypeServiceTest {
     @BeforeAll
     static void setup() {
         serviceType = ServiceTypeFactory.createServiceType(
-                "ST001",
+                "type01",
                 "Plumbing"
         );
     }
@@ -34,7 +34,7 @@ class ServiceTypeServiceTest {
     void a_create() {
         ServiceType created = service.create(serviceType);
         assertNotNull(created);
-        assertEquals("ST001", created.getTypeId());
+        assertEquals("type01", created.getTypeId());
         System.out.println("Created: " + created);
     }
 

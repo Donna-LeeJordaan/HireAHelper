@@ -32,7 +32,7 @@ class ServiceTypeControllerTest {
 
     @BeforeAll
     static void setUp() {
-        serviceType = ServiceTypeFactory.createServiceType("001", "Plumbing");
+        serviceType = ServiceTypeFactory.createServiceType("type01", "Plumbing");
     }
 
     @Test
