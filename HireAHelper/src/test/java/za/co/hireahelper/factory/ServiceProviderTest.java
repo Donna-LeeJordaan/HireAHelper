@@ -29,8 +29,8 @@ public class ServiceProviderTest {
     private static  ServiceType plumber = new ServiceType.Builder().setTypeId("ST001").setTypeName("Plumbing").build();
 
 
-    private static ServiceProvider sp1 = ServiceProviderFactory.createServiceProvider("SP1", "Tauriq Osman", "moegamattauriqosman@gmail.com", "Tauriq04", "0611234567", area ,"tauriq.jpeg","Skilled Gardener with 15 years experience", 350.0, gardener, bookings, messages,reviews );
-    private static ServiceProvider sp2 = ServiceProviderFactory.createServiceProvider("SP2", "Saadiqah Hendricks", "saadiqahhendricks@gmail.com", "Saadiqah02", "0681234567", area ,"saadiqah.jpeg", "Skilled Painter with 10 years experience", 450.0, painter, bookings, messages,reviews );
+    private static ServiceProvider sp1 = ServiceProviderFactory.createServiceProvider("user007", "Tauriq Osman", "moegamattauriqosman@gmail.com", "Tauriq04", "0611234567", area ,"tauriq.jpeg","Skilled Gardener with 15 years experience", 350.0, gardener, bookings, messages,reviews );
+    private static ServiceProvider sp2 = ServiceProviderFactory.createServiceProvider("user008", "Saadiqah Hendricks", "saadiqahhendricks@gmail.com", "Saadiqah02", "0681234567", area ,"saadiqah.jpeg", "Skilled Painter with 10 years experience", 450.0, painter, bookings, messages,reviews );
 
     @Test
     @Order(1)
@@ -50,7 +50,7 @@ public class ServiceProviderTest {
     @Order(3)
     public void testCreateServiceProviderWithInvalidEmail() {
         ServiceProvider sp3 = ServiceProviderFactory.createServiceProvider(
-                "SP3", "Ameer Arai", "ameeraraigmail.com", "ameer04", "06423456789",area ,"ameer.jpeg", "Skilled Gardener 7 years experience",250.0, gardener ,bookings, messages, reviews);
+                "user009", "Ameer Arai", "ameeraraigmail.com", "ameer04", "06423456789",area ,"ameer.jpeg", "Skilled Gardener 7 years experience",250.0, gardener ,bookings, messages, reviews);
         assertNull(sp3);
         System.out.println(sp3);
     }
@@ -59,7 +59,7 @@ public class ServiceProviderTest {
     @Order(4)
     public void testCreateServiceProviderWithInvalidMobile() {
         ServiceProvider sp4 = ServiceProviderFactory.createServiceProvider(
-                "SP4", "Donna Lee", "donnalee@gmail.com", "donna04", "065ttc785",area, "donna.jpeg", "Skilled Painter 9 years experience",550.0, painter ,bookings, messages, reviews);
+                "user010", "Donna Lee", "donnalee@gmail.com", "donna04", "065ttc785",area, "donna.jpeg", "Skilled Painter 9 years experience",550.0, painter ,bookings, messages, reviews);
         assertNull(sp4);
         System.out.println(sp4);
     }
