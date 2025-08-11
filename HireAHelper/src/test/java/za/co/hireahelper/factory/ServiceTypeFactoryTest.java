@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import za.co.hireahelper.domain.ServiceType;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ServiceTypeTest {
+public class ServiceTypeFactoryTest {
 
     @Test
     void testCreateValidServiceType() {
