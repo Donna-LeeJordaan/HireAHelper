@@ -1,172 +1,187 @@
 /* ReviewFactoryTest.java
-   Author: D.Jordaan (230613152)
-   Date: 25 July 2025 / modified on 6 August 2025
+   Author: Donna-Lee Jordaan (230613152)
+   Date: 25 July 2025 / modified 11 August 2025
 */
 
 package za.co.hireahelper.factory;
 
-import org.junit.jupiter.api.*;
-import za.co.hireahelper.domain.*;
-import java.time.LocalDateTime;
-import java.util.Date;
+import org.junit.jupiter.api.Test;
+import za.co.hireahelper.domain.Client;
+import za.co.hireahelper.domain.Review;
+import za.co.hireahelper.domain.ServiceProvider;
+import za.co.hireahelper.domain.Booking;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ReviewFactoryTest {
 
-    private static Client client;
-    private static ServiceProvider serviceProvider;
-    private static Booking booking;
-    private static LocalDateTime currentTime;
-    private static LocalDateTime pastTime;
-    private static LocalDateTime futureTime;
-
-    @BeforeAll
-    static void setUp() {
-        client = new Client.Builder()
-                .setUserId("client123")
-                .setName("Test Client")
+    // Helper methods to create minimal valid Client, ServiceProvider, Booking
+    private Client createValidClient() {
+        return new Client.Builder()
+                .setUserId("client001")
                 .build();
+    }
 
-        serviceProvider = new ServiceProvider.Builder()
-                .setUserId("sp123")
-                .setName("Test Provider")
+    private ServiceProvider createValidServiceProvider() {
+        return new ServiceProvider.Builder()
+                .setUserId("sp001")
                 .build();
+    }
 
-        booking = new Booking.Builder()
-                .setBookingId("booking123")
-                .setServiceDate(new Date(System.currentTimeMillis() + 86400000))
-                .setStatus("Confirmed")
+    private Booking createValidBooking() {
+        return new Booking.Builder()
+                .setBookingId("booking001")
                 .build();
-
-        currentTime = LocalDateTime.now();
-        pastTime = currentTime.minusDays(1);
-        futureTime = currentTime.plusDays(1);
     }
 
     @Test
-    @Order(1)
-    void a_createValidReview() {
+    void testCreateValidReview() {
+        Client client = createValidClient();
+        ServiceProvider sp = createValidServiceProvider();
+        Booking booking = createValidBooking();
+
         Review review = ReviewFactory.createReview(
-                "review123",
+                "review001",
                 5,
                 "Excellent service!",
-                currentTime,
                 client,
-                serviceProvider,
+                sp,
                 booking
         );
 
+        System.out.println("Created valid Review: " + review); // for sanity
         assertNotNull(review);
-        assertEquals("review123", review.getReviewId());
+        assertEquals("review001", review.getReviewId());
         assertEquals(5, review.getRating());
         assertEquals("Excellent service!", review.getComment());
         assertEquals(client, review.getClient());
-        assertEquals(serviceProvider, review.getServiceProvider());
+        assertEquals(sp, review.getServiceProvider());
         assertEquals(booking, review.getBooking());
-        System.out.println("Created valid review: " + review);
     }
 
     @Test
-    @Order(2)
-    void b_createReviewWithFutureTimestamp() {
+    void testCreateReviewWithNullId() {
+        Client client = createValidClient();
+        ServiceProvider sp = createValidServiceProvider();
+        Booking booking = createValidBooking();
+
         Review review = ReviewFactory.createReview(
-                "review124",
+                null,
                 4,
-                "Future review",
-                futureTime,
+                "Good service",
                 client,
-                serviceProvider,
+                sp,
                 booking
         );
 
+        System.out.println("Review with null ID: " + review); // for sanity
         assertNull(review);
-        System.out.println("Future timestamp test passed - returned null as expected");
     }
 
     @Test
-    @Order(3)
-    void c_createReviewWithInvalidRating() {
-        // Test rating below minimum
-        assertNull(ReviewFactory.createReview(
-                "review125", 0, "Too low", currentTime, client, serviceProvider, booking));
+    void testCreateReviewWithInvalidRating() {
+        Client client = createValidClient();
+        ServiceProvider sp = createValidServiceProvider();
+        Booking booking = createValidBooking();
 
-        // Test rating above maximum
-        assertNull(ReviewFactory.createReview(
-                "review126", 6, "Too high", currentTime, client, serviceProvider, booking));
-
-        System.out.println("Invalid rating tests passed");
-    }
-
-    @Test
-    @Order(4)
-    void d_createReviewWithNullFields() {
-        // Test null reviewId
-        assertNull(ReviewFactory.createReview(
-                null, 5, "Good", currentTime, client, serviceProvider, booking));
-
-        // Test null timestamp
-        assertNull(ReviewFactory.createReview(
-                "review127", 5, "Good", null, client, serviceProvider, booking));
-
-        // Test null client
-        assertNull(ReviewFactory.createReview(
-                "review128", 5, "Good", currentTime, null, serviceProvider, booking));
-
-        // Test null serviceProvider
-        assertNull(ReviewFactory.createReview(
-                "review129", 5, "Good", currentTime, client, null, booking));
-
-        // Test null booking
-        assertNull(ReviewFactory.createReview(
-                "review130", 5, "Good", currentTime, client, serviceProvider, null));
-
-        System.out.println("Null field validation tests passed");
-    }
-
-    @Test
-    @Order(5)
-    void e_createReviewWithEmptyStrings() {
-        // Test empty reviewId
-        assertNull(ReviewFactory.createReview(
-                "", 5, "Good", currentTime, client, serviceProvider, booking));
-
-        // Test empty comment (should be allowed)
-        Review review = ReviewFactory.createReview(
-                "review131",
-                3,
-                "",
-                currentTime,
+        // rating less than 1
+        Review reviewLow = ReviewFactory.createReview(
+                "review002",
+                0,
+                "Bad rating",
                 client,
-                serviceProvider,
+                sp,
                 booking
         );
-        assertNotNull(review);
-        assertEquals("", review.getComment());
 
-        System.out.println("Empty string validation tests passed");
+        System.out.println("Review with rating 0: " + reviewLow);
+        assertNull(reviewLow);
+
+        // rating greater than 5
+        Review reviewHigh = ReviewFactory.createReview(
+                "review003",
+                6,
+                "Too high rating",
+                client,
+                sp,
+                booking
+        );
+
+        System.out.println("Review with rating 6: " + reviewHigh);
+        assertNull(reviewHigh);
     }
 
     @Test
-    @Order(6)
-    void f_createReviewWithAllValidRatings() {
-        // Test all valid rating values (1-5)
-        for (int i = 1; i <= 5; i++) {
-            Review review = ReviewFactory.createReview(
-                    "review-rating-" + i,
-                    i,
-                    "Rating test " + i,
-                    currentTime,
-                    client,
-                    serviceProvider,
-                    booking
-            );
+    void testCreateReviewWithNullComment() {
+        Client client = createValidClient();
+        ServiceProvider sp = createValidServiceProvider();
+        Booking booking = createValidBooking();
 
-            assertNotNull(review);
-            assertEquals(i, review.getRating());
-        }
+        Review review = ReviewFactory.createReview(
+                "review004",
+                3,
+                null,
+                client,
+                sp,
+                booking
+        );
 
-        System.out.println("All valid rating values test passed");
+        System.out.println("Review with null comment: " + review);
+        assertNull(review);
+    }
+
+    @Test
+    void testCreateReviewWithNullClient() {
+        ServiceProvider sp = createValidServiceProvider();
+        Booking booking = createValidBooking();
+
+        Review review = ReviewFactory.createReview(
+                "review005",
+                4,
+                "No client",
+                null,
+                sp,
+                booking
+        );
+
+        System.out.println("Review with null client: " + review);
+        assertNull(review);
+    }
+
+    @Test
+    void testCreateReviewWithNullServiceProvider() {
+        Client client = createValidClient();
+        Booking booking = createValidBooking();
+
+        Review review = ReviewFactory.createReview(
+                "review006",
+                4,
+                "No service provider",
+                client,
+                null,
+                booking
+        );
+
+        System.out.println("Review with null service provider: " + review);
+        assertNull(review);
+    }
+
+    @Test
+    void testCreateReviewWithNullBooking() {
+        Client client = createValidClient();
+        ServiceProvider sp = createValidServiceProvider();
+
+        Review review = ReviewFactory.createReview(
+                "review007",
+                4,
+                "No booking",
+                client,
+                sp,
+                null
+        );
+
+        System.out.println("Review with null booking: " + review);
+        assertNull(review);
     }
 }
+

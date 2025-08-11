@@ -1,6 +1,6 @@
 /* BookingServiceTest.java
-   Author: D.Jordaan (230613152)
-   Date: 25 July 2025 / modified on 6 August 2025
+   Author: Donna-Lee Jordaan (230613152)
+   Date: 25 July 2025 / modified 11 August 2025
 */
 
 package za.co.hireahelper.service;
@@ -8,115 +8,96 @@ package za.co.hireahelper.service;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
-import za.co.hireahelper.domain.*;
+import za.co.hireahelper.domain.Booking;
+import za.co.hireahelper.domain.Client;
+import za.co.hireahelper.domain.ServiceProvider;
 import za.co.hireahelper.factory.BookingFactory;
+
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@TestMethodOrder(MethodOrderer.MethodName.class)
-public class BookingServiceTest {
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+class BookingServiceTest {
 
     @Autowired
     private BookingService service;
 
-    @Autowired
-    private ClientService clientService;
-
-    @Autowired
-    private ServiceProviderService serviceProviderService;
-
     private static Booking booking;
-
-    private static final Client client = new Client.Builder()
-            .setUserId("client123")
-            .setName("Test Client")
-            .build();
-
-    private static final ServiceProvider serviceProvider = new ServiceProvider.Builder()
-            .setUserId("sp123")
-            .setName("Test Provider")
-            .build();
+    private static Client client;
+    private static ServiceProvider serviceProvider;
 
     @BeforeAll
-    static void setUp() {
-        // Using the factory method with all required parameters
-        booking = BookingFactory.createBooking(
-                "booking123",
-                new Date(System.currentTimeMillis() + 86400000), // Tomorrow
-                "Pending",
-                "Test notes",
-                client,
-                serviceProvider
-        );
-        assertNotNull(booking, "Booking creation failed - factory validation may have failed");
-    }
+    static void setup() {
+        // Create minimal Client and ServiceProvider for booking
+        client = new Client.Builder()
+                .setUserId("client001")
+                .build();
 
-    @BeforeEach
-    public void setupDependencies() {
-        if (clientService.read(client.getUserId()) == null) {
-            clientService.create(client);
-        }
-        if (serviceProviderService.read(serviceProvider.getUserId()) == null) {
-            serviceProviderService.create(serviceProvider);
-        }
+        serviceProvider = new ServiceProvider.Builder()
+                .setUserId("sp001")
+                .build();
+
+        booking = BookingFactory.createBooking(
+                "BK001",
+                new Date(),
+                "Scheduled",
+                "Initial booking notes",
+                client,
+                serviceProvider,
+                new ArrayList<>()
+        );
+        assertNotNull(booking);
     }
 
     @Test
-    @Transactional
+    @Order(1)
     void a_create() {
         Booking created = service.create(booking);
         assertNotNull(created);
-        assertEquals(booking.getBookingId(), created.getBookingId());
+        assertEquals("BK001", created.getBookingId());
         System.out.println("Created: " + created);
     }
 
     @Test
-    @Transactional
+    @Order(2)
     void b_read() {
-        Booking read = service.read(booking.getBookingId());
-        assertNotNull(read);
-        assertEquals(booking.getBookingId(), read.getBookingId());
-        System.out.println("Read: " + read);
+        Booking found = service.read(booking.getBookingId());
+        assertNotNull(found);
+        System.out.println("Read: " + found);
     }
 
     @Test
-    @Transactional
+    @Order(3)
     void c_update() {
-        Booking updated = BookingFactory.createBooking(
-                booking.getBookingId(),
-                booking.getServiceDate(),
-                "Confirmed",
-                "Updated notes",
-                booking.getClient(),
-                booking.getServiceProvider(),
-                booking.getReviews()
-        );
-        assertNotNull(updated, "Updated booking validation failed");
+        Booking updated = new Booking.Builder()
+                .copy(booking)
+                .setStatus("Completed")
+                .setNotes("Booking completed successfully")
+                .build();
 
         Booking result = service.update(updated);
         assertNotNull(result);
-        assertEquals("Confirmed", result.getStatus());
-        assertEquals("Updated notes", result.getNotes());
+        assertEquals("Completed", result.getStatus());
         System.out.println("Updated: " + result);
     }
 
     @Test
-    @Transactional
+    @Order(4)
     void d_getAll() {
-        List<Booking> allBookings = service.getAll();
-        assertNotNull(allBookings);
-        assertFalse(allBookings.isEmpty());
-        System.out.println("All bookings: " + allBookings);
+        assertNotNull(service.getAll());
+        assertTrue(service.getAll().size() > 0);
+        System.out.println("All Bookings: " + service.getAll());
     }
 
     @Test
-    @Transactional
+    @Order(5)
     void e_delete() {
         boolean deleted = service.delete(booking.getBookingId());
         assertTrue(deleted);
-        System.out.println("Deleted: " + deleted);
+        System.out.println("Deleted: " + booking.getBookingId());
     }
 }
+

@@ -11,14 +11,13 @@ import za.co.hireahelper.domain.Review;
 import za.co.hireahelper.domain.ServiceProvider;
 import za.co.hireahelper.util.Helper;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 public class ReviewFactory {
 
     public static Review createReview(String reviewId, int rating, String comment,
                                       Client client, ServiceProvider serviceProvider, Booking booking) {
 
-        // Validate inputs
         if (Helper.isNullOrEmpty(reviewId) || rating < 1 || rating > 5 ||
                 Helper.isNullOrEmpty(comment) || client == null ||
                 serviceProvider == null || booking == null) {
@@ -29,7 +28,7 @@ public class ReviewFactory {
                 .setReviewId(reviewId)
                 .setRating(rating)
                 .setComment(comment)
-                .setTimeStamp(LocalDateTime.now())
+                .setTimeStamp(new Date())  // use java.util.Date here
                 .setClient(client)
                 .setServiceProvider(serviceProvider)
                 .setBooking(booking)

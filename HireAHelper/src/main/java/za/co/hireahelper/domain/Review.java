@@ -5,7 +5,7 @@
 package za.co.hireahelper.domain;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 public class Review {
@@ -16,7 +16,8 @@ public class Review {
     private int rating;
     private String comment;
 
-    private LocalDateTime timeStamp;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date timeStamp;
 
     @ManyToOne
     @JoinColumn(name = "client_id", nullable = false)
@@ -54,7 +55,7 @@ public class Review {
         return comment;
     }
 
-    public LocalDateTime getTimeStamp() {
+    public Date getTimeStamp() {
         return timeStamp;
     }
 
@@ -87,7 +88,7 @@ public class Review {
         private String reviewId;
         private int rating;
         private String comment;
-        private LocalDateTime timeStamp;
+        private Date timeStamp;
         private Client client;
         private ServiceProvider serviceProvider;
         private Booking booking;
@@ -107,7 +108,7 @@ public class Review {
             return this;
         }
 
-        public Builder setTimeStamp(LocalDateTime timeStamp) {
+        public Builder setTimeStamp(Date timeStamp) {
             this.timeStamp = timeStamp;
             return this;
         }

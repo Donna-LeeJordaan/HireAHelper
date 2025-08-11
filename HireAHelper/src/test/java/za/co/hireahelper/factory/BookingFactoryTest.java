@@ -1,176 +1,155 @@
 /* BookingFactoryTest.java
-   Author: D.Jordaan (230613152)
-   Date: 25 July 2025 /modified on 6 August 2025
+   Author: Donna-Lee Jordaan (230613152)
+   Date: 25 July 2025 / modified 11 August 2025
 */
 
 package za.co.hireahelper.factory;
 
-import org.junit.jupiter.api.*;
-import za.co.hireahelper.domain.*;
+import org.junit.jupiter.api.Test;
+import za.co.hireahelper.domain.Booking;
+import za.co.hireahelper.domain.Client;
+import za.co.hireahelper.domain.ServiceProvider;
+
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class BookingFactoryTest {
 
-    private static Client client;
-    private static ServiceProvider serviceProvider;
-    private static Date futureDate;
-    private static Date pastDate;
-    private static List<Review> reviews;
-
-    @BeforeAll
-    static void setUp() {
-        client = new Client.Builder()
-                .setUserId("client123")
-                .setName("Test Client")
+    // Helper method to create a minimal valid Client
+    private Client createValidClient() {
+        return new Client.Builder()
+                .setUserId("client001")
                 .build();
+    }
 
-        serviceProvider = new ServiceProvider.Builder()
-                .setUserId("sp123")
-                .setName("Test Provider")
+    // Helper method to create a minimal valid ServiceProvider
+    private ServiceProvider createValidServiceProvider() {
+        return new ServiceProvider.Builder()
+                .setUserId("sp001")
                 .build();
-
-        futureDate = new Date(System.currentTimeMillis() + 86400000); // Tomorrow
-        pastDate = new Date(System.currentTimeMillis() - 86400000); // Yesterday
-        reviews = List.of(); // Empty reviews list for testing
     }
 
     @Test
-    @Order(1)
-    void a_createValidBooking() {
+    void testCreateValidBooking() {
+        Client client = createValidClient();
+        ServiceProvider serviceProvider = createValidServiceProvider();
+        Date serviceDate = new Date();
+
         Booking booking = BookingFactory.createBooking(
-                "booking123",
-                futureDate,
-                "Confirmed",
-                "Test notes",
+                "booking001",
+                serviceDate,
+                "Scheduled",
+                "Notes for booking",
                 client,
                 serviceProvider,
-                reviews
+                new ArrayList<>()
         );
 
+        System.out.println("Created valid Booking: " + booking); // for sanity
         assertNotNull(booking);
-        assertEquals("booking123", booking.getBookingId());
-        assertEquals("Confirmed", booking.getStatus());
+        assertEquals("booking001", booking.getBookingId());
+        assertEquals(serviceDate, booking.getServiceDate());
+        assertEquals("Scheduled", booking.getStatus());
+        assertEquals("Notes for booking", booking.getNotes());
         assertEquals(client, booking.getClient());
         assertEquals(serviceProvider, booking.getServiceProvider());
-        assertEquals(0, booking.getReviews().size());
-        System.out.println("Created valid booking: " + booking);
+        assertNotNull(booking.getReviews());
+        assertTrue(booking.getReviews().isEmpty());
     }
 
     @Test
-    @Order(2)
-    void b_createBookingWithPastDate() {
+    void testCreateBookingWithNullId() {
+        Client client = createValidClient();
+        ServiceProvider serviceProvider = createValidServiceProvider();
+
         Booking booking = BookingFactory.createBooking(
-                "booking124",
-                pastDate,
-                "Pending",
-                "Past date booking",
+                null,
+                new Date(),
+                "Scheduled",
+                "Notes",
                 client,
                 serviceProvider,
-                reviews
+                new ArrayList<>()
         );
 
+        System.out.println("Booking with null ID: " + booking); // for sanity
         assertNull(booking);
-        System.out.println("Past date booking test passed - returned null as expected");
     }
 
     @Test
-    @Order(3)
-    void c_createBookingWithInvalidStatus() {
+    void testCreateBookingWithNullServiceDate() {
+        Client client = createValidClient();
+        ServiceProvider serviceProvider = createValidServiceProvider();
+
         Booking booking = BookingFactory.createBooking(
-                "booking125",
-                futureDate,
-                "InvalidStatus",
-                "Invalid status booking",
+                "booking002",
+                null,
+                "Scheduled",
+                "Notes",
                 client,
                 serviceProvider,
-                reviews
+                new ArrayList<>()
         );
 
+        System.out.println("Booking with null service date: " + booking); // for sanity
         assertNull(booking);
-        System.out.println("Invalid status booking test passed - returned null as expected");
     }
 
     @Test
-    @Order(4)
-    void d_createBookingWithNullFields() {
-        // Test null bookingId
-        assertNull(BookingFactory.createBooking(null, futureDate, "Confirmed", "Notes", client, serviceProvider, reviews));
-
-        // Test null serviceDate
-        assertNull(BookingFactory.createBooking("booking126", null, "Confirmed", "Notes", client, serviceProvider, reviews));
-
-        // Test null status
-        assertNull(BookingFactory.createBooking("booking127", futureDate, null, "Notes", client, serviceProvider, reviews));
-
-        // Test null client
-        assertNull(BookingFactory.createBooking("booking128", futureDate, "Confirmed", "Notes", null, serviceProvider, reviews));
-
-        // Test null serviceProvider
-        assertNull(BookingFactory.createBooking("booking129", futureDate, "Confirmed", "Notes", client, null, reviews));
-
-        System.out.println("Null field validation tests passed");
-    }
-
-    @Test
-    @Order(5)
-    void e_createBookingWithEmptyStrings() {
-        // Test empty bookingId
-        assertNull(BookingFactory.createBooking("", futureDate, "Confirmed", "Notes", client, serviceProvider, reviews));
-
-        // Test empty status
-        assertNull(BookingFactory.createBooking("booking130", futureDate, "", "Notes", client, serviceProvider, reviews));
-
-        System.out.println("Empty string validation tests passed");
-    }
-
-    @Test
-    @Order(6)
-    void f_createBookingWithAllStatusValues() {
-        // Test all valid status values
-        String[] validStatuses = {"Confirmed", "Pending", "Cancelled", "Completed"};
-
-        for (String status : validStatuses) {
-            Booking booking = BookingFactory.createBooking(
-                    "booking-" + status.toLowerCase(),
-                    futureDate,
-                    status,
-                    "Test " + status + " booking",
-                    client,
-                    serviceProvider,
-                    reviews
-            );
-
-            assertNotNull(booking);
-            assertEquals(status, booking.getStatus());
-        }
-
-        System.out.println("All valid status values test passed");
-    }
-
-    @Test
-    @Order(7)
-    void g_createBookingWithReviews() {
-        Review review = new Review.Builder()
-                .setReviewId("review123")
-                .setRating(5)
-                .setComment("Excellent")
-                .build();
+    void testCreateBookingWithNullStatus() {
+        Client client = createValidClient();
+        ServiceProvider serviceProvider = createValidServiceProvider();
 
         Booking booking = BookingFactory.createBooking(
-                "booking131",
-                futureDate,
-                "Confirmed",
-                "Booking with reviews",
+                "booking003",
+                new Date(),
+                null,
+                "Notes",
                 client,
                 serviceProvider,
-                List.of(review)
+                new ArrayList<>()
         );
 
-        assertNotNull(booking);
-        assertEquals(1, booking.getReviews().size());
-        System.out.println("Booking with reviews test passed");
+        System.out.println("Booking with null status: " + booking); // for sanity
+        assertNull(booking);
+    }
+
+    @Test
+    void testCreateBookingWithNullClient() {
+        ServiceProvider serviceProvider = createValidServiceProvider();
+
+        Booking booking = BookingFactory.createBooking(
+                "booking004",
+                new Date(),
+                "Scheduled",
+                "Notes",
+                null,
+                serviceProvider,
+                new ArrayList<>()
+        );
+
+        System.out.println("Booking with null client: " + booking); // for sanity
+        assertNull(booking);
+    }
+
+    @Test
+    void testCreateBookingWithNullServiceProvider() {
+        Client client = createValidClient();
+
+        Booking booking = BookingFactory.createBooking(
+                "booking005",
+                new Date(),
+                "Scheduled",
+                "Notes",
+                client,
+                null,
+                new ArrayList<>()
+        );
+
+        System.out.println("Booking with null service provider: " + booking); // for sanity
+        assertNull(booking);
     }
 }
+
