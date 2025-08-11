@@ -1,12 +1,11 @@
 /* BookingService.java
-
-   Author: D.Jordaan (230613152)
-
-   Date: 13 July 2025 */
-
+   Author: Donna-Lee Jordaan (230613152)
+   Date: 25 July 2025 / modified 11 August 2025
+*/
 package za.co.hireahelper.service;
 
 import za.co.hireahelper.domain.Booking;
+
 import java.util.List;
 
 public interface BookingService extends IService<Booking, String> {

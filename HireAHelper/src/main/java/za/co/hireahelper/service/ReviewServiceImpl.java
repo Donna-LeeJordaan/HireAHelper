@@ -1,8 +1,7 @@
 /* ReviewServiceImpl.java
-
-   Author: D.Jordaan (230613152)
-
-   Date: 13 July 2025 */
+   Author: Donna-Lee Jordaan (230613152)
+   Date:25 July 2025 / modified 11 August 2025
+*/
 
 package za.co.hireahelper.service;
 
@@ -10,10 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import za.co.hireahelper.domain.Review;
 import za.co.hireahelper.repository.ReviewRepository;
+
 import java.util.List;
 
 @Service
-public class ReviewServiceImpl  implements ReviewService {
+public class ReviewServiceImpl implements ReviewService {
 
     private final ReviewRepository repository;
 
@@ -21,6 +21,7 @@ public class ReviewServiceImpl  implements ReviewService {
     public ReviewServiceImpl(ReviewRepository repository) {
         this.repository = repository;
     }
+
     @Override
     public Review create(Review review) {
         return this.repository.save(review);
@@ -28,8 +29,7 @@ public class ReviewServiceImpl  implements ReviewService {
 
     @Override
     public Review read(String reviewId) {
-        return this.repository.findById(reviewId)
-                .orElse(null);
+        return this.repository.findById(reviewId).orElse(null);
     }
 
     @Override
@@ -39,7 +39,7 @@ public class ReviewServiceImpl  implements ReviewService {
 
     @Override
     public boolean delete(String reviewId) {
-        if(this.repository.existsById(reviewId)) {
+        if (this.repository.existsById(reviewId)) {
             this.repository.deleteById(reviewId);
             return true;
         }
@@ -50,6 +50,4 @@ public class ReviewServiceImpl  implements ReviewService {
     public List<Review> getAll() {
         return this.repository.findAll();
     }
-
-
 }

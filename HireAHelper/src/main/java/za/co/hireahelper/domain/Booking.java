@@ -1,6 +1,6 @@
 /* Booking.java
-   Author: D.Jordaan (230613152)
-   Date: 18 May 2025 / modified on 6 August 2025
+   Author: Donna-Lee Jordaan (230613152)
+   Date: 25 July 2025 / modified 11 August 2025
 */
 
 package za.co.hireahelper.domain;
@@ -14,7 +14,10 @@ public class Booking {
 
     @Id
     private String bookingId;
+
+    @Temporal(TemporalType.DATE)
     private Date serviceDate;
+
     private String status;
     private String notes;
 
@@ -41,11 +44,6 @@ public class Booking {
         this.reviews = builder.reviews;
     }
 
-    public static Builder builder() {
-        return new Builder();
-    }
-
-    // Getters
     public String getBookingId() {
         return bookingId;
     }
@@ -81,13 +79,11 @@ public class Booking {
                 ", serviceDate=" + serviceDate +
                 ", status='" + status + '\'' +
                 ", notes='" + notes + '\'' +
-                ", clientId=" + (client != null ? client.getUserId() : "null") +
-                ", serviceProviderId=" + (serviceProvider != null ? serviceProvider.getUserId() : "null") +
-                ", reviews=" + (reviews != null ? reviews.size() : 0) + " reviews" +
+                ", client=" + (client != null ? client.getUserId() : "null") +
+                ", serviceProvider=" + (serviceProvider != null ? serviceProvider.getUserId() : "null") +
                 '}';
     }
 
-    // Builder class
     public static class Builder {
         private String bookingId;
         private Date serviceDate;

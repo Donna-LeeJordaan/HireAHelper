@@ -1,8 +1,7 @@
 /* BookingServiceImpl.java
-
-   Author: D.Jordaan (230613152)
-
-   Date: 13 July 2025 */
+   Author: Donna-Lee Jordaan (230613152)
+   Date: 25 July 2025 / modified 11 August 2025
+*/
 
 package za.co.hireahelper.service;
 
@@ -10,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import za.co.hireahelper.domain.Booking;
 import za.co.hireahelper.repository.BookingRepository;
+
 import java.util.List;
 
 @Service
@@ -29,8 +29,7 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public Booking read(String bookingId) {
-        return this.repository.findById(bookingId)
-                .orElse(null);
+        return this.repository.findById(bookingId).orElse(null);
     }
 
     @Override
@@ -51,5 +50,4 @@ public class BookingServiceImpl implements BookingService {
     public List<Booking> getAll() {
         return this.repository.findAll();
     }
-
 }

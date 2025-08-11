@@ -1,8 +1,7 @@
 /* Review.java
-   Author: D.Jordaan (230613152)
-   Date: 18 May 2025 / modified on 6 August 2025
+   Author: Donna-Lee Jordaan (230613152)
+   Date:25 July 2025 / modified 11 August 2025
 */
-
 package za.co.hireahelper.domain;
 
 import jakarta.persistence.*;
@@ -10,13 +9,15 @@ import java.time.LocalDateTime;
 
 @Entity
 public class Review {
+
     @Id
     private String reviewId;
+
     private int rating;
     private String comment;
+
     private LocalDateTime timeStamp;
 
-    // Relationships
     @ManyToOne
     @JoinColumn(name = "client_id", nullable = false)
     private Client client;
@@ -29,8 +30,7 @@ public class Review {
     @JoinColumn(name = "booking_id", nullable = false)
     private Booking booking;
 
-    protected Review() {
-    }
+    protected Review() {}
 
     private Review(Builder builder) {
         this.reviewId = builder.reviewId;
@@ -40,10 +40,6 @@ public class Review {
         this.client = builder.client;
         this.serviceProvider = builder.serviceProvider;
         this.booking = builder.booking;
-    }
-
-    public static Builder builder() {
-        return new Builder();
     }
 
     public String getReviewId() {
@@ -81,9 +77,9 @@ public class Review {
                 ", rating=" + rating +
                 ", comment='" + comment + '\'' +
                 ", timeStamp=" + timeStamp +
-                ", clientId=" + (client != null ? client.getUserId() : "null") +
-                ", serviceProviderId=" + (serviceProvider != null ? serviceProvider.getUserId() : "null") +
-                ", bookingId=" + (booking != null ? booking.getBookingId() : "null") +
+                ", client=" + (client != null ? client.getUserId() : "null") +
+                ", serviceProvider=" + (serviceProvider != null ? serviceProvider.getUserId() : "null") +
+                ", booking=" + (booking != null ? booking.getBookingId() : "null") +
                 '}';
     }
 
