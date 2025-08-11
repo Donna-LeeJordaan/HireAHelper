@@ -1,16 +1,17 @@
 // Ameeruddin Arai 230190839
-// 24 July 2025
 
 package za.co.hireahelper.service;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import za.co.hireahelper.domain.Admin;
+import za.co.hireahelper.domain.Area;
 import za.co.hireahelper.factory.AdminFactory;
+import za.co.hireahelper.repository.AreaRepository;
+
 import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -20,33 +21,50 @@ class AdminServiceTest {
     @Autowired
     private AdminService service;
 
-    private static final Admin admin = AdminFactory.createAdmin(
-            "admin123",
-            "Fatima Patel",
-            "fatima.patel@example.com",
-            "securePass123",
-            "0712345678"
-    );
+    @Autowired
+    private AreaRepository areaRepository;
+
+    private static Admin admin;
+
+    @BeforeAll
+    static void setup(@Autowired AreaRepository areaRepository) {
+
+        final Area area = new Area.Builder()
+                .setAreaId("area001")
+                .setName("Athlone")
+                .build();
+
+        // Save the Area entity first so it exists in the DB for FK reference
+        areaRepository.save(area);
+
+        admin = AdminFactory.createAdmin(
+                "admin123",
+                "Fatima Patel",
+                "fatima.patel@example.com",
+                "securePass123",
+                "0712345678",
+                area
+        );
+    }
 
     @Test
     void a_create() {
-        System.out.println("\n--- Running CREATE test ---");
         Admin created = service.create(admin);
         assertNotNull(created);
+        assertNotNull(created.getArea()); // Ensure area is set
         System.out.println("Created Admin: " + created);
     }
 
     @Test
     void b_read() {
-        System.out.println("\n--- Running READ test ---");
         Admin read = service.read(admin.getUserId());
         assertNotNull(read);
+        assertNotNull(read.getArea());
         System.out.println("Read Admin: " + read);
     }
 
     @Test
     void d_update() {
-        System.out.println("\n--- Running UPDATE test ---");
         Admin updatedAdmin = new Admin.Builder()
                 .copy(admin)
                 .setName("Fatima P. Updated")
@@ -60,16 +78,15 @@ class AdminServiceTest {
 
     @Test
     void e_getAll() {
-        System.out.println("\n--- Running GET ALL test ---");
         List<Admin> allAdmins = service.getAll();
         assertNotNull(allAdmins);
+        assertFalse(allAdmins.isEmpty());
         System.out.println("All Admins retrieved: ");
         allAdmins.forEach(System.out::println);
     }
 
     @Test
     void f_delete() {
-        System.out.println("\n--- Running DELETE test ---");
         boolean deleted = service.delete(admin.getUserId());
         assertTrue(deleted);
         System.out.println("Deleted Admin ID " + admin.getUserId() + ": " + deleted);

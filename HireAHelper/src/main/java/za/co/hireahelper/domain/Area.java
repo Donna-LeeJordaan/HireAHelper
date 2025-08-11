@@ -1,3 +1,5 @@
+// Ameeruddin Arai  student number: 230190839
+
 package za.co.hireahelper.domain;
 
 import jakarta.persistence.*;

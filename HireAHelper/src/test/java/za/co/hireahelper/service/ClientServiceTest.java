@@ -40,7 +40,7 @@ public class ClientServiceTest {
     @BeforeAll
     public static void setUp() {
         client = ClientFactory.createClient(
-                "001",
+                "user001",
                 "Amina",
                 "amina@example.com",
                 "password123",

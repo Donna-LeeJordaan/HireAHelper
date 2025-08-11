@@ -1,7 +1,5 @@
 // Ameeruddin Arai 230190839
 
-// Ameeruddin Arai 230190839
-
 package za.co.hireahelper.controller;
 
 import org.junit.jupiter.api.*;
@@ -12,7 +10,6 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.*;
 import za.co.hireahelper.domain.Area;
 import za.co.hireahelper.factory.AreaFactory;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -33,8 +30,8 @@ class AreaControllerTest {
 
     @BeforeAll
     static void setUp() {
-        area = AreaFactory.createArea("area100", "Cape Town North");
-        assertNotNull(area, "Area should be created by the factory");
+        area = AreaFactory.createArea("area001", "Athlone");
+        assertNotNull(area, "Area created by the factory");
     }
 
     @Test
@@ -71,7 +68,7 @@ class AreaControllerTest {
     void c_update() {
         Area updated = new Area.Builder()
                 .copy(area)
-                .setName("Cape Town Central")
+                .setName("Crawford")
                 .build();
 
         String url = getBaseUrl() + "/update";
@@ -82,7 +79,7 @@ class AreaControllerTest {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         Area afterUpdate = response.getBody();
         assertNotNull(afterUpdate);
-        assertEquals("Cape Town Central", afterUpdate.getName());
+        assertEquals("Crawford", afterUpdate.getName());
 
         area = afterUpdate; // Update reference
         System.out.println("Updated Area: " + afterUpdate);
