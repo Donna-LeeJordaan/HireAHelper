@@ -27,7 +27,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(MethodOrderer.MethodName.class)
-class BookingControllerTest {
+public class BookingControllerTest {  // <-- changed here
 
     private static Booking booking;
 
@@ -119,4 +119,3 @@ class BookingControllerTest {
         System.out.println("Deleted Booking with ID: " + booking.getBookingId());
     }
 }
-

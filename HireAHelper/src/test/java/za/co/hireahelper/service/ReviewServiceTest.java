@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class ReviewServiceTest {
+public class ReviewServiceTest {  // <-- changed here
 
     @Autowired
     private ReviewService service;

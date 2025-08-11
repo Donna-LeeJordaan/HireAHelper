@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class BookingServiceTest {
+public class BookingServiceTest {  // <-- Changed here from default to public
 
     @Autowired
     private BookingService service;
@@ -100,4 +100,3 @@ class BookingServiceTest {
         System.out.println("Deleted: " + booking.getBookingId());
     }
 }
-
