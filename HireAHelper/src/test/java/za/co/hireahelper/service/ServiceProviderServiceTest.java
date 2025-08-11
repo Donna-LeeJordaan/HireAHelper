@@ -37,8 +37,8 @@ public class ServiceProviderServiceTest {
             .build();
 
     private static final ServiceType serviceType = new ServiceType.Builder()
-            .setTypeId("S1")
-            .setTypeName("Gardener")
+            .setTypeId("ST001")
+            .setTypeName("Plumbing")
             .build();
 
     private static final List<Booking> bookings = new ArrayList<>();
