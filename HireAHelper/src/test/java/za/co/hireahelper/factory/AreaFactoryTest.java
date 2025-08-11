@@ -11,11 +11,11 @@ public class AreaFactoryTest {
     @Test
     void testCreateAreaWithValidData() {
         System.out.println("\n--- Running testCreateAreaWithValidData ---");
-        Area area = AreaFactory.createArea("AR001", "Cape Town North");
+        Area area = AreaFactory.createArea("area001", "Athlone");
 
         assertNotNull(area);
-        assertEquals("AR001", area.getAreaId());
-        assertEquals("Cape Town North", area.getName());
+        assertEquals("area001", area.getAreaId());
+        assertEquals("Athlone", area.getName());
 
         System.out.println("Area created successfully: " + area);
     }
@@ -23,7 +23,7 @@ public class AreaFactoryTest {
     @Test
     void testCreateAreaWithNullId() {
         System.out.println("\n--- Running testCreateAreaWithNullId ---");
-        Area area = AreaFactory.createArea(null, "Durban");
+        Area area = AreaFactory.createArea(null, "Grassy Park");
 
         assertNull(area);
         System.out.println("Area creation failed as expected due to null ID.");
@@ -32,7 +32,7 @@ public class AreaFactoryTest {
     @Test
     void testCreateAreaWithEmptyName() {
         System.out.println("\n--- Running testCreateAreaWithEmptyName ---");
-        Area area = AreaFactory.createArea("AR002", "");
+        Area area = AreaFactory.createArea("area002", "");
 
         assertNull(area);
         System.out.println("Area creation failed as expected due to empty name.");
@@ -41,7 +41,7 @@ public class AreaFactoryTest {
     @Test
     void testCreateAreaWithBlankId() {
         System.out.println("\n--- Running testCreateAreaWithBlankId ---");
-        Area area = AreaFactory.createArea("", "Johannesburg");
+        Area area = AreaFactory.createArea("", "Grassy Park");
 
         assertNull(area);
         System.out.println("Area creation failed as expected due to blank ID.");
@@ -50,7 +50,7 @@ public class AreaFactoryTest {
     @Test
     void testCreateAreaWithNullName() {
         System.out.println("\n--- Running testCreateAreaWithNullName ---");
-        Area area = AreaFactory.createArea("AR003", null);
+        Area area = AreaFactory.createArea("area003", null);
 
         assertNull(area);
         System.out.println("Area creation failed as expected due to null name.");

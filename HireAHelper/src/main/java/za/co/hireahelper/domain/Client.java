@@ -8,6 +8,7 @@ package za.co.hireahelper.domain;
 import jakarta.persistence.*;
 import java.util.List;
 
+@Table(name = "clients")
 @Entity
 public class Client extends User {
 
