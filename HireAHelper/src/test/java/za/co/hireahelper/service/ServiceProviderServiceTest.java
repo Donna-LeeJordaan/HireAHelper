@@ -48,9 +48,9 @@ public class ServiceProviderServiceTest {
     @BeforeAll
     public static void setUp() {
         serviceProvider = ServiceProviderFactory.createServiceProvider(
-                "sp1", "Tauriq", "tauriq@gmail.com",
+                "user007", "Tauriq", "tauriq@gmail.com",
                 "tauriq01", "0677754479", area,
-                "tauriq.jpeg", "Gardener with 15 years experience",
+                "tauriq.jpeg", "Plumber with 15 years experience",
                 600.0, serviceType, bookings, messages, reviews);
         assertNotNull(serviceProvider, "Service Provider creation failed");
     }
