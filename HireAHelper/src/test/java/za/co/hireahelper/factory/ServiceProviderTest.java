@@ -24,9 +24,9 @@ public class ServiceProviderTest {
             .setName("Athlone")
             .build();
 
-    private static  ServiceType gardener = new ServiceType.Builder().setTypeId("S1").setTypeName("Gardener").build();
-    private static  ServiceType painter = new ServiceType.Builder().setTypeId("S2").setTypeName("Painter").build();
-    private static  ServiceType plumber = new ServiceType.Builder().setTypeId("S3").setTypeName("Plumber").build();
+    private static  ServiceType gardener = new ServiceType.Builder().setTypeId("ST003").setTypeName("Gardener").build();
+    private static  ServiceType painter = new ServiceType.Builder().setTypeId("ST002").setTypeName("Painter").build();
+    private static  ServiceType plumber = new ServiceType.Builder().setTypeId("ST001").setTypeName("Plumbing").build();
 
 
     private static ServiceProvider sp1 = ServiceProviderFactory.createServiceProvider("SP1", "Tauriq Osman", "moegamattauriqosman@gmail.com", "Tauriq04", "0611234567", area ,"tauriq.jpeg","Skilled Gardener with 15 years experience", 350.0, gardener, bookings, messages,reviews );

@@ -44,8 +44,8 @@ public class ServiceProviderControllerTest {
                 .build();
 
         ServiceType serviceType = new ServiceType.Builder()
-                .setTypeId("S1")
-                .setTypeName("Gardener")
+                .setTypeId("ST001")
+                .setTypeName("Plumbing")
                 .build();
 
         serviceProvider = ServiceProviderFactory.createServiceProvider(
