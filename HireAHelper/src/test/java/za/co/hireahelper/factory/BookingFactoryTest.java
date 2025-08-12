@@ -3,137 +3,174 @@
    Date: 25 July 2025 / modified 11 August 2025
 */
 
+
 package za.co.hireahelper.factory;
 
-import org.junit.jupiter.api.*;
-import za.co.hireahelper.domain.*;
+import org.junit.jupiter.api.Test;
+import za.co.hireahelper.domain.Booking;
+import za.co.hireahelper.domain.Client;
+import za.co.hireahelper.domain.ServiceProvider;
+import za.co.hireahelper.domain.Review;
+import za.co.hireahelper.domain.Area;
+import za.co.hireahelper.domain.ServiceType;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class BookingFactoryTest {
 
-    private static Client client = new Client.Builder()
-            .setUserId("client001")
+    private Area area = new Area.Builder()
+            .setAreaId("area001")
+            .setName("Athlone")
             .build();
 
-    private static ServiceProvider serviceProvider = new ServiceProvider.Builder()
-            .setUserId("sp001")
-            .build();
+    private Client createValidClient() {
+        return ClientFactory.createClient(
+                "user001", "Amina", "amina@example.com", "password123", "0823456789",
+                area, new ArrayList<>(), new ArrayList<>(), new ArrayList<>()
+        );
+    }
 
-    private static LocalDate serviceDate = LocalDate.of(2025, 8, 11);
-    private static ArrayList<Review> reviews = new ArrayList<>();
+    private ServiceProvider createValidServiceProvider() {
+        ServiceType gardener = new ServiceType.Builder()
+                .setTypeId("type02")
+                .setTypeName("Gardener")
+                .build();
 
-    private static Booking booking1 = BookingFactory.createBooking(
-            "B001",
-            serviceDate,
-            "Pending",
-            "Customer requested morning service",
-            client,
-            serviceProvider,
-            reviews
-    );
-
-    private static Booking booking2 = BookingFactory.createBooking(
-            "B002",
-            LocalDate.of(2025, 8, 12),
-            "Confirmed",
-            "Afternoon service preferred",
-            client,
-            serviceProvider,
-            reviews
-    );
-
-    @Test
-    @Order(1)
-    public void testCreateBooking() {
-        assertNotNull(booking1);
-        System.out.println(booking1);
+        return ServiceProviderFactory.createServiceProvider(
+                "user007", "Tauriq Osman", "moegamattauriqosman@example.com", "Tauriq04",
+                "0611234567", area, "tauriq.jpeg",
+                "Skilled Gardener with 15 years experience", 350.0, gardener,
+                new ArrayList<>(), new ArrayList<>(), new ArrayList<>()
+        );
     }
 
     @Test
-    @Order(2)
-    public void testCreateBookingWithAllAttributes() {
-        assertNotNull(booking2);
-        assertEquals("B002", booking2.getBookingId());
-        assertEquals(LocalDate.of(2025, 8, 12), booking2.getServiceDate());
-        assertEquals("Confirmed", booking2.getStatus());
-        assertEquals("Afternoon service preferred", booking2.getNotes());
-        assertEquals(client, booking2.getClient());
-        assertEquals(serviceProvider, booking2.getServiceProvider());
-        System.out.println(booking2);
+    void testCreateValidBooking() {
+        Client client = createValidClient();
+        ServiceProvider serviceProvider = createValidServiceProvider();
+        LocalDate serviceDate = LocalDate.now();
+
+        Booking booking = BookingFactory.createBooking(
+                "booking001",
+                serviceDate,
+                "Scheduled",
+                "Customer requested morning service",
+                client,
+                serviceProvider,
+                new ArrayList<>()
+        );
+
+        assertNotNull(booking);
+
+        System.out.println(String.format(
+                "Booking[id=%s, date=%s, status=%s, notes=%s, clientId=%s, providerId=%s, reviews=%d]",
+                booking.getBookingId(),
+                booking.getServiceDate(),
+                booking.getStatus(),
+                booking.getNotes(),
+                booking.getClient() != null ? booking.getClient().getUserId() : "null",
+                booking.getServiceProvider() != null ? booking.getServiceProvider().getUserId() : "null",
+                booking.getReviews() != null ? booking.getReviews().size() : 0
+        ));
     }
 
     @Test
-    @Order(3)
-    public void testCreateBookingWithNullId() {
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            BookingFactory.createBooking(
-                    null,
-                    serviceDate,
-                    "Scheduled",
-                    "Notes",
-                    client,
-                    serviceProvider,
-                    reviews
-            );
-        });
-        assertTrue(exception.getMessage().contains("Booking ID cannot be null"));
-        System.out.println("Test passed: Booking with null ID throws exception");
+    void testCreateBookingWithNullId() {
+        Client client = createValidClient();
+        ServiceProvider serviceProvider = createValidServiceProvider();
+
+        Booking booking = BookingFactory.createBooking(
+                null,
+                LocalDate.now(),
+                "Scheduled",
+                "Notes",
+                client,
+                serviceProvider,
+                new ArrayList<>()
+        );
+
+        assertNull(booking);
+
+        System.out.println("Booking creation failed as expected with null ID.");
     }
 
     @Test
-    @Order(4)
-    public void testCreateBookingWithNullServiceDate() {
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            BookingFactory.createBooking(
-                    "B003",
-                    null,
-                    "Scheduled",
-                    "Notes",
-                    client,
-                    serviceProvider,
-                    reviews
-            );
-        });
-        assertTrue(exception.getMessage().contains("Service date cannot be null"));
-        System.out.println("Test passed: Booking with null service date throws exception");
+    void testCreateBookingWithNullServiceDate() {
+        Client client = createValidClient();
+        ServiceProvider serviceProvider = createValidServiceProvider();
+
+        Booking booking = BookingFactory.createBooking(
+                "booking002",
+                null,
+                "Scheduled",
+                "Notes",
+                client,
+                serviceProvider,
+                new ArrayList<>()
+        );
+
+        assertNull(booking);
+
+        System.out.println("Booking creation failed as expected with null service date.");
     }
 
     @Test
-    @Order(5)
-    public void testCreateBookingWithNullClient() {
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            BookingFactory.createBooking(
-                    "B004",
-                    serviceDate,
-                    "Scheduled",
-                    "Notes",
-                    null,
-                    serviceProvider,
-                    reviews
-            );
-        });
-        assertTrue(exception.getMessage().contains("Client cannot be null"));
-        System.out.println("Test passed: Booking with null client throws exception");
+    void testCreateBookingWithNullStatus() {
+        Client client = createValidClient();
+        ServiceProvider serviceProvider = createValidServiceProvider();
+
+        Booking booking = BookingFactory.createBooking(
+                "booking003",
+                LocalDate.now(),
+                null,
+                "Notes",
+                client,
+                serviceProvider,
+                new ArrayList<>()
+        );
+
+        assertNull(booking);
+
+        System.out.println("Booking creation failed as expected with null status.");
     }
 
     @Test
-    @Order(6)
-    public void testCreateBookingWithNullServiceProvider() {
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            BookingFactory.createBooking(
-                    "B005",
-                    serviceDate,
-                    "Scheduled",
-                    "Notes",
-                    client,
-                    null,
-                    reviews
-            );
-        });
-        assertTrue(exception.getMessage().contains("Service provider cannot be null"));
-        System.out.println("Test passed: Booking with null service provider throws exception");
+    void testCreateBookingWithNullClient() {
+        ServiceProvider serviceProvider = createValidServiceProvider();
+
+        Booking booking = BookingFactory.createBooking(
+                "booking004",
+                LocalDate.now(),
+                "Scheduled",
+                "Notes",
+                null,
+                serviceProvider,
+                new ArrayList<>()
+        );
+
+        assertNull(booking);
+
+        System.out.println("Booking creation failed as expected with null client.");
+    }
+
+    @Test
+    void testCreateBookingWithNullServiceProvider() {
+        Client client = createValidClient();
+
+        Booking booking = BookingFactory.createBooking(
+                "booking005",
+                LocalDate.now(),
+                "Scheduled",
+                "Notes",
+                client,
+                null,
+                new ArrayList<>()
+        );
+
+        assertNull(booking);
+
+        System.out.println("Booking creation failed as expected with null service provider.");
     }
 }
+

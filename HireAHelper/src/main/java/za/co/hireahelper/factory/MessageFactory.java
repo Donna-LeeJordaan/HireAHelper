@@ -8,7 +8,6 @@ import za.co.hireahelper.domain.Client;
 import za.co.hireahelper.domain.Message;
 import za.co.hireahelper.domain.ServiceProvider;
 import za.co.hireahelper.util.Helper;
-
 import java.time.LocalDateTime;
 
 public class MessageFactory {
