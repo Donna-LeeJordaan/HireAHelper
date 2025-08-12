@@ -1,3 +1,7 @@
+/* BookingServiceTest.java
+   Author: Donna-Lee Jordaan (230613152)
+   Date: 25 July 2025 / modified 11 August 2025
+*/
 package za.co.hireahelper.service;
 
 import org.junit.jupiter.api.*;
@@ -32,7 +36,7 @@ public class BookingServiceTest {
 
     @BeforeAll
     static void setUp() {
-        // Use LocalDate instead of parsing (no ParseException needed)
+        // Use LocalDate
         serviceDate = LocalDate.of(2025, 4, 12); // Year, Month, Day
 
         // Create test client and provider
