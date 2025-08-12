@@ -13,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import za.co.hireahelper.domain.Admin;
 import za.co.hireahelper.domain.Area;
 import za.co.hireahelper.factory.AdminFactory;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)

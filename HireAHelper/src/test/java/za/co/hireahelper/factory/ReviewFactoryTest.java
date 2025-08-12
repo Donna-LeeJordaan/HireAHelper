@@ -10,7 +10,6 @@ import za.co.hireahelper.domain.Client;
 import za.co.hireahelper.domain.Review;
 import za.co.hireahelper.domain.ServiceProvider;
 import za.co.hireahelper.domain.Booking;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ReviewFactoryTest {

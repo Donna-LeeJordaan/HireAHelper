@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import za.co.hireahelper.domain.Message;
 import za.co.hireahelper.service.MessageService;
-
 import java.util.List;
 
 @RestController
