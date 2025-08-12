@@ -1,12 +1,10 @@
 /* BookingServiceTest.java
    Author: Donna-Lee Jordaan (230613152)
-   Date: 25 July 2025 / modified 11 August 2025
+   Date: 25 July 2025 / modified 12 August 2025
 */
 
-package za.co.hireahelper.service;
+//package za.co.hireahelper.service;
 
-
-import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,26 +13,28 @@ import za.co.hireahelper.domain.Client;
 import za.co.hireahelper.domain.Review;
 import za.co.hireahelper.domain.ServiceProvider;
 import za.co.hireahelper.factory.BookingFactory;
+import za.co.hireahelper.service.ServiceProviderService;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@TestMethodOrder(MethodOrderer.MethodName.class)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+//@TestInstance(TestInstance.Lifecycle.PER_CLASS) // Allows non-static @BeforeAll
 public class BookingServiceTest {
-    @Autowired
-    private BookingService service;
 
     @Autowired
-    private static ClientService clientService;
+    private BookingService bookingService;
 
     @Autowired
-    private static ServiceProviderService serviceProviderService;
+    private ClientService clientService;
 
-    private static Booking booking;
+    @Autowired
+    private ServiceProviderService serviceProviderService;
+
+    static Booking booking;
 
     private static final Client client = new Client.Builder()
             .setUserId("area001")
@@ -50,33 +50,28 @@ public class BookingServiceTest {
 
     private static final List<Review> reviews = new ArrayList<>();
 
+
+
     @BeforeAll
     static void setUp() {
-        // Ensure dependencies exist in DB
-        if (clientService.read(client.getUserId()) == null) {
-            clientService.create(client);
-        }
-        if (serviceProviderService.read(provider.getUserId()) == null) {
-            serviceProviderService.create(provider);
-        }
-
-        booking = BookingFactory.createBooking(
-                "B001",
-                new Date(),
-                "Confirmed",
-                "Initial booking for service",
-                client,
-                provider,
-                reviews
+        // Create the test object using a factory or builder
+        booking = BookingFactory.createBooking( "B001", 2025-04-12, "Pending","Customer requested morning service", client , provider , new ArrayList<>()
         );
 
-        assertNotNull(booking, "Booking creation failed");
     }
+
+//    @BeforeEach
+//    void ensureDependenciesExist() {
+//        // If entity is not in DB, insert it
+//        if (service.read(entity.getId()) == null) {
+//            service.create(entity);
+//        }
+//    }
 
     @Test
     @Order(1)
     void a_create() {
-        Booking created = service.create(booking);
+        Booking created = bookingService.create(booking);
         assertNotNull(created);
         assertEquals(booking.getBookingId(), created.getBookingId());
         System.out.println("Created: " + created);
@@ -84,9 +79,8 @@ public class BookingServiceTest {
 
     @Test
     @Order(2)
-    @Transactional
     void b_read() {
-        Booking read = service.read(booking.getBookingId());
+        Booking read = bookingService.read(booking.getBookingId());
         assertNotNull(read);
         assertEquals(booking.getBookingId(), read.getBookingId());
         System.out.println("Read: " + read);
@@ -95,33 +89,31 @@ public class BookingServiceTest {
     @Test
     @Order(3)
     void c_update() {
-        Booking updated = new Booking.Builder()
+        Booking updatedBooking = new Booking.Builder()
                 .copy(booking)
-                .setBookingId(booking.getBookingId())
+                .setStatus("Confirmed")
                 .build();
 
-        Booking result = service.update(updated);
-        assertNotNull(result);
-        assertEquals(booking.getBookingId(), result.getBookingId());
-        System.out.println("Updated: " + result);
-
+        Booking updated = bookingService.update(updatedBooking);
+        assertNotNull(updated);
+        assertEquals("Confirmed", updated.getStatus());
+        System.out.println("Updated: " + updated);
     }
 
     @Test
     @Order(4)
     void d_delete() {
-        boolean deleted = service.delete(booking.getBookingId());
+        boolean deleted = bookingService.delete(booking.getBookingId());
         assertTrue(deleted);
-        System.out.println("Deleted booking with ID: " + booking.getBookingId());
+        System.out.println("Deleted entity with ID: " + booking.getBookingId());
     }
+
     @Test
     @Order(5)
-    @Transactional
     void e_getAll() {
-        List<Booking> allBookings = service.getAll();
+        List<Booking> allBookings = bookingService.getAll();
         assertNotNull(allBookings);
         assertFalse(allBookings.isEmpty());
         System.out.println("All bookings: " + allBookings);
     }
-
 }

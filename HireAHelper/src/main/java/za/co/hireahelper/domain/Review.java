@@ -84,6 +84,10 @@ public class Review {
                 '}';
     }
 
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
     public static class Builder {
         private String reviewId;
         private int rating;

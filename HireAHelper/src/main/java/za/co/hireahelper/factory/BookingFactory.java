@@ -8,12 +8,11 @@ package za.co.hireahelper.factory;
 import za.co.hireahelper.domain.*;
 import za.co.hireahelper.util.Helper;
 
-import java.util.Date;
 import java.util.List;
 
 public class BookingFactory {
 
-    public static Booking createBooking(String bookingId, Date serviceDate, String status, String notes,
+    public static Booking createBooking(String bookingId, int serviceDate, String status, String notes,
                                         Client client, ServiceProvider serviceProvider, List<Review> reviews) {
 
         // Validate inputs

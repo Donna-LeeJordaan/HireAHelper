@@ -15,7 +15,7 @@ import java.util.List;
 @Service
 public class BookingServiceImpl implements BookingService {
 
-    private final BookingRepository repository;
+    private  BookingRepository repository;
 
     @Autowired
     public BookingServiceImpl(BookingRepository repository) {
