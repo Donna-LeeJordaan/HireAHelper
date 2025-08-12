@@ -49,12 +49,12 @@ public class AreaServiceTest {
     void c_update() {
         Area updated = new Area.Builder()
                 .copy(area)
-                .setName("Athlone Updated")
+                .setName("Crawford")
                 .build();
 
         Area result = service.update(updated);
         assertNotNull(result);
-        assertEquals("Athlone Updated", result.getName());
+        assertEquals("Crawford", result.getName());
         System.out.println("Updated: " + result);
     }
 

@@ -68,7 +68,7 @@ class AdminControllerTest {
     void c_update() {
         Admin updatedAdmin = new Admin.Builder()
                 .copy(admin)
-                .setName("Santiago A. Updated")
+                .setName("S.Alvarez Updated")
                 .build();
 
         String url = BASE_URL + "/update";
@@ -76,7 +76,7 @@ class AdminControllerTest {
 
         ResponseEntity<Admin> response = this.restTemplate.getForEntity(BASE_URL + "/read/" + updatedAdmin.getUserId(), Admin.class);
         assertNotNull(response.getBody());
-        assertEquals("Santiago A. Updated", response.getBody().getName());
+        assertEquals("S.Alvarez Updated", response.getBody().getName());
         System.out.println("Updated Admin: " + response.getBody());
     }
 
