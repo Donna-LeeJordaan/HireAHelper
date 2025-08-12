@@ -5,108 +5,109 @@
 
 package za.co.hireahelper.controller;
 
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
-
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
-
-import za.co.hireahelper.domain.Booking;
-import za.co.hireahelper.domain.Client;
-import za.co.hireahelper.domain.ServiceProvider;
+import za.co.hireahelper.domain.*;
 import za.co.hireahelper.factory.BookingFactory;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
-
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TestMethodOrder(MethodOrderer.MethodName.class)
-public class BookingControllerTest {  // <-- changed here
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+public class BookingControllerTest {
 
     private static Booking booking;
 
     @Autowired
     private TestRestTemplate restTemplate;
 
-    private final String BASE_URL = "/booking";
-
-    // Minimal placeholders for dependent entities
-    private static Client client;
-    private static ServiceProvider serviceProvider;
+    private final String BASE_URL = "http://localhost:8080/HireAHelper/booking";
 
     @BeforeAll
-    static void setUp() {
-        // Create minimal stub Client and ServiceProvider objects
-        client = new Client.Builder()
-                .setUserId("client001")
+    static void setup() {
+        // Create minimal stub objects assuming they already exist in DB
+        Area area = new Area.Builder()
+                .setAreaId("area001")
+                .setName("Athlone")
                 .build();
 
-        serviceProvider = new ServiceProvider.Builder()
-                .setUserId("sp001")
+        Client client = new Client.Builder()
+                .setUserId("user001")
+                .setName("Amina")
+                .setEmail("amina@example.com")
+                .setArea(area)
+                .build();
+
+        ServiceProvider serviceProvider = new ServiceProvider.Builder()
+                .setUserId("user007")
+                .setName("Tauriq")
+                .setEmail("tauriq@gmail.com")
+                .setArea(area)
                 .build();
 
         booking = BookingFactory.createBooking(
                 "booking001",
-                LocalDate.of(2025, 4, 12),  // April 12, 2025
+                LocalDate.of(2025, 4, 12),
                 "Scheduled",
-                "Initial booking notes",
+                "Customer requested morning service",
                 client,
                 serviceProvider,
-                new ArrayList<>() );
-
-
-        assertNotNull(booking); // sanity check
+                new ArrayList<>()
+        );
     }
 
     @Test
-    void a_create() {
-        String url = BASE_URL + "/create";
-        ResponseEntity<Booking> response = restTemplate.postForEntity(url, booking, Booking.class);
+    @Order(1)
+    void testCreate() {
+        ResponseEntity<Booking> response = restTemplate.postForEntity(BASE_URL + "/create", booking, Booking.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
-        System.out.println("Created: " + response.getBody());
+        assertEquals(booking.getBookingId(), response.getBody().getBookingId());
+        booking = response.getBody(); // update booking with persisted version
+        System.out.println("Created Booking: " + booking);
     }
 
     @Test
-    void b_read() {
-        String url = BASE_URL + "/read/" + booking.getBookingId();
-        ResponseEntity<Booking> response = restTemplate.getForEntity(url, Booking.class);
+    @Order(2)
+    void testRead() {
+        ResponseEntity<Booking> response = restTemplate.getForEntity(BASE_URL + "/read/" + booking.getBookingId(), Booking.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
-        System.out.println("Read: " + response.getBody());
+        assertEquals(booking.getBookingId(), response.getBody().getBookingId());
+        System.out.println("Read Booking: " + response.getBody());
     }
 
     @Test
-    void c_update() {
-        String url = BASE_URL + "/update";
-
-        Booking updated = new Booking.Builder()
+    @Order(3)
+    void testUpdate() {
+        Booking updatedBooking = new Booking.Builder()
                 .copy(booking)
-                .setStatus("Completed")
-                .setNotes("Booking completed successfully")
+                .setStatus("Confirmed")
+                .setNotes("Booking confirmed")
                 .build();
 
-        HttpEntity<Booking> requestEntity = new HttpEntity<>(updated);
-        ResponseEntity<Booking> response = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, Booking.class);
+        HttpEntity<Booking> request = new HttpEntity<>(updatedBooking);
+        ResponseEntity<Booking> response = restTemplate.exchange(BASE_URL + "/update", HttpMethod.PUT, request, Booking.class);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
-        System.out.println("Updated: " + response.getBody());
+        assertEquals("Confirmed", response.getBody().getStatus());
+
+        booking = response.getBody();
+        System.out.println("Updated Booking: " + booking);
     }
 
     @Test
-    void d_getAll() {
-        String url = BASE_URL + "/all";
-        ResponseEntity<Booking[]> response = restTemplate.getForEntity(url, Booking[].class);
+    @Order(4)
+    void testGetAll() {
+        ResponseEntity<Booking[]> response = restTemplate.getForEntity(BASE_URL + "/all", Booking[].class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
+        assertTrue(response.getBody().length > 0);
         System.out.println("All Bookings:");
         for (Booking b : response.getBody()) {
             System.out.println(b);
@@ -114,9 +115,12 @@ public class BookingControllerTest {  // <-- changed here
     }
 
     @Test
-    void e_delete() {
-        String url = BASE_URL + "/delete/" + booking.getBookingId();
-        restTemplate.delete(url);
+    @Order(5)
+    void testDelete() {
+        restTemplate.delete(BASE_URL + "/delete/" + booking.getBookingId());
+
+        ResponseEntity<Booking> response = restTemplate.getForEntity(BASE_URL + "/read/" + booking.getBookingId(), Booking.class);
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
         System.out.println("Deleted Booking with ID: " + booking.getBookingId());
     }
 }

@@ -7,7 +7,6 @@ package za.co.hireahelper.factory;
 
 import za.co.hireahelper.domain.*;
 import za.co.hireahelper.util.Helper;
-
 import java.time.LocalDate;
 import java.util.List;
 

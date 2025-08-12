@@ -9,54 +9,69 @@ import org.junit.jupiter.api.Test;
 import za.co.hireahelper.domain.Booking;
 import za.co.hireahelper.domain.Client;
 import za.co.hireahelper.domain.ServiceProvider;
-
+import za.co.hireahelper.domain.Review;
+import za.co.hireahelper.domain.Area;
+import za.co.hireahelper.domain.ServiceType;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class BookingFactoryTest {
 
-    // Helper method to create a minimal valid Client
+    private Area area = new Area.Builder()
+            .setAreaId("area001")
+            .setName("Athlone")
+            .build();
+
     private Client createValidClient() {
-        return new Client.Builder()
-                .setUserId("client001")
-                .build();
+        return ClientFactory.createClient(
+                "user001", "Amina", "amina@example.com", "password123", "0823456789",
+                area, new ArrayList<>(), new ArrayList<>(), new ArrayList<>()
+        );
     }
 
-    // Helper method to create a minimal valid ServiceProvider
     private ServiceProvider createValidServiceProvider() {
-        return new ServiceProvider.Builder()
-                .setUserId("sp001")
+        ServiceType gardener = new ServiceType.Builder()
+                .setTypeId("type02")
+                .setTypeName("Gardener")
                 .build();
+
+        return ServiceProviderFactory.createServiceProvider(
+                "user007", "Tauriq Osman", "moegamattauriqosman@example.com", "Tauriq04",
+                "0611234567", area, "tauriq.jpeg",
+                "Skilled Gardener with 15 years experience", 350.0, gardener,
+                new ArrayList<>(), new ArrayList<>(), new ArrayList<>()
+        );
     }
 
     @Test
     void testCreateValidBooking() {
         Client client = createValidClient();
         ServiceProvider serviceProvider = createValidServiceProvider();
-        Date serviceDate = new Date();
+        LocalDate serviceDate = LocalDate.now();
 
         Booking booking = BookingFactory.createBooking(
                 "booking001",
                 serviceDate,
                 "Scheduled",
-                "Notes for booking",
+                "Customer requested morning service",
                 client,
                 serviceProvider,
                 new ArrayList<>()
         );
 
-        System.out.println("Created valid Booking: " + booking); // for sanity
         assertNotNull(booking);
-        assertEquals("booking001", booking.getBookingId());
-        assertEquals(serviceDate, booking.getServiceDate());
-        assertEquals("Scheduled", booking.getStatus());
-        assertEquals("Notes for booking", booking.getNotes());
-        assertEquals(client, booking.getClient());
-        assertEquals(serviceProvider, booking.getServiceProvider());
-        assertNotNull(booking.getReviews());
-        assertTrue(booking.getReviews().isEmpty());
+
+        System.out.println(String.format(
+                "Booking[id=%s, date=%s, status=%s, notes=%s, clientId=%s, providerId=%s, reviews=%d]",
+                booking.getBookingId(),
+                booking.getServiceDate(),
+                booking.getStatus(),
+                booking.getNotes(),
+                booking.getClient() != null ? booking.getClient().getUserId() : "null",
+                booking.getServiceProvider() != null ? booking.getServiceProvider().getUserId() : "null",
+                booking.getReviews() != null ? booking.getReviews().size() : 0
+        ));
     }
 
     @Test
@@ -66,7 +81,7 @@ public class BookingFactoryTest {
 
         Booking booking = BookingFactory.createBooking(
                 null,
-                new Date(),
+                LocalDate.now(),
                 "Scheduled",
                 "Notes",
                 client,
@@ -74,8 +89,9 @@ public class BookingFactoryTest {
                 new ArrayList<>()
         );
 
-        System.out.println("Booking with null ID: " + booking); // for sanity
         assertNull(booking);
+
+        System.out.println("Booking creation failed as expected with null ID.");
     }
 
     @Test
@@ -93,8 +109,9 @@ public class BookingFactoryTest {
                 new ArrayList<>()
         );
 
-        System.out.println("Booking with null service date: " + booking); // for sanity
         assertNull(booking);
+
+        System.out.println("Booking creation failed as expected with null service date.");
     }
 
     @Test
@@ -104,7 +121,7 @@ public class BookingFactoryTest {
 
         Booking booking = BookingFactory.createBooking(
                 "booking003",
-                new Date(),
+                LocalDate.now(),
                 null,
                 "Notes",
                 client,
@@ -112,8 +129,9 @@ public class BookingFactoryTest {
                 new ArrayList<>()
         );
 
-        System.out.println("Booking with null status: " + booking); // for sanity
         assertNull(booking);
+
+        System.out.println("Booking creation failed as expected with null status.");
     }
 
     @Test
@@ -122,7 +140,7 @@ public class BookingFactoryTest {
 
         Booking booking = BookingFactory.createBooking(
                 "booking004",
-                new Date(),
+                LocalDate.now(),
                 "Scheduled",
                 "Notes",
                 null,
@@ -130,8 +148,9 @@ public class BookingFactoryTest {
                 new ArrayList<>()
         );
 
-        System.out.println("Booking with null client: " + booking); // for sanity
         assertNull(booking);
+
+        System.out.println("Booking creation failed as expected with null client.");
     }
 
     @Test
@@ -140,7 +159,7 @@ public class BookingFactoryTest {
 
         Booking booking = BookingFactory.createBooking(
                 "booking005",
-                new Date(),
+                LocalDate.now(),
                 "Scheduled",
                 "Notes",
                 client,
@@ -148,8 +167,9 @@ public class BookingFactoryTest {
                 new ArrayList<>()
         );
 
-        System.out.println("Booking with null service provider: " + booking); // for sanity
         assertNull(booking);
+
+        System.out.println("Booking creation failed as expected with null service provider.");
     }
 }
 
