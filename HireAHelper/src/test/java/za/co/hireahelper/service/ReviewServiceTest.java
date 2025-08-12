@@ -55,8 +55,8 @@ public class ReviewServiceTest {
     void setUp() {
         review = ReviewFactory.createReview(
                 "R001",
-                "Excellent service!",
                 5,
+                "Excellent service!",
                 client,
                 provider,
                 booking

@@ -20,6 +20,7 @@ import za.co.hireahelper.domain.Client;
 import za.co.hireahelper.domain.ServiceProvider;
 import za.co.hireahelper.factory.BookingFactory;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -53,13 +54,13 @@ public class BookingControllerTest {  // <-- changed here
 
         booking = BookingFactory.createBooking(
                 "booking001",
-                new Date(),           // serviceDate = now
+                LocalDate.of(2025, 4, 12),  // April 12, 2025
                 "Scheduled",
                 "Initial booking notes",
                 client,
                 serviceProvider,
-                new ArrayList<>()     // empty reviews list
-        );
+                new ArrayList<>() );
+
 
         assertNotNull(booking); // sanity check
     }
