@@ -24,8 +24,8 @@ public class ServiceProviderFactoryTest {
             .setName("Athlone")
             .build();
 
-    private static  ServiceType gardener = new ServiceType.Builder().setTypeId("type03").setTypeName("Gardener").build();
-    private static  ServiceType painter = new ServiceType.Builder().setTypeId("type02").setTypeName("Painter").build();
+    private static  ServiceType gardener = new ServiceType.Builder().setTypeId("type03").setTypeName("Painter").build();
+    private static  ServiceType painter = new ServiceType.Builder().setTypeId("type02").setTypeName("Gardner").build();
     private static  ServiceType plumber = new ServiceType.Builder().setTypeId("type01").setTypeName("Plumbing").build();
 
 
