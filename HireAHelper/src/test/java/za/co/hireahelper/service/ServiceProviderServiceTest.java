@@ -37,23 +37,13 @@ public class ServiceProviderServiceTest {
             .build();
 
     private static final ServiceType serviceType = new ServiceType.Builder()
-            .setTypeId("ST001")
+            .setTypeId("type01")
             .setTypeName("Plumbing")
             .build();
 
     private static final List<Booking> bookings = new ArrayList<>();
     private static final List<Message> messages = new ArrayList<>();
     private static final List<Review> reviews = new ArrayList<>();
-
-    @BeforeAll
-    public static void setUp() {
-        serviceProvider = ServiceProviderFactory.createServiceProvider(
-                "user007", "Tauriq", "tauriq@gmail.com",
-                "tauriq01", "0677754479", area,
-                "tauriq.jpeg", "Plumber with 15 years experience",
-                600.0, serviceType, bookings, messages, reviews);
-        assertNotNull(serviceProvider, "Service Provider creation failed");
-    }
 
     @BeforeEach
     public void setupDependencies() {
@@ -63,6 +53,16 @@ public class ServiceProviderServiceTest {
         if (serviceTypeService.read(serviceType.getTypeId()) == null) {
             serviceTypeService.create(serviceType);
         }
+    }
+
+    @BeforeAll
+    public static void setUp() {
+        serviceProvider = ServiceProviderFactory.createServiceProvider(
+                "user007", "Tauriq", "tauriq@example.com",
+                "tauriq01", "0677754479", area,
+                "tauriq.jpeg", "Plumber with 15 years experience",
+                600.0, serviceType, bookings, messages, reviews);
+        assertNotNull(serviceProvider, "Service Provider creation failed");
     }
 
             @Test
