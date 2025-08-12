@@ -38,10 +38,10 @@ class AdminServiceTest {
         areaRepository.save(area);
 
         admin = AdminFactory.createAdmin(
-                "admin123",
-                "Fatima Patel",
-                "fatima.patel@example.com",
-                "securePass123",
+                "admin001",
+                "Santiago Alvarez",
+                "s.alvarez@example.com",
+                "pass1234",
                 "0712345678",
                 area
         );
@@ -67,7 +67,7 @@ class AdminServiceTest {
     void d_update() {
         Admin updatedAdmin = new Admin.Builder()
                 .copy(admin)
-                .setName("Fatima P. Updated")
+                .setName("S.Alvarez Updated")
                 .build();
 
         System.out.println("Updating Admin with new name: " + updatedAdmin.getName());

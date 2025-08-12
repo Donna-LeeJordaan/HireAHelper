@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import za.co.hireahelper.domain.ServiceType;
 import za.co.hireahelper.factory.ServiceTypeFactory;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
