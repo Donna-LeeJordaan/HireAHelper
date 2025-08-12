@@ -5,10 +5,7 @@
 
 package za.co.hireahelper.factory;
 
-import za.co.hireahelper.domain.Booking;
-import za.co.hireahelper.domain.Client;
-import za.co.hireahelper.domain.Review;
-import za.co.hireahelper.domain.ServiceProvider;
+import za.co.hireahelper.domain.*;
 import za.co.hireahelper.util.Helper;
 
 import java.util.Date;
