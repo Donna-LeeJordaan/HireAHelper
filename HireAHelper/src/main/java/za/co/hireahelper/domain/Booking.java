@@ -1,14 +1,7 @@
-/* Booking.java
-   Author: Donna-Lee Jordaan (230613152)
-   Date: 25 July 2025 / modified 11 August 2025
-*/
-
 package za.co.hireahelper.domain;
 
 import jakarta.persistence.*;
-
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -17,8 +10,7 @@ public class Booking {
     @Id
     private String bookingId;
 
-    @Temporal(TemporalType.DATE)
-    private Date serviceDate;
+    private LocalDate serviceDate;  // Changed from Date to LocalDate (no @Temporal needed)
 
     private String status;
     private String notes;
@@ -46,11 +38,12 @@ public class Booking {
         this.reviews = builder.reviews;
     }
 
+    // Getters
     public String getBookingId() {
         return bookingId;
     }
 
-    public Date getServiceDate() {
+    public LocalDate getServiceDate() {  // Changed return type from Date to LocalDate
         return serviceDate;
     }
 
@@ -88,7 +81,7 @@ public class Booking {
 
     public static class Builder {
         private String bookingId;
-        private Date serviceDate;
+        private LocalDate serviceDate;  // Changed from Date to LocalDate
         private String status;
         private String notes;
         private Client client;
