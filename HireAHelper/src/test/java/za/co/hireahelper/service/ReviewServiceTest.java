@@ -2,12 +2,13 @@
    Author: Donna-Lee Jordaan (230613152)
    Date: 25 July 2025 / modified 12 August 2025
 */
-//package za.co.hireahelper.service;
+package za.co.hireahelper.service;
 
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import za.co.hireahelper.domain.Booking;
 import za.co.hireahelper.domain.Client;
 import za.co.hireahelper.domain.Review;
 import za.co.hireahelper.domain.ServiceProvider;
@@ -16,7 +17,6 @@ import za.co.hireahelper.factory.ReviewFactory;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static za.co.hireahelper.service.BookingServiceTest.booking;
 
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.MethodName.class)
@@ -48,14 +48,15 @@ public class ReviewServiceTest {
             .build();
 
     private static Review review;
+    private Booking booking;
 
 
     @BeforeAll
     void setUp() {
         review = ReviewFactory.createReview(
                 "R001",
+                "Excellent service!",
                 5,
-                "Excellent services!",
                 client,
                 provider,
                 booking

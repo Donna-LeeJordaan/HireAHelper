@@ -6,6 +6,8 @@
 package za.co.hireahelper.domain;
 
 import jakarta.persistence.*;
+
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -98,7 +100,7 @@ public class Booking {
             return this;
         }
 
-        public Builder setServiceDate(Date serviceDate) {
+        public Builder setServiceDate(LocalDate serviceDate) {
             this.serviceDate = serviceDate;
             return this;
         }

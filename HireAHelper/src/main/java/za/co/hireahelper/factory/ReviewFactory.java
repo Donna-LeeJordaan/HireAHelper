@@ -16,7 +16,7 @@ public class ReviewFactory {
                                       Client client, ServiceProvider serviceProvider, Booking booking) {
 
         if (Helper.isNullOrEmpty(reviewId) || rating < 1 || rating > 5 ||
-                Helper.isNullOrEmpty(comment) || client == null ||
+                Helper.isNullOrEmpty(String.valueOf(comment)) || client == null ||
                 serviceProvider == null || booking == null) {
             return null;
         }
