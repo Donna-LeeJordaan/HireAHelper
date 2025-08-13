@@ -9,9 +9,7 @@ import za.co.hireahelper.domain.Admin;
 import za.co.hireahelper.domain.Area;
 import za.co.hireahelper.factory.AdminFactory;
 import za.co.hireahelper.repository.AreaRepository;
-
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest

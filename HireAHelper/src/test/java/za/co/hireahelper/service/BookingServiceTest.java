@@ -1,51 +1,87 @@
-/* BookingFactory.java
-   Author: Donna-Lee Jordaan (230613152)
-   Date: 25 July 2025 / modified 11 August 2025
-*/
-
+/*
+ * BookingServiceTest.java
+ * Author: S Hendricks (221095136)
+ * Date: 12 April 2025
+ */
 
 package za.co.hireahelper.service;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import za.co.hireahelper.domain.*;
 import za.co.hireahelper.factory.BookingFactory;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@TestMethodOrder(MethodOrderer.MethodName.class)
-public class BookingServiceTest {
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+class BookingServiceTest {
 
     @Autowired
     private BookingService bookingService;
 
-    private static Booking booking;
+    @Autowired
+    private ClientService clientService;
 
-    @BeforeAll
-    public static void setUp() {
-        Area genericArea = new Area.Builder()
+    @Autowired
+    private ServiceProviderService providerService;
+
+    @Autowired
+    private AreaService areaService;
+
+    @Autowired
+    private ServiceTypeService serviceTypeService;  // <-- added
+
+    private Booking booking;
+    private Client client;
+    private ServiceProvider provider;
+    private Area area;
+
+    @BeforeEach
+    public void setUp() {
+        // Persist Area
+        area = new Area.Builder()
                 .setAreaId("area001")
                 .setName("Athlone")
                 .build();
+        areaService.create(area);
 
-        Client client = new Client.Builder()
+        // Persist ServiceType
+        ServiceType gardener = new ServiceType.Builder()
+                .setTypeId("type02")
+                .setTypeName("Gardener")
+                .build();
+        serviceTypeService.create(gardener);
+
+        // Persist Client
+        client = new Client.Builder()
                 .setUserId("user001")
                 .setName("Amina")
                 .setEmail("amina@example.com")
-                .setArea(genericArea)
+                .setArea(area)
                 .build();
+        clientService.create(client);
 
-        ServiceProvider provider = new ServiceProvider.Builder()
+        // Persist ServiceProvider with serviceType
+        provider = new ServiceProvider.Builder()
                 .setUserId("user007")
                 .setName("Tauriq")
                 .setEmail("tauriq@gmail.com")
-                .setArea(genericArea)
+                .setArea(area)
+                .setServiceType(gardener)  // required
                 .build();
+        providerService.create(provider);
 
+        // Create Booking
         booking = BookingFactory.createBooking(
                 "booking001",
                 LocalDate.of(2025, 4, 12),
@@ -56,39 +92,43 @@ public class BookingServiceTest {
                 new ArrayList<>()
         );
 
-        assertNotNull(booking, "Booking creation failed in setup");
+        assertNotNull(booking, "BookingFactory returned null — check input entities");
     }
 
     @Test
-    public void a_create() {
-        Booking created = bookingService.create(booking);
-        assertNotNull(created);
-        System.out.println("Created Booking: " + created);
+    @Order(1)
+    void testCreateBooking() {
+        Booking savedBooking = bookingService.create(booking);
+        assertNotNull(savedBooking);
+        assertEquals("booking001", savedBooking.getBookingId());
+        System.out.println("Created Booking: " + savedBooking);
     }
 
     @Test
-    public void b_read() {
-        Booking read = bookingService.read(booking.getBookingId());
-        assertNotNull(read);
-        assertEquals("booking001", read.getBookingId());
-        System.out.println("Read Booking: " + read);
+    @Order(2)
+    void testReadBooking() {
+        Booking readBooking = bookingService.read("booking001");
+        assertNotNull(readBooking);
+        assertEquals("booking001", readBooking.getBookingId());
+        System.out.println("Read Booking: " + readBooking);
     }
 
     @Test
-    public void c_update() {
+    @Order(3)
+    void testUpdateBooking() {
         Booking updatedBooking = new Booking.Builder()
                 .copy(booking)
-                .setStatus("Confirmed")
+                .setStatus("Completed")
                 .build();
-
-        Booking updated = bookingService.update(updatedBooking);
-        assertNotNull(updated);
-        assertEquals("Confirmed", updated.getStatus());
-        System.out.println("Updated Booking: " + updated);
+        Booking result = bookingService.update(updatedBooking);
+        assertNotNull(result);
+        assertEquals("Completed", result.getStatus());
+        System.out.println("Updated Booking: " + result);
     }
 
     @Test
-    public void d_getAll() {
+    @Order(4)
+    void testGetAllBookings() {
         List<Booking> allBookings = bookingService.getAll();
         assertNotNull(allBookings);
         assertFalse(allBookings.isEmpty());
@@ -96,12 +136,12 @@ public class BookingServiceTest {
     }
 
     @Test
-    public void e_delete() {
-        boolean deleted = bookingService.delete(booking.getBookingId());
+    @Order(5)
+    void testDeleteBooking() {
+        boolean deleted = bookingService.delete("booking001");
         assertTrue(deleted);
-        System.out.println("Deleted Booking ID: " + booking.getBookingId());
+        Booking deletedBooking = bookingService.read("booking001");
+        assertNull(deletedBooking);
+        System.out.println("Deleted Booking ID: booking001");
     }
 }
-
-
-
