@@ -7,6 +7,7 @@ package za.co.hireahelper.domain;
 
 import jakarta.persistence.*;
 import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 public class Review {

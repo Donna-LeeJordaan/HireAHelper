@@ -8,6 +8,7 @@ package za.co.hireahelper.domain;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 public class Booking {
@@ -15,7 +16,7 @@ public class Booking {
     @Id
     private String bookingId;
 
-    private LocalDate serviceDate;  // Changed from Date to LocalDate (no @Temporal needed)
+    private LocalDate serviceDate;
 
     private String status;
     private String notes;
@@ -86,7 +87,7 @@ public class Booking {
 
     public static class Builder {
         private String bookingId;
-        private LocalDate serviceDate;  // Changed from Date to LocalDate
+        private LocalDate serviceDate;
         private String status;
         private String notes;
         private Client client;
