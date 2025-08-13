@@ -8,7 +8,6 @@ package za.co.hireahelper.domain;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 public class Booking {
