@@ -17,7 +17,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class BookingControllerTest {
 
@@ -63,7 +63,7 @@ public class BookingControllerTest {
 
     @Test
     @Order(1)
-    void testCreate() {
+    void a_create() {
         ResponseEntity<Booking> response = restTemplate.postForEntity(BASE_URL + "/create", booking, Booking.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
@@ -74,7 +74,7 @@ public class BookingControllerTest {
 
     @Test
     @Order(2)
-    void testRead() {
+    void b_read() {
         ResponseEntity<Booking> response = restTemplate.getForEntity(BASE_URL + "/read/" + booking.getBookingId(), Booking.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
@@ -84,7 +84,7 @@ public class BookingControllerTest {
 
     @Test
     @Order(3)
-    void testUpdate() {
+    void c_update() {
         Booking updatedBooking = new Booking.Builder()
                 .copy(booking)
                 .setStatus("Confirmed")
@@ -104,7 +104,7 @@ public class BookingControllerTest {
 
     @Test
     @Order(4)
-    void testGetAll() {
+    void d_getAll() {
         ResponseEntity<Booking[]> response = restTemplate.getForEntity(BASE_URL + "/all", Booking[].class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
@@ -117,7 +117,7 @@ public class BookingControllerTest {
 
     @Test
     @Order(5)
-    void testDelete() {
+    void e_delete() {
         restTemplate.delete(BASE_URL + "/delete/" + booking.getBookingId());
 
         ResponseEntity<Booking> response = restTemplate.getForEntity(BASE_URL + "/read/" + booking.getBookingId(), Booking.class);

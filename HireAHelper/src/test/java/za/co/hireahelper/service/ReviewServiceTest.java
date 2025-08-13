@@ -1,21 +1,15 @@
 /* ReviewServiceTest.java
    Author: Donna-Lee Jordaan (230613152)
-   Date: 25 July 2025 / modified 12 August 2025
+   Date: 12 August 2025
 */
 package za.co.hireahelper.service;
 
-import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import za.co.hireahelper.domain.Booking;
-import za.co.hireahelper.domain.Client;
-import za.co.hireahelper.domain.Review;
-import za.co.hireahelper.domain.ServiceProvider;
+import za.co.hireahelper.domain.*;
 import za.co.hireahelper.factory.ReviewFactory;
-
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -35,24 +29,38 @@ public class ReviewServiceTest {
     @Autowired
     private BookingService bookingService;
 
-    private static final Client client = new Client.Builder()
-            .setUserId("area001")
-            .setName("Amina")
-            .setEmail("amina@example.com")
-            .build();
-
-    private static final ServiceProvider provider = new ServiceProvider.Builder()
-            .setUserId("user007")
-            .setName("Tauriq")
-            .setEmail("tauriq@gmail.com")
-            .build();
-
     private static Review review;
-    private Booking booking;
-
+    private static Client client;
+    private static ServiceProvider provider;
+    private static Booking booking;
 
     @BeforeAll
-    void setUp() {
+    public static void setUp() {
+        Area genericArea = new Area.Builder()
+                .setAreaId("area001")
+                .setName("Athlone")
+                .build();
+
+        client = new Client.Builder()
+                .setUserId("user001")
+                .setName("Amina")
+                .setEmail("amina@example.com")
+                .setArea(genericArea)
+                .build();
+
+        provider = new ServiceProvider.Builder()
+                .setUserId("user007")
+                .setName("Tauriq")
+                .setEmail("tauriq@gmail.com")
+                .setArea(genericArea)
+                .build();
+
+        booking = new Booking.Builder()
+                .setBookingId("booking001")
+                .setClient(client)
+                .setServiceProvider(provider)
+                .build();
+
         review = ReviewFactory.createReview(
                 "R001",
                 5,
@@ -60,71 +68,65 @@ public class ReviewServiceTest {
                 client,
                 provider,
                 booking
-
         );
-    }
 
-//    @BeforeEach
-//    void setupDependencies() {
-//        if (clientService.read(client.getUserId()) == null) {
-//            clientService.create(client);
-//        }
-//        if (serviceProviderService.read(provider.getUserId()) == null) {
-//            serviceProviderService.create(provider);
-//        }
-//        if (bookingService.read(booking.getBookingId()) == null) {
-//            bookingService.create(booking);
-//        }
-//    }
+        assertNotNull(review, "Review creation failed in setup");
+    }
 
     @Test
     @Order(1)
     void a_create() {
+        // First ensure dependent entities exist
+        clientService.create(client);
+        serviceProviderService.create(provider);
+        bookingService.create(booking);
+
         Review created = reviewService.create(review);
         assertNotNull(created);
         assertEquals(review.getReviewId(), created.getReviewId());
-        System.out.println("Created: " + created);
+        System.out.println("Created Review: " + created);
     }
 
     @Test
     @Order(2)
-    @Transactional
     void b_read() {
         Review read = reviewService.read(review.getReviewId());
         assertNotNull(read);
-        assertEquals(review.getReviewId(), read.getReviewId());
-        System.out.println("Read: " + read);
+        assertEquals("R001", read.getReviewId());
+        assertEquals(5, read.getRating());
+        System.out.println("Read Review: " + read);
     }
 
     @Test
     @Order(3)
     void c_update() {
-        Review updated = new Review.Builder()
+        Review updatedReview = new Review.Builder()
                 .copy(review)
-                .setRating(4) // Example update
+                .setRating(4)
+                .setComment("Very good service")
                 .build();
 
-        Review result = reviewService.update(updated);
-        assertNotNull(result);
-        assertEquals(4, result.getRating());
-        System.out.println("Updated: " + result);
+        Review updated = reviewService.update(updatedReview);
+        assertNotNull(updated);
+        assertEquals(4, updated.getRating());
+        assertEquals("Very good service", updated.getComment());
+        System.out.println("Updated Review: " + updated);
     }
 
     @Test
     @Order(4)
-    void d_delete() {
-        boolean deleted = reviewService.delete(review.getReviewId());
-        assertTrue(deleted);
-        System.out.println("Deleted review with ID: " + review.getReviewId());
+    void d_getAll() {
+        List<Review> allReviews = reviewService.getAll();
+        assertNotNull(allReviews);
+        assertFalse(allReviews.isEmpty());
+        System.out.println("All Reviews: " + allReviews.size());
     }
 
     @Test
     @Order(5)
-    @Transactional
-    void e_getAll() {
-        List<Review> allReviews = reviewService.getAll();
-        assertNotNull(allReviews);
-        assertFalse(allReviews.isEmpty());
-        System.out.println("All reviews: " + allReviews);
+    void e_delete() {
+        boolean deleted = reviewService.delete(review.getReviewId());
+        assertTrue(deleted);
+        System.out.println("Deleted Review ID: " + review.getReviewId());
     }
 }
