@@ -6,6 +6,7 @@
 
 package za.co.hireahelper.factory;
 
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import za.co.hireahelper.domain.Booking;
 import za.co.hireahelper.domain.Client;
@@ -96,6 +97,7 @@ public class BookingFactoryTest {
     }
 
     @Test
+    @Order(1)
     void testCreateBookingWithNullServiceDate() {
         Client client = createValidClient();
         ServiceProvider serviceProvider = createValidServiceProvider();
@@ -116,6 +118,7 @@ public class BookingFactoryTest {
     }
 
     @Test
+    @Order(2)
     void testCreateBookingWithNullStatus() {
         Client client = createValidClient();
         ServiceProvider serviceProvider = createValidServiceProvider();
@@ -136,6 +139,7 @@ public class BookingFactoryTest {
     }
 
     @Test
+    @Order(3)
     void testCreateBookingWithNullClient() {
         ServiceProvider serviceProvider = createValidServiceProvider();
 
@@ -155,6 +159,7 @@ public class BookingFactoryTest {
     }
 
     @Test
+    @Order(4)
     void testCreateBookingWithNullServiceProvider() {
         Client client = createValidClient();
 
