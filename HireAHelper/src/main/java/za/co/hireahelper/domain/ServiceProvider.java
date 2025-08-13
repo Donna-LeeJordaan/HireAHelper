@@ -7,8 +7,10 @@ package za.co.hireahelper.domain;
 
 import jakarta.persistence.*;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
+@JsonIgnoreProperties({"bookings", "messages", "reviews"}) //To prevent infinte looping due to bidirectional relationships
 public class ServiceProvider extends User {
 
     private String profileImage;

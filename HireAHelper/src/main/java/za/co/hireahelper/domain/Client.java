@@ -7,9 +7,11 @@ package za.co.hireahelper.domain;
 
 import jakarta.persistence.*;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Table(name = "clients")
 @Entity
+@JsonIgnoreProperties({"bookings", "messages", "reviews"})  //To prevent infinite looping due to bidirectional relationships
 public class Client extends User {
 
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

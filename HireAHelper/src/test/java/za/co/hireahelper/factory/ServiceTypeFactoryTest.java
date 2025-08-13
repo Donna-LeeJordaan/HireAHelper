@@ -13,7 +13,7 @@ public class ServiceTypeFactoryTest {
     @Test
     void testCreateValidServiceType() {
         ServiceType serviceType = ServiceTypeFactory.createServiceType("type01", "Plumbing");
-        System.out.println("Created valid ServiceType: " + serviceType); // for Sanity
+        System.out.println("Created valid ServiceType: " + serviceType);
         assertNotNull(serviceType);
         assertEquals("type01", serviceType.getTypeId());
         assertEquals("Plumbing", serviceType.getTypeName());
@@ -22,14 +22,14 @@ public class ServiceTypeFactoryTest {
     @Test
     void testCreateServiceTypeWithNullId() {
         ServiceType serviceType = ServiceTypeFactory.createServiceType(null, "Electrician");
-        System.out.println("ServiceType with null ID: " + serviceType); // for Sanity
+        System.out.println("ServiceType with null ID: " + serviceType);
         assertNull(serviceType);
     }
 
     @Test
     void testCreateServiceTypeWithEmptyTypeName() {
         ServiceType serviceType = ServiceTypeFactory.createServiceType("type02", "");
-        System.out.println("ServiceType with empty type name: " + serviceType); // for Sanity
+        System.out.println("ServiceType with empty type name: " + serviceType);
         assertNull(serviceType);
     }
 }

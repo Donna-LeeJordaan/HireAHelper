@@ -15,11 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import za.co.hireahelper.domain.*;
 import za.co.hireahelper.factory.BookingFactory;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -48,21 +46,18 @@ class BookingServiceTest {
 
     @BeforeEach
     public void setUp() {
-        // Persist Area
         area = new Area.Builder()
                 .setAreaId("area001")
                 .setName("Athlone")
                 .build();
         areaService.create(area);
 
-        // Persist ServiceType
         ServiceType gardener = new ServiceType.Builder()
                 .setTypeId("type02")
                 .setTypeName("Gardener")
                 .build();
         serviceTypeService.create(gardener);
 
-        // Persist Client
         client = new Client.Builder()
                 .setUserId("user001")
                 .setName("Amina")
@@ -71,17 +66,15 @@ class BookingServiceTest {
                 .build();
         clientService.create(client);
 
-        // Persist ServiceProvider with serviceType
         provider = new ServiceProvider.Builder()
                 .setUserId("user007")
                 .setName("Tauriq")
                 .setEmail("tauriq@gmail.com")
                 .setArea(area)
-                .setServiceType(gardener)  // required
+                .setServiceType(gardener)
                 .build();
         providerService.create(provider);
 
-        // Create Booking
         booking = BookingFactory.createBooking(
                 "booking001",
                 LocalDate.of(2025, 4, 12),

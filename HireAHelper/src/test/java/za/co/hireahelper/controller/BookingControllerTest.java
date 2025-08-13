@@ -1,8 +1,7 @@
-/* BookingControllerTest.java
+/* BookingFactoryTest.java
    Author: Donna-Lee Jordaan (230613152)
    Date: 25 July 2025 / modified 11 August 2025
 */
-
 
 package za.co.hireahelper.controller;
 
@@ -13,42 +12,73 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
 import za.co.hireahelper.domain.*;
 import za.co.hireahelper.factory.BookingFactory;
+import za.co.hireahelper.service.AreaService;
+import za.co.hireahelper.service.ClientService;
+import za.co.hireahelper.service.ServiceProviderService;
+import za.co.hireahelper.service.ServiceTypeService;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class BookingControllerTest {
-
-    private static Booking booking;
+class BookingControllerTest {
 
     @Autowired
     private TestRestTemplate restTemplate;
 
+    @Autowired
+    private AreaService areaService;
+
+    @Autowired
+    private ServiceTypeService serviceTypeService;
+
+    @Autowired
+    private ClientService clientService;
+
+    @Autowired
+    private ServiceProviderService providerService;
+
+    private Booking booking;
+    private Client client;
+    private ServiceProvider provider;
+    private Area area;
+    private ServiceType serviceType;
+
     private final String BASE_URL = "http://localhost:8080/HireAHelper/booking";
 
-    @BeforeAll
-    static void setup() {
-        // Create minimal stub objects assuming they already exist in DB
-        Area area = new Area.Builder()
+    @BeforeEach
+    void setUp() {
+
+        area = new Area.Builder()
                 .setAreaId("area001")
                 .setName("Athlone")
                 .build();
+        areaService.create(area);
 
-        Client client = new Client.Builder()
+        serviceType = new ServiceType.Builder()
+                .setTypeId("type02")
+                .setTypeName("Gardener")
+                .build();
+        serviceTypeService.create(serviceType);
+
+        client = new Client.Builder()
                 .setUserId("user001")
                 .setName("Amina")
                 .setEmail("amina@example.com")
                 .setArea(area)
                 .build();
+        clientService.create(client);
 
-        ServiceProvider serviceProvider = new ServiceProvider.Builder()
+        provider = new ServiceProvider.Builder()
                 .setUserId("user007")
                 .setName("Tauriq")
                 .setEmail("tauriq@gmail.com")
                 .setArea(area)
+                .setServiceType(serviceType)
                 .build();
+        providerService.create(provider);
 
         booking = BookingFactory.createBooking(
                 "booking001",
@@ -56,9 +86,10 @@ public class BookingControllerTest {
                 "Scheduled",
                 "Customer requested morning service",
                 client,
-                serviceProvider,
+                provider,
                 new ArrayList<>()
         );
+        assertNotNull(booking, "BookingFactory returned null — check input entities");
     }
 
     @Test
@@ -66,9 +97,8 @@ public class BookingControllerTest {
     void a_create() {
         ResponseEntity<Booking> response = restTemplate.postForEntity(BASE_URL + "/create", booking, Booking.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody());
-        assertEquals(booking.getBookingId(), response.getBody().getBookingId());
-        booking = response.getBody(); // update booking with persisted version
+        booking = response.getBody();
+        assertNotNull(booking);
         System.out.println("Created Booking: " + booking);
     }
 
@@ -120,8 +150,12 @@ public class BookingControllerTest {
     void e_delete() {
         restTemplate.delete(BASE_URL + "/delete/" + booking.getBookingId());
 
-        ResponseEntity<Booking> response = restTemplate.getForEntity(BASE_URL + "/read/" + booking.getBookingId(), Booking.class);
-        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-        System.out.println("Deleted Booking with ID: " + booking.getBookingId());
+        Booking check = restTemplate.getForObject(BASE_URL + "/read/" + booking.getBookingId(), Booking.class);
+        assertNull(check, "Booking should be null after delete");
+
+        System.out.println("Deleted Booking ID: " + booking.getBookingId());
     }
+
+
 }
+

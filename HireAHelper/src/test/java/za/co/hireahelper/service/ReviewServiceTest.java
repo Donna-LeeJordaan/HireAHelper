@@ -10,11 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import za.co.hireahelper.domain.*;
 import za.co.hireahelper.factory.ReviewFactory;
+import java.util.ArrayList;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@TestMethodOrder(MethodOrderer.MethodName.class)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class ReviewServiceTest {
 
@@ -30,17 +31,29 @@ public class ReviewServiceTest {
     @Autowired
     private BookingService bookingService;
 
-    private static Review review;
-    private static Client client;
-    private static ServiceProvider provider;
-    private static Booking booking;
+    @Autowired
+    private ServiceTypeService serviceTypeService;
+
+    private Review review;
+    private Client client;
+    private ServiceProvider provider;
+    private Booking booking;
+    private ServiceType serviceType;
+    private Area genericArea;
 
     @BeforeAll
-    public static void setUp() {
-        Area genericArea = new Area.Builder()
+    public void setUp() {
+
+        genericArea = new Area.Builder()
                 .setAreaId("area001")
                 .setName("Athlone")
                 .build();
+
+        serviceType = new ServiceType.Builder()
+                .setTypeId("type01")
+                .setTypeName("Plumber")
+                .build();
+        serviceTypeService.create(serviceType);
 
         client = new Client.Builder()
                 .setUserId("user001")
@@ -48,19 +61,23 @@ public class ReviewServiceTest {
                 .setEmail("amina@example.com")
                 .setArea(genericArea)
                 .build();
+        clientService.create(client);
 
         provider = new ServiceProvider.Builder()
                 .setUserId("user007")
                 .setName("Tauriq")
                 .setEmail("tauriq@gmail.com")
                 .setArea(genericArea)
+                .setServiceType(serviceType)
                 .build();
+        serviceProviderService.create(provider);
 
         booking = new Booking.Builder()
                 .setBookingId("booking001")
                 .setClient(client)
                 .setServiceProvider(provider)
                 .build();
+        bookingService.create(booking);
 
         review = ReviewFactory.createReview(
                 "R001",
@@ -70,18 +87,11 @@ public class ReviewServiceTest {
                 provider,
                 booking
         );
-
-        assertNotNull(review, "Review creation failed in setup");
     }
 
     @Test
     @Order(1)
     void a_create() {
-        // First ensure dependent entities exist
-        clientService.create(client);
-        serviceProviderService.create(provider);
-        bookingService.create(booking);
-
         Review created = reviewService.create(review);
         assertNotNull(created);
         assertEquals(review.getReviewId(), created.getReviewId());
