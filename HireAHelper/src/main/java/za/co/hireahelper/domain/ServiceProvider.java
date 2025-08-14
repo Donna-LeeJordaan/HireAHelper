@@ -80,8 +80,8 @@ public class ServiceProvider extends User {
                 ", description='" + description + '\'' +
                 ", rate=R" + rate +
                 ", serviceType=" + getServiceType()  +
-                ", bookings=" + getBookings() +
-                ", messages=" + getMessages() +
+                ", bookings=" + (bookings != null ? bookings.size() : 0) +
+                ", messages=" + (messages != null ? messages.size() : 0) +
                 '}';
     }
 
