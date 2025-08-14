@@ -27,9 +27,6 @@ public class ServiceProvider extends User {
     @OneToMany(mappedBy = "serviceProvider", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Message> messages;
 
-    @OneToMany(mappedBy = "serviceProvider", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Review> reviews;
-
     protected ServiceProvider() {
         super();
     }
@@ -42,7 +39,6 @@ public class ServiceProvider extends User {
         this.serviceType = builder.serviceType;
         this.bookings = builder.bookings;
         this.messages = builder.messages;
-        this.reviews = builder.reviews;
     }
 
     public String getProfileImage() {
@@ -70,9 +66,6 @@ public class ServiceProvider extends User {
         return messages;
     }
 
-    public List<Review> getReviews() {
-        return reviews;
-    }
 
     @Override
     public String toString() {
@@ -89,7 +82,6 @@ public class ServiceProvider extends User {
                 ", serviceType=" + getServiceType()  +
                 ", bookings=" + getBookings() +
                 ", messages=" + getMessages() +
-                ", reviews=" + getReviews() +
                 '}';
     }
 
@@ -100,7 +92,6 @@ public class ServiceProvider extends User {
         private ServiceType serviceType;
         private List<Booking> bookings;
         private List<Message> messages;
-        private List<Review> reviews;
 
         public Builder setProfileImage(String profileImage) {
             this.profileImage = profileImage;
@@ -132,10 +123,6 @@ public class ServiceProvider extends User {
             return this;
         }
 
-        public Builder setReviews(List<Review> reviews) {
-            this.reviews = reviews;
-            return this;
-        }
 
         public Builder copy(ServiceProvider serviceProvider) {
             super.copy(serviceProvider);
@@ -145,7 +132,6 @@ public class ServiceProvider extends User {
             this.serviceType = serviceProvider.serviceType;
             this.bookings = serviceProvider.bookings;
             this.messages = serviceProvider.messages;
-            this.reviews = serviceProvider.reviews;
             return this;
         }
 

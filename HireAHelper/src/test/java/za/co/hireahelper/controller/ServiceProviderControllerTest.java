@@ -35,7 +35,6 @@ class ServiceProviderControllerTest {
 
         List<Booking> bookings = new ArrayList<>();
         List<Message> messages = new ArrayList<>();
-        List<Review> reviews = new ArrayList<>();
 
         Area area = new Area.Builder()
                 .setAreaId("area001")
@@ -59,8 +58,7 @@ class ServiceProviderControllerTest {
                 600.0,
                 serviceType,
                 bookings,
-                messages,
-                reviews
+                messages
         );
     }
 

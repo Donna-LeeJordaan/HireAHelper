@@ -10,7 +10,7 @@ import za.co.hireahelper.domain.Area;
 import za.co.hireahelper.domain.Booking;
 import za.co.hireahelper.domain.Client;
 import za.co.hireahelper.domain.Message;
-import za.co.hireahelper.domain.Review;
+
 import java.util.ArrayList;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
