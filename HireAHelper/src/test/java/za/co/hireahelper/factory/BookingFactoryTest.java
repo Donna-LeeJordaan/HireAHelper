@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import za.co.hireahelper.domain.Booking;
 import za.co.hireahelper.domain.Client;
 import za.co.hireahelper.domain.ServiceProvider;
-import za.co.hireahelper.domain.Review;
 import za.co.hireahelper.domain.Area;
 import za.co.hireahelper.domain.ServiceType;
 import java.time.LocalDate;
