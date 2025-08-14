@@ -19,7 +19,7 @@ class MessageFactoryTest {
 
     private static Client client = ClientFactory.createClient(
             "user001", "Amina", "amina@example.com", "password123", "0823456789",
-            genericArea, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+            genericArea, new ArrayList<>(), new ArrayList<>());
 
     private static ServiceType gardener = new ServiceType.Builder()
             .setTypeId("type02")
@@ -29,7 +29,7 @@ class MessageFactoryTest {
     private static ServiceProvider provider = ServiceProviderFactory.createServiceProvider(
             "user007", "Tauriq Osman", "moegamattauriqosman@gmail.com", "Tauriq04", "0611234567",
             genericArea, "tauriq.jpeg", "Skilled Gardener with 15 years experience", 350.0,
-            gardener, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+            gardener, new ArrayList<>(), new ArrayList<>());
 
     @Test
     void createMessage_ValidInput_ReturnsMessage() {

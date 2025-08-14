@@ -35,7 +35,6 @@ public class ClientServiceTest {
 
     private static final List bookings = new ArrayList<>();
     private static final List messages = new ArrayList<>();
-    private static final List reviews = new ArrayList<>();
 
     @BeforeAll
     public static void setUp() {
@@ -47,8 +46,7 @@ public class ClientServiceTest {
                 "0823456789",
                 genericArea,
                 bookings,
-                messages,
-                reviews
+                messages
         );
         assertNotNull(client, "Client creation failed in setup");
     }

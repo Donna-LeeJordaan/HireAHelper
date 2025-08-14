@@ -28,9 +28,6 @@ public class Booking {
     @JoinColumn(name = "service_provider_id", nullable = false)
     private ServiceProvider serviceProvider;
 
-    @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL)
-    private List<Review> reviews;
-
     protected Booking() {}
 
     private Booking(Builder builder) {
@@ -40,7 +37,6 @@ public class Booking {
         this.notes = builder.notes;
         this.client = builder.client;
         this.serviceProvider = builder.serviceProvider;
-        this.reviews = builder.reviews;
     }
 
     // Getters
@@ -68,10 +64,6 @@ public class Booking {
         return serviceProvider;
     }
 
-    public List<Review> getReviews() {
-        return reviews;
-    }
-
     @Override
     public String toString() {
         return "Booking{" +
@@ -91,7 +83,6 @@ public class Booking {
         private String notes;
         private Client client;
         private ServiceProvider serviceProvider;
-        private List<Review> reviews;
 
         public Builder setBookingId(String bookingId) {
             this.bookingId = bookingId;
@@ -123,11 +114,6 @@ public class Booking {
             return this;
         }
 
-        public Builder setReviews(List<Review> reviews) {
-            this.reviews = reviews;
-            return this;
-        }
-
         public Builder copy(Booking booking) {
             this.bookingId = booking.bookingId;
             this.serviceDate = booking.serviceDate;
@@ -135,7 +121,6 @@ public class Booking {
             this.notes = booking.notes;
             this.client = booking.client;
             this.serviceProvider = booking.serviceProvider;
-            this.reviews = booking.reviews;
             return this;
         }
 

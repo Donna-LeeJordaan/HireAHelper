@@ -26,7 +26,7 @@ public class BookingFactoryTest {
     private Client createValidClient() {
         return ClientFactory.createClient(
                 "user001", "Amina", "amina@example.com", "password123", "0823456789",
-                area, new ArrayList<>(), new ArrayList<>(), new ArrayList<>()
+                area, new ArrayList<>(), new ArrayList<>()
         );
     }
 
@@ -40,7 +40,7 @@ public class BookingFactoryTest {
                 "user007", "Tauriq Osman", "moegamattauriqosman@example.com", "Tauriq04",
                 "0611234567", area, "tauriq.jpeg",
                 "Skilled Gardener with 15 years experience", 350.0, gardener,
-                new ArrayList<>(), new ArrayList<>(), new ArrayList<>()
+                new ArrayList<>(), new ArrayList<>()
         );
     }
 
@@ -56,21 +56,19 @@ public class BookingFactoryTest {
                 "Scheduled",
                 "Customer requested morning service",
                 client,
-                serviceProvider,
-                new ArrayList<>()
+                serviceProvider
         );
 
         assertNotNull(booking);
 
         System.out.println(String.format(
-                "Booking[id=%s, date=%s, status=%s, notes=%s, clientId=%s, providerId=%s, reviews=%d]",
+                "Booking[id=%s, date=%s, status=%s, notes=%s, clientId=%s, providerId=%s]",
                 booking.getBookingId(),
                 booking.getServiceDate(),
                 booking.getStatus(),
                 booking.getNotes(),
                 booking.getClient() != null ? booking.getClient().getUserId() : "null",
-                booking.getServiceProvider() != null ? booking.getServiceProvider().getUserId() : "null",
-                booking.getReviews() != null ? booking.getReviews().size() : 0
+                booking.getServiceProvider() != null ? booking.getServiceProvider().getUserId() : "null"
         ));
     }
 
@@ -85,8 +83,7 @@ public class BookingFactoryTest {
                 "Scheduled",
                 "Notes",
                 client,
-                serviceProvider,
-                new ArrayList<>()
+                serviceProvider
         );
 
         assertNull(booking);
@@ -106,8 +103,7 @@ public class BookingFactoryTest {
                 "Scheduled",
                 "Notes",
                 client,
-                serviceProvider,
-                new ArrayList<>()
+                serviceProvider
         );
 
         assertNull(booking);
@@ -127,8 +123,7 @@ public class BookingFactoryTest {
                 null,
                 "Notes",
                 client,
-                serviceProvider,
-                new ArrayList<>()
+                serviceProvider
         );
 
         assertNull(booking);
@@ -147,8 +142,7 @@ public class BookingFactoryTest {
                 "Scheduled",
                 "Notes",
                 null,
-                serviceProvider,
-                new ArrayList<>()
+                serviceProvider
         );
 
         assertNull(booking);
@@ -167,8 +161,7 @@ public class BookingFactoryTest {
                 "Scheduled",
                 "Notes",
                 client,
-                null,
-                new ArrayList<>()
+                null
         );
 
         assertNull(booking);

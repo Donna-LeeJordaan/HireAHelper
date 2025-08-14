@@ -13,7 +13,7 @@ import java.util.List;
 public class BookingFactory {
 
     public static Booking createBooking(String bookingId, LocalDate serviceDate, String status, String notes,
-                                        Client client, ServiceProvider serviceProvider, List<Review> reviews) {
+                                        Client client, ServiceProvider serviceProvider) {
 
         // Validate inputs
         if (Helper.isNullOrEmpty(bookingId) || serviceDate == null ||
@@ -28,7 +28,6 @@ public class BookingFactory {
                 .setNotes(notes) // notes can be null or empty
                 .setClient(client)
                 .setServiceProvider(serviceProvider)
-                .setReviews(reviews)
                 .build();
     }
 }
