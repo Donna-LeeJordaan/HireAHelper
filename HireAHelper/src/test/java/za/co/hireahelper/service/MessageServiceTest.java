@@ -73,8 +73,7 @@ class MessageServiceTest {
                 "0823456789",
                 genericArea,
                 new ArrayList<>(),    // Passing empty lists for bookings, messages, and reviews
-                new ArrayList<>(),    // These represent related collections for the client/service provider
-                new ArrayList<>()     // Initializing them as empty prevents null errors when accessing these lists later
+                new ArrayList<>()    // Initializing them as empty prevents null errors when accessing these lists later
         );
         clientService.create(client);
 
@@ -89,7 +88,6 @@ class MessageServiceTest {
                 "Skilled Gardener with 15 years experience",
                 350.0,
                 gardener,
-                new ArrayList<>(),
                 new ArrayList<>(),
                 new ArrayList<>()
         );

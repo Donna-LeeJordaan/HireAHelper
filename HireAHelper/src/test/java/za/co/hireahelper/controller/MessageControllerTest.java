@@ -59,7 +59,6 @@ class MessageControllerTest {
                 "0823456789",
                 genericArea,
                 new ArrayList<>(),
-                new ArrayList<>(),
                 new ArrayList<>()
         );
         restTemplate.postForEntity(
@@ -79,7 +78,6 @@ class MessageControllerTest {
                 "Skilled Gardener with 15 years experience",
                 350.0,
                 gardener,
-                new ArrayList<>(),
                 new ArrayList<>(),
                 new ArrayList<>()
         );

@@ -81,8 +81,7 @@ class BookingServiceTest {
                 "Scheduled",
                 "Customer requested morning service",
                 client,
-                provider,
-                new ArrayList<>()
+                provider
         );
 
         assertNotNull(booking, "BookingFactory returned null — check input entities");

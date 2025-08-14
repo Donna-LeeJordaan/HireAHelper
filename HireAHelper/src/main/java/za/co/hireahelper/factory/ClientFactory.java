@@ -13,11 +13,11 @@ public class ClientFactory {
 
     public static Client createClient(String userId, String name, String email, String password, String mobileNumber,
                                       Area area,
-                                      List<Booking> bookings, List<Message> messages, List<Review> reviews) {
+                                      List<Booking> bookings, List<Message> messages) {
 
         if (Helper.isNullOrEmpty(userId) || Helper.isNullOrEmpty(name) || Helper.isNullOrEmpty(email)
                 || Helper.isNullOrEmpty(password) || Helper.isNullOrEmpty(mobileNumber)
-                || area == null || bookings == null || messages == null || reviews == null) {
+                || area == null || bookings == null || messages == null) {
             return null;
         }
 
@@ -38,7 +38,6 @@ public class ClientFactory {
                 .setArea(area)
                 .setBookings(bookings)
                 .setMessages(messages)
-                .setReviews(reviews)
                 .build();
     }
 }

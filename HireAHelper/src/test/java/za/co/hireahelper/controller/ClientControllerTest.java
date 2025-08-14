@@ -31,7 +31,6 @@ class ClientControllerTest {
     public static void setUp() {
         List<Booking> bookings = new ArrayList<>();
         List<Message> messages = new ArrayList<>();
-        List<Review> reviews = new ArrayList<>();
 
         Area area = new Area.Builder()
                 .setAreaId("area001")
@@ -46,8 +45,7 @@ class ClientControllerTest {
                 "0823456789",
                 area,
                 bookings,
-                messages,
-                reviews
+                messages
         );
     }
 
