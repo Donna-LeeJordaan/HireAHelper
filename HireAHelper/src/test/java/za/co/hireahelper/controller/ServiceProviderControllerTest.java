@@ -49,7 +49,7 @@ class ServiceProviderControllerTest {
         serviceProvider = ServiceProviderFactory.createServiceProvider(
                 "user007",
                 "Tauriq",
-                "tauriq@gmail.com",
+                "tauriq@example.com",
                 "tauriq01",
                 "0677754479",
                 area,
