@@ -14,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/serviceProvider")
+@CrossOrigin
 public class ServiceProviderController {
 
     private final ServiceProviderService service;

@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/serviceType")
+@CrossOrigin
 public class ServiceTypeController {
 
     private final ServiceTypeService service;

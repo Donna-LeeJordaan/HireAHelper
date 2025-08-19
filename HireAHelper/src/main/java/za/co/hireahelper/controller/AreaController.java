@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/area")
+@CrossOrigin
 public class AreaController {
 
     private final AreaService areaService;
