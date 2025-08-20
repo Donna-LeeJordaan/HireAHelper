@@ -10,7 +10,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@JsonIgnoreProperties({"bookings", "messages", "reviews"}) // Prevent infinite looping due to bidirectional relationships
+@JsonIgnoreProperties({"bookings", "messages"}) // Prevent infinite looping due to bidirectional relationships
 public class ServiceProvider extends User {
 
     private String profileImage;
@@ -63,7 +63,7 @@ public class ServiceProvider extends User {
                 ", serviceType=" + getServiceType() +
                 ", bookings=" + (bookings != null ? bookings.size() : 0) +
                 ", messages=" + (messages != null ? messages.size() : 0) +
-                ", role=" + getRole() +  // ✅ role included in toString
+                ", role=" + getRole() +
                 '}';
     }
 
@@ -75,16 +75,32 @@ public class ServiceProvider extends User {
         private List<Booking> bookings;
         private List<Message> messages;
 
-        public Builder() {
-            this.setRole(Role.SERVICE_PROVIDER); // ✅ automatically assign SERVICE_PROVIDER role
-        }
+        public Builder() {this.setRole(Role.SERVICE_PROVIDER);}
 
-        public Builder setProfileImage(String profileImage) { this.profileImage = profileImage; return this; }
-        public Builder setDescription(String description) { this.description = description; return this; }
-        public Builder setRate(double rate) { this.rate = rate; return this; }
-        public Builder setServiceType(ServiceType serviceType) { this.serviceType = serviceType; return this; }
-        public Builder setBookings(List<Booking> bookings) { this.bookings = bookings; return this; }
-        public Builder setMessages(List<Message> messages) { this.messages = messages; return this; }
+        public Builder setProfileImage(String profileImage) {
+            this.profileImage = profileImage;
+            return this;
+        }
+        public Builder setDescription(String description) {
+            this.description = description;
+            return this;
+        }
+        public Builder setRate(double rate) {
+            this.rate = rate;
+            return this;
+        }
+        public Builder setServiceType(ServiceType serviceType) {
+            this.serviceType = serviceType;
+            return this;
+        }
+        public Builder setBookings(List<Booking> bookings) {
+            this.bookings = bookings;
+            return this;
+        }
+        public Builder setMessages(List<Message> messages) {
+            this.messages = messages;
+            return this;
+        }
 
         public Builder copy(ServiceProvider serviceProvider) {
             super.copy(serviceProvider);
