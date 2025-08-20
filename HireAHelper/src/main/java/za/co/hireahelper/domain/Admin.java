@@ -24,6 +24,10 @@ public class Admin extends User {
 
     public static class Builder extends User.Builder<Builder> {
 
+        public Builder() {
+            this.setRole(Role.ADMIN); //  automatically assign ADMIN role
+        }
+
         @Override
         protected Builder self() {
             return this;

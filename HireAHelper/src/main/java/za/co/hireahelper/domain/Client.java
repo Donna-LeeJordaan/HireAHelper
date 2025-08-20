@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Table(name = "clients")
 @Entity
-@JsonIgnoreProperties({"bookings", "messages", "reviews"})  //To prevent infinite looping due to bidirectional relationships
+@JsonIgnoreProperties({"bookings", "messages", "reviews"})  // Prevent infinite loops
 public class Client extends User {
 
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -19,23 +19,19 @@ public class Client extends User {
 
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Message> messages;
+
     protected Client() {
         super();
     }
 
     private Client(Builder builder) {
-        super(builder);
+        super(builder); // role is set in builder
         this.bookings = builder.bookings;
         this.messages = builder.messages;
     }
 
-    public List<Booking> getBookings() {
-        return bookings;
-    }
-
-    public List<Message> getMessages() {
-        return messages;
-    }
+    public List<Booking> getBookings() { return bookings; }
+    public List<Message> getMessages() { return messages; }
 
     @Override
     public String toString() {
@@ -48,14 +44,17 @@ public class Client extends User {
                 ", areaId='" + (getArea() != null ? getArea().getAreaId() : "null") + '\'' +
                 ", bookings=" + (bookings != null ? bookings.size() : 0) +
                 ", messages=" + (messages != null ? messages.size() : 0) +
+                ", role=" + getRole() +
                 '}';
-        // Null checks prevent NullPointerExceptions when LAZY-loaded fields aren’t initialized yet,
-        // ensuring safe and clear toString output during debugging.
     }
 
     public static class Builder extends User.Builder<Builder> {
         private List<Booking> bookings;
         private List<Message> messages;
+
+        public Builder() {
+            this.setRole(Role.CLIENT); // automatically assign CLIENT role
+        }
 
         public Builder setBookings(List<Booking> bookings) {
             this.bookings = bookings;
@@ -85,6 +84,3 @@ public class Client extends User {
         }
     }
 }
-
-
-
