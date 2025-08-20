@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './index.css'
 import App from './App.jsx'
 import ServiceProviderDashboard from './serviceProvider/ServiceProviderDashboard.jsx'
+import ClientDashboard from './client/ClientDashboard.jsx'
 
 createRoot(document.getElementById('root')).render(
     <StrictMode>
@@ -12,6 +13,7 @@ createRoot(document.getElementById('root')).render(
 
                 <Route path="/" element={<App />} />
                 <Route path="/service-provider-dashboard" element={<ServiceProviderDashboard />} />
+                <Route path="/client-dashboard" element={<ClientDashboard />} />
 
             </Routes>
         </BrowserRouter>
