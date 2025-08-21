@@ -1,14 +1,15 @@
-import './App.css';
-import logo from './assets/logo1.png';
+import { Routes, Route } from "react-router-dom";
+import Home from "./Home.jsx";
+import AuthPage from "./AuthPage.jsx";
+import ClientRegister from "./client/ClientRegister.jsx";
 
 function App() {
     return (
-        <div className="app-container">
-            <img src={logo} alt="Hire A Helper Logo" className="logo-one" />
-            <h1>Welcome to Hire A Helper</h1>
-            <p>Find help with services at your fingertips.</p>
-            <button className="get-started-btn">Get Started</button>
-        </div>
+        <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/auth" element={<AuthPage />} />
+            <Route path="/client-register" element={<ClientRegister />} />
+        </Routes>
     );
 }
 
