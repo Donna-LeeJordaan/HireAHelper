@@ -26,8 +26,7 @@ public abstract class User {
     @Column(nullable = false)
     private Role role;  // system-managed, not user-chosen
 
-    protected User() {
-    }
+    protected User() {}
 
     protected User(Builder<?> builder) {
         this.userId = builder.userId;
@@ -46,6 +45,11 @@ public abstract class User {
     public String getMobileNumber() { return mobileNumber; }
     public Area getArea() { return area; }
     public Role getRole() { return role; }
+
+    //SETTER for password (to enable hashing)
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     @Override
     public String toString() {
@@ -96,11 +100,8 @@ public abstract class User {
             return self();
         }
 
-        // Required by subclasses to return their own builder type
         protected abstract T self();
 
-        // Build method must be implemented by subclasses
         public abstract User build();
     }
 }
-
