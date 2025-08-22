@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
-import "./ClientRegister.css";
 
 function ClientRegister() {
     const [formData, setFormData] = useState({
@@ -9,13 +8,11 @@ function ClientRegister() {
         email: "",
         password: "",
         mobileNumber: "",
-        area: null,
-        areaId: ""
+        area: null
     });
 
     const [areas, setAreas] = useState([]);
 
-    // Fetch areas from backend
     useEffect(() => {
         fetch("http://localhost:8080/HireAHelper/area/all")
             .then(res => res.json())
@@ -23,12 +20,11 @@ function ClientRegister() {
             .catch(err => console.error("Failed to fetch areas:", err));
     }, []);
 
-    // Handle input/select changes
     const handleChange = (e) => {
         const { name, value } = e.target;
 
         if (name === "areaId") {
-            const selectedArea = areas.find(a => a.area_id === value);
+            const selectedArea = areas.find(a => a.areaId === value);
             setFormData(prev => ({
                 ...prev,
                 areaId: value,
@@ -42,7 +38,6 @@ function ClientRegister() {
         }
     };
 
-    // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -77,8 +72,7 @@ function ClientRegister() {
                 email: "",
                 password: "",
                 mobileNumber: "",
-                area: null,
-                areaId: ""
+                area: null
             });
         } catch (err) {
             console.error(err);
@@ -87,61 +81,21 @@ function ClientRegister() {
     };
 
     return (
-        <div className="client-register-container">
-            <form className="client-register-card" onSubmit={handleSubmit}>
-                <h2>Client Sign Up</h2>
+        <form onSubmit={handleSubmit}>
+            <input name="name" placeholder="Name" value={formData.name} onChange={handleChange} required />
+            <input name="email" type="email" placeholder="Email" value={formData.email} onChange={handleChange} required />
+            <input name="password" type="password" placeholder="Password" value={formData.password} onChange={handleChange} required />
+            <input name="mobileNumber" placeholder="Mobile Number" value={formData.mobileNumber} onChange={handleChange} required />
 
-                <input
-                    name="name"
-                    placeholder="Name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                />
+            <select name="areaId" value={formData.areaId} onChange={handleChange} required>
+                <option value="">Select Area</option>
+                {areas.map(area => (
+                    <option key={area.areaId} value={area.areaId}>{area.name}</option>
+                ))}
+            </select>
 
-                <input
-                    name="email"
-                    type="email"
-                    placeholder="Email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                />
-
-                <input
-                    name="password"
-                    type="password"
-                    placeholder="Password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    required
-                />
-
-                <input
-                    name="mobileNumber"
-                    placeholder="Mobile Number"
-                    value={formData.mobileNumber}
-                    onChange={handleChange}
-                    required
-                />
-
-                <select
-                    name="areaId"
-                    value={formData.areaId}
-                    onChange={handleChange}
-                    required
-                >
-                    <option value="">Select Area</option>
-                    {areas.map(area => (
-                        <option key={area.area_id} value={area.area_id}>
-                            {area.name}
-                        </option>
-                    ))}
-                </select>
-
-                <button type="submit" className="client-register-btn">Register</button>
-            </form>
-        </div>
+            <button type="submit">Register</button>
+        </form>
     );
 }
 
