@@ -8,8 +8,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import za.co.hireahelper.domain.Client;
 
+import java.util.Optional;
+
 @Repository
 public interface ClientRepository extends JpaRepository<Client, String> {
-    // Custom queries can be added here if needed
+    // method for login
+    Optional<Client> findByEmailAndPassword(String email, String password);
 }
-

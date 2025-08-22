@@ -13,9 +13,14 @@ public abstract class User {
 
     @Id
     private String userId;
+
     private String name;
+
+    @Column(unique = true, nullable = false)
     private String email;
+
     private String password;
+
     private String mobileNumber;
 
     @ManyToOne(optional = false, fetch = FetchType.EAGER)

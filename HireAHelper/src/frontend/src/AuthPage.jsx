@@ -12,10 +12,18 @@ function AuthPage() {
                 <h2>Join Hire A Helper</h2>
 
                 <div className="auth-buttons">
-                    <button className="auth-btn" onClick={() => navigate("/clientRegister")}>
+                    <button
+                        className="auth-btn"
+                        onClick={() => navigate("/client/register")}
+                    >
                         Sign Up
                     </button>
-                    <button className="auth-btn">Login</button>
+                    <button
+                        className="auth-btn"
+                        onClick={() => navigate("/client/login")}
+                    >
+                        Login
+                    </button>
                 </div>
 
                 <p className="provider-text">Sign up as a service provider</p>
