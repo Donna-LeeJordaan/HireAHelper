@@ -1,10 +1,9 @@
-// Ameeruddin Arai 230190839
+///Ameeruddin Arai 230190839
 
 package za.co.hireahelper.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import za.co.hireahelper.domain.Admin;
 import za.co.hireahelper.repository.AdminRepository;
 import java.util.List;
@@ -14,18 +13,14 @@ import java.util.Optional;
 public class AdminServiceImpl implements AdminService {
 
     private final AdminRepository adminRepository;
-    private final BCryptPasswordEncoder encoder;
 
     @Autowired
-    public AdminServiceImpl(AdminRepository adminRepository, BCryptPasswordEncoder encoder) {
+    public AdminServiceImpl(AdminRepository adminRepository) {
         this.adminRepository = adminRepository;
-        this.encoder = encoder;
     }
 
     @Override
     public Admin create(Admin admin) {
-        // Hash the password before saving
-        admin.setPassword(encoder.encode(admin.getPassword()));
         return adminRepository.save(admin);
     }
 
@@ -37,9 +32,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Admin update(Admin admin) {
-        if (adminRepository.existsById(admin.getUserId())) {
-            // Hash the password before updating
-            admin.setPassword(encoder.encode(admin.getPassword()));
+        if (adminRepository.existsById(admin.getUserId())) { // FIXED here
             return adminRepository.save(admin);
         }
         return null;
