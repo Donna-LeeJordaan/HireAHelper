@@ -22,8 +22,11 @@ public abstract class User {
     @JoinColumn(name = "area_id", referencedColumnName = "areaId", nullable = false)
     private Area area;
 
-    protected User() {
-    }
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;  // system-managed, not user-chosen
+
+    protected User() {}
 
     protected User(Builder<?> builder) {
         this.userId = builder.userId;
@@ -32,30 +35,20 @@ public abstract class User {
         this.password = builder.password;
         this.mobileNumber = builder.mobileNumber;
         this.area = builder.area;
+        this.role = builder.role;
     }
 
-    public String getUserId() {
-        return userId;
-    }
+    public String getUserId() { return userId; }
+    public String getName() { return name; }
+    public String getEmail() { return email; }
+    public String getPassword() { return password; }
+    public String getMobileNumber() { return mobileNumber; }
+    public Area getArea() { return area; }
+    public Role getRole() { return role; }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public String getMobileNumber() {
-        return mobileNumber;
-    }
-
-    public Area getArea() {
-        return area;
+    //SETTER for password (to enable hashing)
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override
@@ -66,13 +59,19 @@ public abstract class User {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", mobileNumber='" + mobileNumber + '\'' +
-                ", area=" + getArea()   +
+                ", area=" + getArea() +
+                ", role=" + role +
                 '}';
-        // Null checks prevent NullPointerExceptions when LAZY-loaded fields aren’t initialized yet,
-        // ensuring safe and clear toString output during debugging.
-
     }
 
+    // Enum for roles
+    public enum Role {
+        CLIENT,
+        SERVICE_PROVIDER,
+        ADMIN
+    }
+
+    // Generic builder pattern for subclassing
     public static abstract class Builder<T extends Builder<T>> {
         private String userId;
         private String name;
@@ -80,36 +79,15 @@ public abstract class User {
         private String password;
         private String mobileNumber;
         private Area area;
+        private Role role;
 
-        public T setUserId(String userId) {
-            this.userId = userId;
-            return self();
-        }
-
-        public T setName(String name) {
-            this.name = name;
-            return self();
-        }
-
-        public T setEmail(String email) {
-            this.email = email;
-            return self();
-        }
-
-        public T setPassword(String password) {
-            this.password = password;
-            return self();
-        }
-
-        public T setMobileNumber(String mobileNumber) {
-            this.mobileNumber = mobileNumber;
-            return self();
-        }
-
-        public T setArea(Area area) {
-            this.area = area;
-            return self();
-        }
+        public T setUserId(String userId) { this.userId = userId; return self(); }
+        public T setName(String name) { this.name = name; return self(); }
+        public T setEmail(String email) { this.email = email; return self(); }
+        public T setPassword(String password) { this.password = password; return self(); }
+        public T setMobileNumber(String mobileNumber) { this.mobileNumber = mobileNumber; return self(); }
+        public T setArea(Area area) { this.area = area; return self(); }
+        public T setRole(Role role) { this.role = role; return self(); }
 
         public T copy(User user) {
             this.userId = user.userId;
@@ -118,6 +96,7 @@ public abstract class User {
             this.password = user.password;
             this.mobileNumber = user.mobileNumber;
             this.area = user.area;
+            this.role = user.role;
             return self();
         }
 
@@ -125,5 +104,4 @@ public abstract class User {
 
         public abstract User build();
     }
-
 }
