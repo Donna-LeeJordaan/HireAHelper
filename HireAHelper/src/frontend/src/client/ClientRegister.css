@@ -1,0 +1,83 @@
+/* Full-page container */
+.client-register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    background: linear-gradient(135deg, #fff 0%, #e6f7ff 100%);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Centered form card */
+.client-register-card {
+    background-color: white;
+    padding: 3rem 2rem;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+}
+
+/* Heading */
+.client-register-card h2 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    color: #013220; /* dark green */
+}
+
+/* Inputs & select */
+.client-register-card input,
+.client-register-card select {
+    width: 100%;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+/* Button */
+.client-register-btn {
+    width: 100%;
+    padding: 1rem;
+    background-color: #055f5b;
+    color: white;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.3s, background-color 0.3s;
+}
+
+.client-register-btn:hover {
+    transform: scale(1.03);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+    background-color: #044a48;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .client-register-card {
+        padding: 2rem 1.5rem;
+    }
+
+    .client-register-card h2 {
+        font-size: 1.6rem;
+    }
+
+    .client-register-card input,
+    .client-register-card select {
+        font-size: 0.95rem;
+    }
+
+    .client-register-btn {
+        font-size: 1rem;
+        padding: 0.8rem;
+    }
+}
