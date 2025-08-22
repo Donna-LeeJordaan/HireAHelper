@@ -6,9 +6,12 @@
 package za.co.hireahelper.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import za.co.hireahelper.domain.Client;
 import za.co.hireahelper.service.ClientService;
+
 import java.util.List;
 
 @RestController
@@ -46,5 +49,18 @@ public class ClientController {
     @GetMapping("/all")
     public List<Client> getAll() {
         return service.getAll();
+    }
+
+    // Login endpoint
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody Client client) {
+        Client loggedIn = service.login(client.getEmail(), client.getPassword());
+
+        if (loggedIn != null) {
+            return ResponseEntity.ok(loggedIn);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("Invalid email or password");
+        }
     }
 }

@@ -1,13 +1,18 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
+import "./ClientRegister.css";
 
 function ClientRegister() {
+    const navigate = useNavigate();
+
     const [formData, setFormData] = useState({
         userId: uuidv4(),
         name: "",
         email: "",
         password: "",
         mobileNumber: "",
+        areaId: "",
         area: null
     });
 
@@ -64,16 +69,23 @@ function ClientRegister() {
             });
 
             if (!res.ok) throw new Error("Client registration failed");
+
             alert("Client registered successfully!");
 
+            // Reset form
             setFormData({
                 userId: uuidv4(),
                 name: "",
                 email: "",
                 password: "",
                 mobileNumber: "",
+                areaId: "",
                 area: null
             });
+
+            // Automatically navigate to login page
+            navigate("/client/login");
+
         } catch (err) {
             console.error(err);
             alert(err.message);
@@ -81,21 +93,61 @@ function ClientRegister() {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <input name="name" placeholder="Name" value={formData.name} onChange={handleChange} required />
-            <input name="email" type="email" placeholder="Email" value={formData.email} onChange={handleChange} required />
-            <input name="password" type="password" placeholder="Password" value={formData.password} onChange={handleChange} required />
-            <input name="mobileNumber" placeholder="Mobile Number" value={formData.mobileNumber} onChange={handleChange} required />
+        <div className="client-register-container">
+            <div className="client-register-card">
+                <h2>Client Registration</h2>
+                <form onSubmit={handleSubmit}>
+                    <input
+                        name="name"
+                        placeholder="Name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        required
+                    />
+                    <input
+                        name="email"
+                        type="email"
+                        placeholder="Email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        required
+                    />
+                    <input
+                        name="password"
+                        type="password"
+                        placeholder="Password"
+                        value={formData.password}
+                        onChange={handleChange}
+                        required
+                    />
+                    <input
+                        name="mobileNumber"
+                        placeholder="Mobile Number"
+                        value={formData.mobileNumber}
+                        onChange={handleChange}
+                        required
+                    />
 
-            <select name="areaId" value={formData.areaId} onChange={handleChange} required>
-                <option value="">Select Area</option>
-                {areas.map(area => (
-                    <option key={area.areaId} value={area.areaId}>{area.name}</option>
-                ))}
-            </select>
+                    <select
+                        name="areaId"
+                        value={formData.areaId}
+                        onChange={handleChange}
+                        required
+                    >
+                        <option value="">Select Area</option>
+                        {areas.map(area => (
+                            <option key={area.areaId} value={area.areaId}>
+                                {area.name}
+                            </option>
+                        ))}
+                    </select>
 
-            <button type="submit">Register</button>
-        </form>
+                    <button type="submit" className="client-register-btn">
+                        Register
+                    </button>
+                </form>
+            </div>
+        </div>
     );
 }
 

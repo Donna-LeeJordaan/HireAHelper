@@ -1,21 +1,20 @@
 /* ClientServiceImpl.java
    Author: S Hendricks (221095136)
-   Date: 09 July 2025 */
+   Date: 09 July 2025
+*/
 
 package za.co.hireahelper.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import za.co.hireahelper.domain.Client;
 import za.co.hireahelper.repository.ClientRepository;
-import za.co.hireahelper.service.ClientService;
 import java.util.List;
 
 @Service
 public class ClientServiceImpl implements ClientService {
 
-    private ClientRepository repository;
+    private final ClientRepository repository;
 
     @Autowired
     public ClientServiceImpl(ClientRepository repository) {
@@ -49,5 +48,11 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public List<Client> getAll() {
         return this.repository.findAll();
+    }
+
+    @Override
+    public Client login(String email, String password) {
+        //checks both email and password
+        return repository.findByEmailAndPassword(email, password).orElse(null);
     }
 }
