@@ -26,7 +26,7 @@ function AuthPage() {
                     </button>
                 </div>
 
-                <p className="provider-text">Sign up as a service provider</p>
+                <p className="provider-text" onClick={() => navigate("/serviceProvider/register")}>Sign up as a service provider</p>
             </div>
         </div>
     );
