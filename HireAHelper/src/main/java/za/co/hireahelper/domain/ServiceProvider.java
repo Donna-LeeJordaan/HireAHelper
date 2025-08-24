@@ -13,6 +13,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties({"bookings", "messages"}) // Prevent infinite looping due to bidirectional relationships
 public class ServiceProvider extends User {
 
+    @Lob// because im storing an image as long text in the db
+    @Column(columnDefinition = "LONGTEXT")
     private String profileImage;
     private String description;
     private double rate;

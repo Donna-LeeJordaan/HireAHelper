@@ -1,0 +1,91 @@
+html, body {
+    overflow-x: hidden;
+}
+{/*container*/}
+.service-provider-register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    height: auto;
+    width: 100vw;
+    padding-top: 230px;
+    padding-bottom: 10px;
+    background: linear-gradient(135deg, #fff 0%, #e6f7ff 100%);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+{/*card*/}
+.service-provider-register-card {
+    background-color: white;
+    padding: 1.5rem 2rem;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+}
+
+{/*card heading*/}
+.service-provider-register-card h2 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    color: #013220; /* dark green */
+    white-space: nowrap; /* prevents breaking text */
+    text-overflow: ellipsis; /* if container too small */
+}
+
+{/*fields*/}
+.service-provider-register-card input,
+.service-provider-register-card select {
+    width: 100%;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+{/*button*/}
+.service-provider-register-btn {
+    width: 100%;
+    padding: 1rem;
+    background-color: #055f5b;
+    color: white;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.3s, background-color 0.3s;
+}
+
+.service-provider-register-btn:hover {
+    transform: scale(1.03);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+    background-color: #044a48;
+}
+
+{/*responsive*/} /*getback to*/
+@media (max-width: 480px) {
+    .service-provider-register-card {
+        padding: 2rem 1.5rem;
+    }
+
+    .service-provider-register-card h2 {
+        font-size: 1.6rem;
+    }
+
+    .service-provider-register-card input,
+    .service-provider-register-card select {
+        font-size: 0.95rem;
+    }
+
+    .service-provider-register-btn {
+        font-size: 1rem;
+        padding: 0.8rem;
+    }
+}
