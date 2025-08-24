@@ -1,7 +1,7 @@
 /*
  * BookingServiceTest.java
- * Author: S Hendricks (221095136)
- * Date: 12 April 2025
+ * Author:D Jordaan (230613152)
+ * Date: 24 August 2025
  */
 
 package za.co.hireahelper.service;
@@ -16,7 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import za.co.hireahelper.domain.*;
 import za.co.hireahelper.factory.BookingFactory;
 import java.time.LocalDate;
-import java.util.ArrayList;
+
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -37,7 +37,7 @@ class BookingServiceTest {
     private AreaService areaService;
 
     @Autowired
-    private ServiceTypeService serviceTypeService;  // <-- added
+    private ServiceTypeService serviceTypeService;
 
     private Booking booking;
     private Client client;
@@ -89,7 +89,7 @@ class BookingServiceTest {
 
     @Test
     @Order(1)
-    void testCreateBooking() {
+    void a_create() {
         Booking savedBooking = bookingService.create(booking);
         assertNotNull(savedBooking);
         assertEquals("booking001", savedBooking.getBookingId());
@@ -98,7 +98,7 @@ class BookingServiceTest {
 
     @Test
     @Order(2)
-    void testReadBooking() {
+    void b_read() {
         Booking readBooking = bookingService.read("booking001");
         assertNotNull(readBooking);
         assertEquals("booking001", readBooking.getBookingId());
@@ -107,7 +107,7 @@ class BookingServiceTest {
 
     @Test
     @Order(3)
-    void testUpdateBooking() {
+    void c_update() {
         Booking updatedBooking = new Booking.Builder()
                 .copy(booking)
                 .setStatus("Completed")
@@ -120,7 +120,7 @@ class BookingServiceTest {
 
     @Test
     @Order(4)
-    void testGetAllBookings() {
+    void d_getAll() {
         List<Booking> allBookings = bookingService.getAll();
         assertNotNull(allBookings);
         assertFalse(allBookings.isEmpty());
@@ -129,7 +129,7 @@ class BookingServiceTest {
 
     @Test
     @Order(5)
-    void testDeleteBooking() {
+    void e_delete() {
         boolean deleted = bookingService.delete("booking001");
         assertTrue(deleted);
         Booking deletedBooking = bookingService.read("booking001");
