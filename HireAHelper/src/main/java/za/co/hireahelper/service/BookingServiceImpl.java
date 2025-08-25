@@ -9,12 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import za.co.hireahelper.domain.Booking;
 import za.co.hireahelper.repository.BookingRepository;
+
 import java.util.List;
 
 @Service
 public class BookingServiceImpl implements BookingService {
 
-    private  BookingRepository repository;
+    private final BookingRepository repository;
 
     @Autowired
     public BookingServiceImpl(BookingRepository repository) {
@@ -49,4 +50,18 @@ public class BookingServiceImpl implements BookingService {
     public List<Booking> getAll() {
         return this.repository.findAll();
     }
+
+    // New method to get bookings by client ID
+    @Override
+    public List<Booking> getBookingsByClientId(String clientId) {
+        return List.of();
+    }
+
+    // New method to get bookings by service provider ID
+    @Override
+    public List<Booking> getBookingsByServiceProviderId(String serviceProviderId) {
+        return List.of();
+    }
+
+
 }

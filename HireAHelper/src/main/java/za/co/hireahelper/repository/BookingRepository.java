@@ -8,7 +8,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import za.co.hireahelper.domain.Booking;
 
+import java.util.List;
+
 @Repository
 public interface BookingRepository extends JpaRepository<Booking, String> {
-    // Custom query methods can be defined here if needed
+
+    //Query methods added for client and service provider
+    List<Booking> findByClientId(String clientId);
+    List<Booking> findByServiceProviderId(String serviceProviderId);
 }

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import za.co.hireahelper.domain.Booking;
 import za.co.hireahelper.service.BookingService;
+
 import java.util.List;
 
 @RestController
@@ -46,5 +47,17 @@ public class BookingController {
     @GetMapping("/all")
     public List<Booking> getAll() {
         return service.getAll();
+    }
+
+    // New endpoint for getting bookings by client ID
+    @GetMapping("/client/{clientId}")
+    public List<Booking> getBookingsByClientId(@PathVariable String clientId) {
+        return service.getBookingsByClientId(clientId);
+    }
+
+    // New endpoint for getting bookings by service provider ID
+    @GetMapping("/service-provider/{serviceProviderId}")
+    public List<Booking> getBookingsByServiceProviderId(@PathVariable String serviceProviderId) {
+        return service.getBookingsByServiceProviderId(serviceProviderId);
     }
 }
