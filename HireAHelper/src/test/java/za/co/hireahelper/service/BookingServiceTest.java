@@ -1,7 +1,7 @@
 /*
  * BookingServiceTest.java
- * Author:D Jordaan (230613152)
- * Date: 24 August 2025
+ * Author: D Jordaan (230613152)
+ * Date: 25 August 2025
  */
 
 package za.co.hireahelper.service;
@@ -13,15 +13,18 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 import za.co.hireahelper.domain.*;
 import za.co.hireahelper.factory.BookingFactory;
-import java.time.LocalDate;
 
+import java.time.LocalDate;
 import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@Transactional
 class BookingServiceTest {
 
     @Autowired
@@ -43,21 +46,25 @@ class BookingServiceTest {
     private Client client;
     private ServiceProvider provider;
     private Area area;
+    private ServiceType serviceType;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
+        // Create and persist Area
         area = new Area.Builder()
                 .setAreaId("area001")
                 .setName("Athlone")
                 .build();
         areaService.create(area);
 
-        ServiceType gardener = new ServiceType.Builder()
+        // Create and persist ServiceType
+        serviceType = new ServiceType.Builder()
                 .setTypeId("type02")
                 .setTypeName("Gardener")
                 .build();
-        serviceTypeService.create(gardener);
+        serviceTypeService.create(serviceType);
 
+        // Create and persist Client
         client = new Client.Builder()
                 .setUserId("user001")
                 .setName("Amina")
@@ -66,15 +73,17 @@ class BookingServiceTest {
                 .build();
         clientService.create(client);
 
+        // Create and persist ServiceProvider
         provider = new ServiceProvider.Builder()
                 .setUserId("user007")
                 .setName("Tauriq")
                 .setEmail("tauriq@gmail.com")
                 .setArea(area)
-                .setServiceType(gardener)
+                .setServiceType(serviceType)
                 .build();
         providerService.create(provider);
 
+        // Create Booking using Factory
         booking = BookingFactory.createBooking(
                 "booking001",
                 LocalDate.of(2025, 4, 12),
@@ -99,6 +108,7 @@ class BookingServiceTest {
     @Test
     @Order(2)
     void b_read() {
+        bookingService.create(booking); // ensure booking exists
         Booking readBooking = bookingService.read("booking001");
         assertNotNull(readBooking);
         assertEquals("booking001", readBooking.getBookingId());
@@ -108,6 +118,7 @@ class BookingServiceTest {
     @Test
     @Order(3)
     void c_update() {
+        bookingService.create(booking); // ensure booking exists
         Booking updatedBooking = new Booking.Builder()
                 .copy(booking)
                 .setStatus("Completed")
@@ -121,6 +132,7 @@ class BookingServiceTest {
     @Test
     @Order(4)
     void d_getAll() {
+        bookingService.create(booking); // ensure booking exists
         List<Booking> allBookings = bookingService.getAll();
         assertNotNull(allBookings);
         assertFalse(allBookings.isEmpty());
@@ -130,6 +142,7 @@ class BookingServiceTest {
     @Test
     @Order(5)
     void e_delete() {
+        bookingService.create(booking); // ensure booking exists
         boolean deleted = bookingService.delete("booking001");
         assertTrue(deleted);
         Booking deletedBooking = bookingService.read("booking001");
