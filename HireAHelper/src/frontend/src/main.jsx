@@ -3,7 +3,6 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./index.css";
 
-// Imports
 import ServiceProviderDashboard from "./serviceProvider/ServiceProviderDashboard.jsx";
 import ClientRegister from "./client/ClientRegister.jsx";
 import ClientLogin from "./client/ClientLogin.jsx";
@@ -17,7 +16,6 @@ import BookingDetails from './pages/BookingDetails';
 import CreateBooking from './pages/CreateBooking';
 import BookingDashboard from './pages/BookingDashboard';
 
-// App Component
 function App() {
     return (
         <Router>
@@ -25,7 +23,11 @@ function App() {
                 {/* Main Routes */}
                 <Route path="/" element={<Home />} />
                 <Route path="/auth" element={<AuthPage />} />
+
+                {/* Service Provider Routes */}
                 <Route path="/service-provider-dashboard" element={<ServiceProviderDashboard />} />
+
+                {/* Client Routes */}
                 <Route path="/client/register" element={<ClientRegister />} />
                 <Route path="/client/login" element={<ClientLogin />} />
                 <Route path="/client/dashboard" element={<ClientDashboard />} />
@@ -46,7 +48,6 @@ function App() {
     );
 }
 
-// Mount App
 createRoot(document.getElementById("root")).render(
     <StrictMode>
         <App />

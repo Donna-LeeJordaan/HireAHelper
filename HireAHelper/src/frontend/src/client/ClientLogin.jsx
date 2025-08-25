@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./ClientRegister.css"; // Reuse your registration CSS
+import "./ClientRegister.css"; // Reusing the ClientRegister css
 
 function ClientLogin() {
     const [formData, setFormData] = useState({
@@ -10,6 +10,7 @@ function ClientLogin() {
 
     const navigate = useNavigate();
 
+    // Handle changes when user types in the input fields
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
@@ -19,21 +20,24 @@ function ClientLogin() {
         e.preventDefault();
 
         try {
+            // Send login request to backend API
             const res = await fetch("http://localhost:8080/HireAHelper/client/login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(formData)
             });
 
+            // If login fails (wrong credentials)
             if (!res.ok) {
                 const errorText = await res.text();
                 throw new Error(errorText || "Invalid email or password");
             }
 
+            // If successful, get client details returned from backend
             const data = await res.json();
             alert("Login successful!");
 
-            // Save client info to localStorage
+            // Save client info in localStorage (so they stay logged in even after refresh)
             localStorage.setItem("client", JSON.stringify(data));
 
             // Redirect to client dashboard
@@ -44,6 +48,7 @@ function ClientLogin() {
         }
     };
 
+    // JSX (UI for login form)
     return (
         <div className="client-register-container">
             <div className="client-register-card">
