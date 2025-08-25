@@ -51,17 +51,12 @@ public class BookingServiceImpl implements BookingService {
         return this.repository.findAll();
     }
 
-    // New method to get bookings by client ID
-    @Override
-    public List<Booking> getBookingsByClientId(String clientId) {
-        return List.of();
+    public List<Booking> getBookingsByClient(String clientId) {
+      return this.repository.findByClient_UserId(clientId);
     }
 
-    // New method to get bookings by service provider ID
-    @Override
-    public List<Booking> getBookingsByServiceProviderId(String serviceProviderId) {
-        return List.of();
-    }
-
+   public List<Booking> getBookingsByServiceProvider(String serviceProviderId) {
+       return this.repository.findByServiceProvider_UserId(serviceProviderId);
+   }
 
 }

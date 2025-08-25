@@ -49,15 +49,13 @@ public class BookingController {
         return service.getAll();
     }
 
-    // New endpoint for getting bookings by client ID
     @GetMapping("/client/{clientId}")
-    public List<Booking> getBookingsByClientId(@PathVariable String clientId) {
-        return service.getBookingsByClientId(clientId);
-    }
+    public List<Booking> getBookingsByClient(@PathVariable String clientId) {
+       return service.getBookingsByClient(clientId);
+   }
 
-    // New endpoint for getting bookings by service provider ID
-    @GetMapping("/service-provider/{serviceProviderId}")
-    public List<Booking> getBookingsByServiceProviderId(@PathVariable String serviceProviderId) {
-        return service.getBookingsByServiceProviderId(serviceProviderId);
-    }
+    @GetMapping("/serviceProvider/{serviceProviderId}")
+    public List<Booking> getBookingsByServiceProvider(@PathVariable String serviceProviderId) {
+       return service.getBookingsByServiceProvider(serviceProviderId);
+   }
 }

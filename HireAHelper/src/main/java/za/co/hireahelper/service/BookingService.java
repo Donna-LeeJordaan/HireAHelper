@@ -11,9 +11,6 @@ import java.util.List;
 public interface BookingService extends IService<Booking, String> {
     List<Booking> getAll();
 
-    // New method to get bookings by client ID
-    List<Booking> getBookingsByClientId(String clientId);
-
-    // New method to get bookings by service provider ID
-    List<Booking> getBookingsByServiceProviderId(String serviceProviderId);
+    List<Booking> getBookingsByClient(String clientId);
+    List<Booking> getBookingsByServiceProvider(String serviceProviderId);
 }

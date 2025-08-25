@@ -39,10 +39,11 @@ function App() {
                 <Route path="/areas/delete/:id" element={<AreaDelete />} />
 
                 {/*Booking Routes*/}
-                <Route path="/create-booking" component={CreateBooking} />
-                <Route path="/booking-dashboard" component={BookingDashboard} />
-                <Route path="/booking-details/:id" component={BookingDetails} />
-                <Route path="/" exact component={Home} />
+                <Route path="/booking/create-booking" element={<CreateBooking />} />
+                <Route path="/booking/booking-dashboard" element={<BookingDashboard />} />
+                <Route path="/booking/booking-details" element={<BookingDetails />} />
+
+
             </Routes>
         </Router>
     );

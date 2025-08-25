@@ -13,7 +13,6 @@ import java.util.List;
 @Repository
 public interface BookingRepository extends JpaRepository<Booking, String> {
 
-    //Query methods added for client and service provider
-    List<Booking> findByClientId(String clientId);
-    List<Booking> findByServiceProviderId(String serviceProviderId);
+    List<Booking> findByClient_UserId(String clientId);
+    List<Booking> findByServiceProvider_UserId(String serviceProviderId);
 }
