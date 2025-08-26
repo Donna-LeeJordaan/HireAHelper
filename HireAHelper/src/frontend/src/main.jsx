@@ -12,9 +12,9 @@ import AuthPage from "./authPage/AuthPage.jsx";
 import AreaDashboard from "./AreaDashboard";
 import AreaCreate from "./AreaCreate";
 import AreaUpdate from "./AreaUpdate";
-import BookingDetails from './pages/BookingDetails';
-import CreateBooking from './pages/CreateBooking';
-import BookingDashboard from './pages/BookingDashboard';
+import BookingDetails from './booking/BookingDetails';
+import CreateBooking from './booking/CreateBooking';
+import BookingDashboard from './booking/BookingDashboard';
 
 function App() {
     return (
