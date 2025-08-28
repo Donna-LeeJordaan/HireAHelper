@@ -9,7 +9,7 @@ const BookingDetails = () => {
 
     useEffect(() => {
         axios
-            .get(http://localhost:8080/HireAHelper/booking/read/${bookingId})
+            .get(`http://localhost:8080/HireAHelper/booking/read/${bookingId}`)
     .then((res) => setBooking(res.data))
             .catch((err) => console.error("Error fetching booking details:", err));
     }, [bookingId]);
