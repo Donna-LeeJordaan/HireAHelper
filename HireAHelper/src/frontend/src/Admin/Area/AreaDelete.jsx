@@ -1,52 +1,69 @@
-//Ameeruddin Arai 230190839
-import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-export default function AreaDelete() {
-    const { id } = useParams();
+function AreaDeletePage() {
+    const [areas, setAreas] = useState([]);
+    const [selectedAreaId, setSelectedAreaId] = useState("");
     const navigate = useNavigate();
-    const [area, setArea] = useState(null);
 
-    // Fetch the area details (for confirmation)
+    // Fetch all areas
     useEffect(() => {
-        const savedAreas = JSON.parse(localStorage.getItem("areas")) || [];
-        const foundArea = savedAreas.find((a) => a.id === parseInt(id));
-        setArea(foundArea);
-    }, [id]);
+        fetch("http://localhost:8080/HireAHelper/areas")
+            .then(res => res.json())
+            .then(data => setAreas(data))
+            .catch(err => console.error("Error fetching areas:", err));
+    }, []);
 
-    // Delete handler
-    const handleDelete = () => {
-        const savedAreas = JSON.parse(localStorage.getItem("areas")) || [];
-        const updatedAreas = savedAreas.filter((a) => a.id !== parseInt(id));
-        localStorage.setItem("areas", JSON.stringify(updatedAreas));
-        navigate("/areas"); // Redirect back to dashboard
+    // Handle delete
+    const handleDelete = async () => {
+        if (!selectedAreaId) {
+            alert("Please select an area to delete");
+            return;
+        }
+
+        if (!window.confirm("Are you sure you want to delete this area?")) return;
+
+        try {
+            const res = await fetch(`http://localhost:8080/HireAHelper/areas/${selectedAreaId}`, {
+                method: "DELETE"
+            });
+
+            if (!res.ok) {
+                const errorText = await res.text();
+                throw new Error(errorText || "Failed to delete area");
+            }
+
+            alert("Area deleted successfully!");
+            setAreas(prev => prev.filter(area => area.id !== selectedAreaId));
+            setSelectedAreaId("");
+        } catch (err) {
+            console.error(err);
+            alert(err.message);
+        }
     };
 
-    if (!area) {
-        return <p className="p-4">Area not found.</p>;
-    }
-
     return (
-        <div className="max-w-md mx-auto p-6 bg-white shadow rounded-lg mt-6">
-            <h2 className="text-xl font-semibold mb-4">Delete Area</h2>
-            <p className="mb-4">
-                Are you sure you want to delete <strong>{area.name}</strong>?
-            </p>
-
-            <div className="flex gap-4">
-                <button
-                    onClick={handleDelete}
-                    className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
-                >
-                    Yes, Delete
-                </button>
-                <button
-                    onClick={() => navigate("/areas")}
-                    className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
-                >
-                    Cancel
-                </button>
-            </div>
+        <div className="area-delete-container">
+            <h2>Delete Area</h2>
+            <select
+                value={selectedAreaId}
+                onChange={(e) => setSelectedAreaId(e.target.value)}
+            >
+                <option value="">-- Select Area --</option>
+                {areas.map(area => (
+                    <option key={area.id} value={area.id}>
+                        {area.name}
+                    </option>
+                ))}
+            </select>
+            <button className="delete-btn" onClick={handleDelete}>
+                Delete Area
+            </button>
+            <button className="back-btn" onClick={() => navigate(-1)}>
+                Back
+            </button>
         </div>
     );
 }
+
+export default AreaDeletePage;
