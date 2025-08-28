@@ -42,7 +42,7 @@ export default function AreaDashboard() {
                             <button
                                 className="get-started-btn small-btn"
                                 style={{ marginLeft: "0.5rem" }}
-                                onClick={() => navigate("/areas/delete")}
+                                onClick={() => navigate(`/areas/delete/${area.areaId}`)} // ← updated here
                             >
                                 Delete
                             </button>
@@ -50,6 +50,7 @@ export default function AreaDashboard() {
                     </tr>
                 ))}
                 </tbody>
+
             </table>
         </div>
     );
