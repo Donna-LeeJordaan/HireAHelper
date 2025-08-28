@@ -7,7 +7,7 @@ import ServiceProviderDashboard from "./serviceProvider/ServiceProviderDashboard
 import ClientRegister from "./client/ClientRegister.jsx";
 import Login from "./Auth/Login.jsx";
 import ClientDashboard from "./client/ClientDashboard.jsx";
-import Home from "./homePage/Home.jsx";
+import Home from "./Home/Home.jsx";
 import AuthPage from "./Auth/AuthPage.jsx";
 import AreaDashboard from "./Admin/Area/AreaDashboard.jsx";
 import AreaCreate from "./Admin/Area/AreaCreate";
@@ -29,7 +29,7 @@ function App() {
 
                 {/* Client Routes */}
                 <Route path="/client/register" element={<ClientRegister />} />
-                <Route path="/client/dashboard" element={<ClientDashboard />} />
+                <Route path=" /client/dashboard" element={<ClientDashboard />} />
 
                 {/* Area Routes */}
                 <Route path="/areas" element={<AreaDashboard />} />
