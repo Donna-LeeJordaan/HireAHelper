@@ -1,5 +1,3 @@
-ClientBookings.jsx:
-
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -12,7 +10,7 @@ const ClientBookings = () => {
 
     useEffect(() => {
         axios
-            .get(http://localhost:8080/HireAHelper/booking/client/${userId})
+            .get(`http://localhost:8080/HireAHelper/booking/client/${userId}`)
     .then((res) => setBookings(res.data))
             .catch((err) => console.error("Error fetching bookings:", err));
     }, [userId]);
@@ -32,7 +30,7 @@ const ClientBookings = () => {
                             <p><strong>Date:</strong> {b.serviceDate}</p>
                             <button
                                 className="btn-details"
-                                onClick={() => navigate(/clientBooking/${b.bookingId})}
+                                onClick={() => navigate(`/clientBooking/${b.bookingId}`)}
                             >
                                 View Details
                             </button>

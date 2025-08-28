@@ -13,10 +13,10 @@ const CreateBooking = () => {
     const [notes, setNotes] = useState("");
     const [step, setStep] = useState(1);
 
-    {/getting the client info/}
+    {/*getting the client info*/}
     useEffect(() => {
         axios
-            .get(http://localhost:8080/HireAHelper/client/read/${userId})
+            .get(`http://localhost:8080/HireAHelper/client/read/${userId}`)
     .then((res) => setClientArea(res.data.area))
             .catch((err) => console.error("Error fetching client:", err));
     }, [userId]);

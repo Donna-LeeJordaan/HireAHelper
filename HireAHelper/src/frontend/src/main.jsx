@@ -18,6 +18,8 @@ import ServiceTypeCreate from "./Admin/ServiceType/ServiceTypeCreate.jsx";
 import ServiceTypeUpdate from "./Admin/ServiceType/ServiceTypeCreate.jsx";
 import AdminDashboard from "./Admin/AdminDashboard.jsx";
 import CreateBooking from "./Booking/CreateBooking.jsx"
+import ClientBookings from "./client/ClientBookings.jsx";
+import BookingDetails from "./client/BookingDetails.jsx";
 
 
 createRoot(document.getElementById('root')).render(
