@@ -1,0 +1,103 @@
+/* Reset body & html */
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Full-page container */
+.app-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 2rem;
+    min-height: 100vh;
+    width: 100vw;
+    background: linear-gradient(135deg, #fff 0%, #ffeb99 100%);
+    color: #055f5b;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+/* Heading */
+h1 {
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+    color: #013220;
+}
+
+/* Buttons */
+.get-started-btn {
+    background-color: #ffeb99;
+    color: #055f5b;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    font-size: 1.1rem;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.3s;
+    margin-bottom: 1.5rem;
+}
+
+.get-started-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+}
+
+/* Smaller button for table actions */
+.small-btn {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+}
+
+/* Table styling */
+.area-table {
+    width: 90%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    background-color: #ffffffcc; /* slight transparency */
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.area-table th, .area-table td {
+    padding: 0.8rem 1rem;
+    border: 1px solid #055f5b;
+}
+
+.area-table th {
+    background-color: #ffeb99;
+    color: #013220;
+}
+
+.area-table tr:nth-child(even) {
+    background-color: #f7f7f7;
+}
+
+.area-table tr:hover {
+    background-color: #fff2b2;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2.2rem;
+    }
+
+    .get-started-btn {
+        font-size: 1rem;
+        padding: 0.6rem 1rem;
+    }
+
+    .small-btn {
+        font-size: 0.8rem;
+        padding: 0.3rem 0.6rem;
+    }
+
+    .area-table {
+        width: 100%;
+    }
+}

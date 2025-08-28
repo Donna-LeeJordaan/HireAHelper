@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "../../css/Area.css";
 
 function AreaDeletePage() {
     const [areas, setAreas] = useState([]);
     const [selectedAreaId, setSelectedAreaId] = useState("");
     const navigate = useNavigate();
 
-    // Fetch all areas
     useEffect(() => {
         fetch("http://localhost:8080/HireAHelper/areas")
             .then(res => res.json())
@@ -14,7 +14,6 @@ function AreaDeletePage() {
             .catch(err => console.error("Error fetching areas:", err));
     }, []);
 
-    // Handle delete
     const handleDelete = async () => {
         if (!selectedAreaId) {
             alert("Please select an area to delete");
@@ -43,25 +42,72 @@ function AreaDeletePage() {
     };
 
     return (
-        <div className="area-delete-container">
-            <h2>Delete Area</h2>
-            <select
-                value={selectedAreaId}
-                onChange={(e) => setSelectedAreaId(e.target.value)}
+        <div className="app-container"> {}
+            <h1>Delete Area</h1> {}
+
+            <div
+                style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    backgroundColor: "#ffffffcc",
+                    padding: "2rem",
+                    borderRadius: "15px",
+                    width: "400px",
+                    maxWidth: "90%",
+                    boxShadow: "0 6px 20px rgba(0,0,0,0.1)",
+                    marginBottom: "2rem"
+                }}
             >
-                <option value="">-- Select Area --</option>
-                {areas.map(area => (
-                    <option key={area.id} value={area.id}>
-                        {area.name}
-                    </option>
-                ))}
-            </select>
-            <button className="delete-btn" onClick={handleDelete}>
-                Delete Area
-            </button>
-            <button className="back-btn" onClick={() => navigate(-1)}>
-                Back
-            </button>
+                <label
+                    style={{
+                        marginBottom: "0.5rem",
+                        color: "#013220",
+                        fontWeight: "600"
+                    }}
+                >
+                    Select Area to Delete:
+                </label>
+
+                <select
+                    value={selectedAreaId}
+                    onChange={(e) => setSelectedAreaId(e.target.value)}
+                    style={{
+                        padding: "0.6rem 1rem",
+                        fontSize: "1rem",
+                        border: "1px solid #055f5b",
+                        borderRadius: "8px",
+                        outline: "none",
+                        width: "100%",
+                        marginBottom: "1.5rem"
+                    }}
+                >
+                    <option value="">-- Select Area --</option>
+                    {areas.map(area => (
+                        <option key={area.id} value={area.id}>
+                            {area.name}
+                        </option>
+                    ))}
+                </select>
+
+                {}
+                <div style={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
+                    <button
+                        className="get-started-btn"
+                        style={{ flex: 1, margin: "0 0.5rem" }}
+                        onClick={handleDelete}
+                    >
+                        Delete
+                    </button>
+                    <button
+                        className="get-started-btn"
+                        style={{ flex: 1, margin: "0 0.5rem" }}
+                        onClick={() => navigate(-1)}
+                    >
+                        Back
+                    </button>
+                </div>
+            </div>
         </div>
     );
 }
