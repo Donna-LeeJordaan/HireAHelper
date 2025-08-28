@@ -3,18 +3,19 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./index.css";
 
+import ServiceProviderRegister from "./serviceProvider/ServiceProviderRegister.jsx";
 import ServiceProviderDashboard from "./serviceProvider/ServiceProviderDashboard.jsx";
 import ClientRegister from "./client/ClientRegister.jsx";
 import ClientLogin from "./client/ClientLogin.jsx";
 import ClientDashboard from "./client/ClientDashboard.jsx";
 import Home from "./homePage/Home.jsx";
 import AuthPage from "./authPage/AuthPage.jsx";
-import AreaDashboard from "./AreaDashboard";
-import AreaCreate from "./AreaCreate";
-import AreaUpdate from "./AreaUpdate";
-import BookingDetails from './booking/BookingDetails';
-import CreateBooking from './booking/CreateBooking';
-import BookingDashboard from './booking/BookingDashboard';
+import AreaDashboard from "./Admin/Area/AreaDashboard.jsx";
+import AreaCreate from "./Admin/Area/AreaCreate";
+import AreaUpdate from "./Admin/Area/AreaUpdate.jsx";
+import BookingDetails from "./booking/BookingDetails";
+import CreateBooking from "./booking/CreateBooking";
+import BookingDashboard from "./booking/BookingDashboard";
 
 function App() {
     return (
@@ -25,7 +26,8 @@ function App() {
                 <Route path="/auth" element={<AuthPage />} />
 
                 {/* Service Provider Routes */}
-                <Route path="/service-provider-dashboard" element={<ServiceProviderDashboard />} />
+                <Route path="/serviceProvider/Register" element={<ServiceProviderRegister/>} />
+                <Route path="/serviceProvider/Dashboard" element={<ServiceProviderDashboard />} />
 
                 {/* Client Routes */}
                 <Route path="/client/register" element={<ClientRegister />} />
