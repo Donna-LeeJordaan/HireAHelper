@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const CreateBooking = () => {
+    const generateBookingId = () => `BOOKING-${Math.floor(100000 + Math.random() * 900000)}`;
     const [serviceProviders, setServiceProviders] = useState([]);
     const [filteredProviders, setFilteredProviders] = useState([]);
     const [serviceType, setServiceType] = useState("");
     const user = JSON.parse(localStorage.getItem("user"));
-    const userId = user?.userId; // Logged-in client ID
+    const userId = user?.userId;
     const [clientArea, setClientArea] = useState(null);
     const [serviceProviderId, setServiceProviderId] = useState("");
     const [serviceDate, setServiceDate] = useState("");
@@ -56,7 +57,7 @@ const CreateBooking = () => {
             return;
         }
         const booking = {
-            bookingId: "b001",
+            bookingId: generateBookingId() ,
             client: { userId },
             serviceProvider: { userId: serviceProviderId },
             serviceDate,
