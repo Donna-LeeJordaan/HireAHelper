@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../../css/Area.css";
+import logo from "../../assets/logo1.png";
 
 export default function AreaDashboard() {
     const [areas, setAreas] = useState([]);
@@ -31,6 +32,9 @@ export default function AreaDashboard() {
 
     return (
         <div className="app-container">
+
+            <img src={logo} alt="Logo" className="logo" />
+
             <h1>Area Dashboard</h1>
             <button className="get-started-btn" onClick={() => navigate("/area/create")}>
                 Create Area

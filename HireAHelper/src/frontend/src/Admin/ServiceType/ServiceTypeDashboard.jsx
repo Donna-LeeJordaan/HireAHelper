@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../../css/Area.css";
-
+import logo from "../../assets/logo1.png";
 
 export default function ServiceTypeDashboard() {
     const [serviceType, setServiceType] = useState([]);
@@ -31,6 +31,9 @@ export default function ServiceTypeDashboard() {
 
     return (
         <div className="app-container">
+
+            <img src={logo} alt="Logo" className="logo" />
+
             <h1>ServiceType Dashboard</h1>
             <button className="get-started-btn" onClick={() => navigate("/serviceType/create")}>
                 Create ServiceType
