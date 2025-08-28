@@ -16,6 +16,7 @@ import AreaUpdate from "./Admin/Area/AreaUpdate.jsx";
 import BookingDetails from "./booking/BookingDetails";
 import CreateBooking from "./booking/CreateBooking";
 import BookingDashboard from "./booking/BookingDashboard";
+import AreaDelete from "./Admin/Area/AreaDelete.jsx";
 
 function App() {
     return (
