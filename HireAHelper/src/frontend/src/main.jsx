@@ -17,6 +17,7 @@ import ServiceTypeDashboard from "./Admin/ServiceType/ServiceTypeDashboard.jsx";
 import ServiceTypeCreate from "./Admin/ServiceType/ServiceTypeCreate.jsx";
 import ServiceTypeUpdate from "./Admin/ServiceType/ServiceTypeCreate.jsx";
 import AdminDashboard from "./Admin/AdminDashboard.jsx";
+import CreateBooking from "./Booking/CreateBooking.jsx"
 
 
 createRoot(document.getElementById('root')).render(
@@ -51,6 +52,9 @@ createRoot(document.getElementById('root')).render(
                 <Route path="/serviceType/update/:typeId" element={<ServiceTypeUpdate/>} />
 
                 {/*Booking Routes*/}
+                <Route path="/createBookings" element={<CreateBooking/>} />
+                <Route path="/clientBookings" element={<ClientBookings/>} />
+                <Route path="/clientBooking/:bookingId" element={<BookingDetails/>}/>
 
             </Routes>
         </BrowserRouter>
