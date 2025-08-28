@@ -1,6 +1,7 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {BrowserRouter as Router, Routes, Route, BrowserRouter} from "react-router-dom";
+
 import "./index.css";
 import ServiceProviderRegister from "./serviceProvider/ServiceProviderRegister.jsx";
 import ServiceProviderDashboard from "./serviceProvider/ServiceProviderDashboard.jsx";
@@ -14,10 +15,11 @@ import AreaCreate from "./Admin/Area/AreaCreate";
 import AreaUpdate from "./Admin/Area/AreaUpdate.jsx";
 import AreaDelete from "./Admin/Area/AreaDelete.jsx";
 
-function App() {
-    return (
-        <Router>
+createRoot(document.getElementById('root')).render(
+    <StrictMode>
+        <BrowserRouter>
             <Routes>
+
                 {/* Main Routes */}
                 <Route path="/" element={<Home />} />
                 <Route path="/auth" element={<AuthPage/>} />
@@ -42,15 +44,8 @@ function App() {
 
 
             </Routes>
-        </Router>
-    );
-}
+        </BrowserRouter>
+    </StrictMode>,
 
-createRoot(document.getElementById("root")).render(
-    <StrictMode>
-        <App />
-    </StrictMode>
-);
-
-export default App;
+)
 
