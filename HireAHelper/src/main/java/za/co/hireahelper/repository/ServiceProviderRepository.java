@@ -11,8 +11,11 @@ import org.springframework.stereotype.Repository;
 import za.co.hireahelper.domain.ServiceProvider;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ServiceProviderRepository extends JpaRepository<ServiceProvider, String> {
     List<ServiceProvider> findByServiceType_TypeName(String typeName);
+    Optional<ServiceProvider> findByEmailAndPassword(String email, String password);
+
 }
