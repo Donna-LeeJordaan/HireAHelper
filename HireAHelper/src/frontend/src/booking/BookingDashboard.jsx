@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./BookingDashboard.css";
+import "../css/BookingDashboard.css";
 import logo from "../assets/logo1.png"; // adjust path if needed
 
 export default function BookingDashboard() {

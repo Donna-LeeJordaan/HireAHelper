@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import "./BookingDashboard.css"; // reuse same CSS
+import "../css/BookingDashboard.css"; // reuse same CSS
 import logo from "../assets/logo1.png"; // adjust path if needed
 
 export default function CreateBooking() {

@@ -1,6 +1,6 @@
 // BookingDetails.jsx
 import React from 'react';
-import "./BookingDashboard.css"; // Reusing the same CSS file
+import "../css/BookingDashboard.css"; // Reusing the same CSS file
 
 const BookingDetails = ({ booking }) => {
     // Sample booking object if no props passed

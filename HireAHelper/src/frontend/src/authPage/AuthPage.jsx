@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/logo1.png";
-import "./AuthPage.css";
+import "../css/AuthPage.css";
 
 function AuthPage() {
     const navigate = useNavigate();

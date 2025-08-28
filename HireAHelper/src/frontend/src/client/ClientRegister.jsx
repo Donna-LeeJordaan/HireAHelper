@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid"; //// Import a library to generate unique IDs
-import "./ClientRegister.css";
+import "../css/ClientRegister.css";
 
 function ClientRegister() {
     const navigate = useNavigate();

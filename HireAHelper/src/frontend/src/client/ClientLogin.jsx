@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./ClientRegister.css"; // Reusing the ClientRegister css
+import "../css/ClientRegister.css"; // Reusing the ClientRegister css
 
 function ClientLogin() {
     const [formData, setFormData] = useState({
