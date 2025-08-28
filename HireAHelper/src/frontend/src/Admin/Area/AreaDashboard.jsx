@@ -13,10 +13,26 @@ export default function AreaDashboard() {
             .catch(err => console.error(err));
     }, []);
 
+    const handleDelete = async (areaId) => {
+        const confirmDelete = window.confirm("Are you sure you want to delete this area?");
+        if (!confirmDelete) return;
+
+        try {
+            await axios.delete(`http://localhost:8080/HireAHelper/area/delete/${areaId}`);
+            alert("Area deleted successfully!");
+
+            // Remove the deleted area from the state without refreshing
+            setAreas(prevAreas => prevAreas.filter(area => area.areaId !== areaId));
+        } catch (err) {
+            console.error("Error deleting area:", err);
+            alert("Failed to delete area.");
+        }
+    };
+
     return (
         <div className="app-container">
             <h1>Area Dashboard</h1>
-            <button className="get-started-btn" onClick={() => navigate("/areas/create")}>
+            <button className="get-started-btn" onClick={() => navigate("/area/create")}>
                 Create Area
             </button>
             <table className="area-table">
@@ -35,14 +51,14 @@ export default function AreaDashboard() {
                         <td>
                             <button
                                 className="get-started-btn small-btn"
-                                onClick={() => navigate(`/areas/update/${area.areaId}`)}
+                                onClick={() => navigate(`/area/update/${area.areaId}`)}
                             >
                                 Update
                             </button>
                             <button
                                 className="get-started-btn small-btn"
                                 style={{ marginLeft: "0.5rem" }}
-                                onClick={() => navigate(`/areas/delete/${area.areaId}`)} // ← updated here
+                                onClick={() => handleDelete(area.areaId)}
                             >
                                 Delete
                             </button>
