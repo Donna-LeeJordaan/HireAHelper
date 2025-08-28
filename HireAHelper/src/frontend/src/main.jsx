@@ -34,7 +34,7 @@ createRoot(document.getElementById('root')).render(
                 <Route path="/client/dashboard" element={<ClientDashboard />} />
 
                 {/* Area Routes */}
-                <Route path="/areas" element={<AreaDashboard />} />
+                <Route path="/area" element={<AreaDashboard />} />
                 <Route path="/areas/create" element={<AreaCreate />} />
                 <Route path="/areas/update/:id" element={<AreaUpdate />} />
                 <Route path="/areas/delete/:id" element={<AreaDelete />} />
