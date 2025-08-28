@@ -31,7 +31,7 @@ createRoot(document.getElementById('root')).render(
 
                 {/* Client Routes */}
                 <Route path="/client/register" element={<ClientRegister />} />
-                <Route path=" /client/dashboard" element={<ClientDashboard />} />
+                <Route path="/client/dashboard" element={<ClientDashboard />} />
 
                 {/* Area Routes */}
                 <Route path="/areas" element={<AreaDashboard />} />
