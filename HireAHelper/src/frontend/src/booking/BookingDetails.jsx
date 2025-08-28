@@ -1,27 +1,38 @@
-import React, { useEffect, useState } from 'react';
+// BookingDetails.jsx
+import React from 'react';
+import "./BookingDashboard.css"; // Reusing the same CSS file
 
-const BookingDetails = ({ match }) => {
-    const [booking, setBooking] = useState(null);
+const BookingDetails = ({ booking }) => {
+    // Sample booking object if no props passed
+    const sampleBooking = {
+        id: 'BKG12345',
+        clientName: 'John Doe',
+        service: 'Home Cleaning',
+        date: '2025-08-27',
+        time: '14:00',
+        status: 'Confirmed',
+        notes: 'Client prefers eco-friendly products'
+    };
 
-    useEffect(() => {
-        const fetchBookingDetails = async () => {
-            const response = await fetch(`/api/bookings/${match.params.id}`);
-            const data = await response.json();
-            setBooking(data);
-        };
-        fetchBookingDetails();
-    }, [match.params.id]);
-
-    if (!booking) return <div>Loading...</div>;
+    const currentBooking = booking || sampleBooking;
 
     return (
-        <div>
+        <div className="booking-container">
+            <div className="logo-container">
+                <img src="/logo.png" alt="Logo" className="logo" />
+            </div>
             <h1>Booking Details</h1>
-            <p>Booking ID: {booking.id}</p>
-            <p>Service Provider: {booking.serviceProvider.name}</p>
-            <p>Client: {booking.client.name}</p>
-            <p>Date: {booking.date}</p>
-            <p>Status: {booking.status}</p>
+            <p>View all details of your booking below.</p>
+
+            <div className="booking-form">
+                <input type="text" value={`Booking ID: ${currentBooking.id}`} readOnly />
+                <input type="text" value={`Client Name: ${currentBooking.clientName}`} readOnly />
+                <input type="text" value={`Service: ${currentBooking.service}`} readOnly />
+                <input type="text" value={`Date: ${currentBooking.date}`} readOnly />
+                <input type="text" value={`Time: ${currentBooking.time}`} readOnly />
+                <input type="text" value={`Status: ${currentBooking.status}`} readOnly />
+                <textarea value={`Notes: ${currentBooking.notes}`} readOnly />
+            </div>
         </div>
     );
 };
