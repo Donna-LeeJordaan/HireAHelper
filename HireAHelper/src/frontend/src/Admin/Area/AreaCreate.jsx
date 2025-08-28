@@ -1,41 +1,32 @@
-//Ameeruddin Area 230190839
 import React, { useState } from "react";
-
-
-const generateUserId = () => `USR-${Math.floor(100000 + Math.random() * 900000)}`;
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export default function AreaCreate() {
-    const [areaName, setAreaName] = useState("");
+    const [name, setName] = useState("");
     const navigate = useNavigate();
+
+    const generateId = () => `AREA-${Math.floor(100000 + Math.random() * 900000)}`;
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (!areaName.trim()) return;
-
-        const newArea = {
-            id: Date.now(),
-            name: areaName,
-            userId: generateUserId(),
-        };
-
-        console.log("New Area Created:", newArea); // Replace with API call
-        setAreaName("");
-        navigate("/areas"); // Go back to dashboard
+        const newArea = { areaId: generateId(), name };
+        axios.post("http://localhost:8080/HireAHelper/area/create", newArea)
+            .then(() => navigate("/area"))
+            .catch(err => console.error(err));
     };
 
     return (
-        <div className="p-6">
-            <Card className="p-4">
-                <h2 className="text-xl font-semibold mb-2">Create New Area</h2>
-                <form onSubmit={handleSubmit} className="flex gap-2">
-                    <Input
-                        placeholder="Enter area name"
-                        value={areaName}
-                        onChange={(e) => setAreaName(e.target.value)}
-                    />
-                    <Button type="submit">Add</Button>
-                </form>
-            </Card>
+        <div style={{ padding: "2rem" }}>
+            <h1>Create Area</h1>
+            <form onSubmit={handleSubmit}>
+                <div>
+                    <label>Area Name:</label>
+                    <input value={name} onChange={(e) => setName(e.target.value)} required />
+                </div>
+                <button type="submit">Save</button>
+                <button type="button" onClick={() => navigate("/area")}>Cancel</button>
+            </form>
         </div>
     );
 }
