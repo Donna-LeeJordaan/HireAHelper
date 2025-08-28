@@ -51,16 +51,5 @@ public class ClientController {
         return service.getAll();
     }
 
-    // Login endpoint
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody Client client) {
-        Client loggedIn = service.login(client.getEmail(), client.getPassword());
-
-        if (loggedIn != null) {
-            return ResponseEntity.ok(loggedIn);
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body("Invalid email or password");
-        }
-    }
 }
+

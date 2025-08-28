@@ -10,5 +10,5 @@ import java.util.Optional;
 
 @Repository
 public interface AdminRepository extends JpaRepository<Admin, String> {
-    // Custom query methods can be defined here if needed
+    Optional<Admin> findByEmailAndPassword(String email, String password);
 }
