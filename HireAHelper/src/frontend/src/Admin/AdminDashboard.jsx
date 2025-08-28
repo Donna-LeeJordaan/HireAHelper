@@ -9,10 +9,10 @@ export default function AdminDashboard() {
         <div className="admin-container">
             <h1>Admin Dashboard</h1>
             <div className="admin-buttons">
-                <button className="get-started-btn" onClick={() => navigate("/areas")}>
+                <button className="get-started-btn" onClick={() => navigate("/area")}>
                     Manage Areas
                 </button>
-                <button className="get-started-btn" onClick={() => navigate("/service-types")}>
+                <button className="get-started-btn" onClick={() => navigate("/serviceType")}>
                     Manage Service Types
                 </button>
             </div>

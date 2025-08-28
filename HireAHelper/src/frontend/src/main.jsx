@@ -15,7 +15,7 @@ import AreaCreate from "./Admin/Area/AreaCreate";
 import AreaUpdate from "./Admin/Area/AreaUpdate.jsx";
 import ServiceTypeDashboard from "./Admin/ServiceType/ServiceTypeDashboard.jsx";
 import ServiceTypeCreate from "./Admin/ServiceType/ServiceTypeCreate.jsx";
-import ServiceTypeUpdate from "./Admin/ServiceType/ServiceTypeCreateUpdate.jsx";
+import ServiceTypeUpdate from "./Admin/ServiceType/ServiceTypeCreate.jsx";
 import AdminDashboard from "./Admin/AdminDashboard.jsx";
 
 createRoot(document.getElementById('root')).render(
