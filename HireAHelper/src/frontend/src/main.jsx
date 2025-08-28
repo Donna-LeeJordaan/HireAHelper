@@ -13,7 +13,7 @@ import AuthPage from "./Auth/AuthPage.jsx";
 import AreaDashboard from "./Admin/Area/AreaDashboard.jsx";
 import AreaCreate from "./Admin/Area/AreaCreate";
 import AreaUpdate from "./Admin/Area/AreaUpdate.jsx";
-import AreaDelete from "./Admin/Area/AreaDelete.jsx";
+
 
 createRoot(document.getElementById('root')).render(
     <StrictMode>
@@ -35,9 +35,11 @@ createRoot(document.getElementById('root')).render(
 
                 {/* Area Routes */}
                 <Route path="/area" element={<AreaDashboard />} />
-                <Route path="/areas/create" element={<AreaCreate />} />
-                <Route path="/areas/update/:id" element={<AreaUpdate />} />
-                <Route path="/areas/delete/:id" element={<AreaDelete />} />
+                <Route path="/area/create" element={<AreaCreate />} />
+                <Route path="/area/update/:areaId" element={<AreaUpdate />} />
+
+                {/* ServiceType Routes */}
+
 
                 {/*Booking Routes*/}
 
