@@ -20,7 +20,7 @@ function AuthPage() {
                     </button>
                     <button
                         className="auth-btn"
-                        onClick={() => navigate("/client/login")}
+                        onClick={() => navigate("/login")}
                     >
                         Login
                     </button>
