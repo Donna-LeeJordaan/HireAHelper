@@ -28,6 +28,7 @@ import AreaUpdate from "./Admin/Area/AreaUpdate.jsx";
 import ServiceTypeDashboard from "./Admin/ServiceType/ServiceTypeDashboard.jsx";
 import ServiceTypeCreate from "./Admin/ServiceType/ServiceTypeCreate.jsx";
 import ServiceTypeUpdate from "./Admin/ServiceType/ServiceTypeUpdate.jsx";
+import ServiceProviderUpdateBooking from "./serviceProvider/ServiceProviderBookingUpdate.jsx";
 
 
 createRoot(document.getElementById('root')).render(
@@ -69,6 +70,8 @@ createRoot(document.getElementById('root')).render(
                 {/*ServiceProvider Routes*/}
                 <Route path="/serviceProviderBookings" element={<ServiceProviderBookings />} />
                 <Route path="/serviceProviderBookingDetails/:bookingId" element={<ServiceProviderBookingDetails />} />
+                <Route path="/updateBooking/:bookingId" element={<ServiceProviderUpdateBooking />} />
+
 
             </Routes>
         </BrowserRouter>
