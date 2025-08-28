@@ -16,6 +16,7 @@ import AreaUpdate from "./Admin/Area/AreaUpdate.jsx";
 import ServiceTypeDashboard from "./Admin/ServiceType/ServiceTypeDashboard.jsx";
 import ServiceTypeCreate from "./Admin/ServiceType/ServiceTypeCreate.jsx";
 import ServiceTypeUpdate from "./Admin/ServiceType/ServiceTypeCreateUpdate.jsx";
+import AdminDashboard from "./Admin/AdminDashboard.jsx";
 
 createRoot(document.getElementById('root')).render(
     <StrictMode>
@@ -26,6 +27,10 @@ createRoot(document.getElementById('root')).render(
                 <Route path="/" element={<Home />} />
                 <Route path="/auth" element={<AuthPage/>} />
                 <Route path="/login" element={<Login />} />
+
+                {/* Admin Routes */}
+                <Route path="/admin/Dashboard" element={<AdminDashboard/>} />
+
 
                 {/* Service Provider Routes */}
                 <Route path="/serviceProvider/Register" element={<ServiceProviderRegister/>} />
