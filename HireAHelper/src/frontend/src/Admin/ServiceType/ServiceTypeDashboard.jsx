@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../../css/Area.css";
 
+
 export default function ServiceTypeDashboard() {
     const [serviceType, setServiceType] = useState([]);
     const navigate = useNavigate();
