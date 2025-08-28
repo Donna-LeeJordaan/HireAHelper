@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import "../../css/Area.css";
+import logo from "../../assets/logo1.png";
 
 export default function AreaUpdate() {
     const { areaId } = useParams();
@@ -27,6 +28,9 @@ export default function AreaUpdate() {
 
     return (
         <div className="app-container"> {}
+
+            <img src={logo} alt="Logo" className="logo" />
+
             <h1>Update Area</h1> {}
 
             <form

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../../css/Area.css";
-
+import logo from "../../assets/logo1.png";
 
 export default function ServiceTypeCreate() {
     const [typeName, setTypeName] = useState("");
@@ -20,6 +20,9 @@ export default function ServiceTypeCreate() {
 
     return (
         <div className="app-container">
+
+            <img src={logo} alt="Logo" className="logo" />
+
             <h1>Create ServiceType</h1>
             <form
                 onSubmit={handleSubmit}

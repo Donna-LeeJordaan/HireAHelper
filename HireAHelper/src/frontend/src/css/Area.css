@@ -22,6 +22,15 @@ body, html {
     box-sizing: border-box;
 }
 
+.logo {
+    width: 200px;       /* smaller size */
+    height: auto;
+    margin-bottom: 20px; /* space between logo and heading */
+    display: block;
+    margin-left: auto;
+    margin-right: auto;  /* center the logo */
+}
+
 /* Heading */
 h1 {
     font-size: 3rem;
