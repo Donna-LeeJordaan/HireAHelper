@@ -12,9 +12,6 @@ import AuthPage from "./Auth/AuthPage.jsx";
 import AreaDashboard from "./Admin/Area/AreaDashboard.jsx";
 import AreaCreate from "./Admin/Area/AreaCreate";
 import AreaUpdate from "./Admin/Area/AreaUpdate.jsx";
-import BookingDetails from "./booking/BookingDetails";
-import CreateBooking from "./booking/CreateBooking";
-import BookingDashboard from "./booking/BookingDashboard";
 import AreaDelete from "./Admin/Area/AreaDelete.jsx";
 
 function App() {
@@ -41,9 +38,7 @@ function App() {
                 <Route path="/areas/delete/:id" element={<AreaDelete />} />
 
                 {/*Booking Routes*/}
-                <Route path="/booking/create-booking" element={<CreateBooking />} />
-                <Route path="/booking/booking-dashboard" element={<BookingDashboard />} />
-                <Route path="/booking/booking-details" element={<BookingDetails />} />
+
 
 
             </Routes>
