@@ -1,40 +1,46 @@
-//Ameeruddin Arai 230190839
-import React, { useState } from "react";
-
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
 
 export default function AreaUpdate() {
-    const { id } = useParams();
-    const { state } = useLocation();
+    const { areaId } = useParams();
+    const [name, setName] = useState("");
     const navigate = useNavigate();
 
-    const [updatedName, setUpdatedName] = useState(state?.area?.name || "");
+    useEffect(() => {
+        if (areaId) {
+            axios
+                .get(`http://localhost:8080/HireAHelper/area/read/${areaId}`)
+                .then((res) => setName(res.data.name))
+                .catch((err) => console.error("Error fetching area:", err));
+        }
+    }, [areaId]);
 
-    const handleUpdate = (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        if (!updatedName.trim()) return;
-
-        const updatedArea = { ...state.area, name: updatedName };
-
-        console.log("Updated Area:", updatedArea); // Replace with API call
-        navigate("/areas");
+        axios
+            .put("http://localhost:8080/HireAHelper/area/update", { areaId, name })
+            .then(() => navigate("/area"))
+            .catch((err) => console.error("Error updating area:", err));
     };
 
     return (
-        <div className="p-6">
-            <Card className="p-4">
-                <h2 className="text-xl font-semibold mb-2">Update Area</h2>
-                <form onSubmit={handleUpdate} className="flex gap-2">
-                    <Input
-                        value={updatedName}
-                        onChange={(e) => setUpdatedName(e.target.value)}
+        <div style={{ padding: "2rem" }}>
+            <h1>Update Area</h1>
+            <form onSubmit={handleSubmit}>
+                <div>
+                    <label>Area Name:</label>
+                    <input
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        required
                     />
-                    <Button type="submit">Save</Button>
-                    <Button type="button" variant="secondary" onClick={() => navigate("/areas")}>
-                        Cancel
-                    </Button>
-                </form>
-            </Card>
+                </div>
+                <button type="submit">Update</button>
+                <button type="button" onClick={() => navigate("/area")}>
+                    Cancel
+                </button>
+            </form>
         </div>
     );
 }
