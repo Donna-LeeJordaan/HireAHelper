@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/ClientRegister.css"; // Reusing the ClientRegister css
 
-function ClientLogin() {
+function Login() {
     const [formData, setFormData] = useState({
         email: "",
         password: ""
@@ -79,4 +79,4 @@ function ClientLogin() {
     );
 }
 
-export default ClientLogin;
+export default Login;
