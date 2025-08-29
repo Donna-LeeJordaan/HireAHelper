@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import "../css/CreateBooking.css";
+import logo from "../assets/logo1.png";
 
 const CreateBooking = () => {
     const generateBookingId = () => `BOOKING-${Math.floor(100000 + Math.random() * 900000)}`;
@@ -14,15 +16,13 @@ const CreateBooking = () => {
     const [notes, setNotes] = useState("");
     const [step, setStep] = useState(1);
 
-    {/*getting the client info*/}
     useEffect(() => {
         axios
             .get(`http://localhost:8080/HireAHelper/client/read/${userId}`)
-    .then((res) => setClientArea(res.data.area))
+            .then((res) => setClientArea(res.data.area))
             .catch((err) => console.error("Error fetching client:", err));
     }, [userId]);
 
-    {/*getting all service providers */}
     useEffect(() => {
         axios
             .get("http://localhost:8080/HireAHelper/serviceProvider/all")
@@ -47,7 +47,7 @@ const CreateBooking = () => {
                 sp.area?.areaId === clientArea.areaId
         );
         setFilteredProviders(filtered);
-        setStep(2); // Show results
+        setStep(2);
     };
 
     const handleSubmit = (e) => {
@@ -57,7 +57,7 @@ const CreateBooking = () => {
             return;
         }
         const booking = {
-            bookingId: generateBookingId() ,
+            bookingId: generateBookingId(),
             client: { userId },
             serviceProvider: { userId: serviceProviderId },
             serviceDate,
@@ -66,7 +66,7 @@ const CreateBooking = () => {
         };
         axios
             .post("http://localhost:8080/HireAHelper/booking/create", booking)
-            .then((res) => {
+            .then(() => {
                 alert("Booking created successfully!");
                 setStep(1);
                 setServiceType("");
@@ -81,85 +81,80 @@ const CreateBooking = () => {
     const selectedProvider = filteredProviders.find(
         (sp) => sp.userId === serviceProviderId
     );
-
     return (
-        <div className="booking-container">
-            <h2>Create Booking</h2>
+        <div className="page-wrapper">
+            <div className="app-container">
+                <img src={logo} alt="Logo" className="logo" />
+                <h1>Create Booking</h1>
 
-            {/*  letting the client search for a service type */}
-            {step === 1 && (
-                <div className="search-container">
-                    <input
-                        type="text"
-                        value={serviceType}
-                        onChange={(e) => setServiceType(e.target.value)}
-                        placeholder="Search service type e.g., Gardener"
-                    />
-                    <button onClick={handleSearch}>Search</button>
-                </div>
-            )}
-
-            {/* showing the client the service providers with that service type */}
-            {step === 2 && filteredProviders.length > 0 && (
-                <div className="provider-grid">
-                    {filteredProviders.map((sp) => (
-                        <div
-                            key={sp.userId}
-                            className={`provider-card ${
-                                serviceProviderId === sp.userId ? "selected" : ""
-                            }`}
-                            onClick={() => setServiceProviderId(sp.userId)}
-                        >
-                            <img
-                                src={sp.profileImage}
-                                alt={sp.name}
-                            />
-                            <h3>{sp.name}</h3>
-                            <p><strong>Service:</strong> {sp.serviceType?.typeName}</p>
-                            <p><strong>Rate:</strong> R{sp.rate}</p>
-                            <p>{sp.description || "No description available."}</p>
-                            <p><strong>Location:</strong> {sp.area?.name}</p>
-                        </div>
-                    ))}
-                    {serviceProviderId && (
-                        <button className="btn-submit" onClick={() => setStep(3)}>
-                            Next
-                        </button>
-                    )}
-                </div>
-            )}
-
-            {/* the booking form */}
-            {step === 3 && selectedProvider && (
-                <div className="booking-form-container">
-                    <div className="provider-card selected">
-                        <img
-                            src={selectedProvider.profileImage}
-                            alt={selectedProvider.name}
-                        />
-                        <h3>{selectedProvider.name}</h3>
-                        <p><strong>Service:</strong> {selectedProvider.serviceType?.typeName}</p>
-                        <p><strong>Rate:</strong> R{selectedProvider.rate}</p>
-                        <p>{selectedProvider.description || "No description available."}</p>
-                        <p><strong>Location:</strong> {selectedProvider.area?.name}</p>
-                    </div>
-
-                    <form onSubmit={handleSubmit} className="booking-form">
-                        <label>Service Date:</label>
+                {step === 1 && (
+                    <div className="search-container">
                         <input
-                            type="date"
-                            value={serviceDate}
-                            onChange={(e) => setServiceDate(e.target.value)}
-                            required
+                            type="text"
+                            value={serviceType}
+                            onChange={(e) => setServiceType(e.target.value)}
+                            placeholder="Search service type e.g., Gardener"
+                            className="search-input"
                         />
+                        <button onClick={handleSearch} className="get-started-btn">Search</button>
+                    </div>
+                )}
 
-                        <label>Notes:</label>
-                        <textarea value={notes} onChange={(e) => setNotes(e.target.value)} />
+                {step === 2 && filteredProviders.length > 0 && (
+                    <div className="provider-grid">
+                        {filteredProviders.map((sp) => (
+                            <div
+                                key={sp.userId}
+                                className={`provider-card ${serviceProviderId === sp.userId ? "selected" : ""}`}
+                                onClick={() => setServiceProviderId(sp.userId)}
+                            >
+                                <img src={sp.profileImage} alt={sp.name} />
+                                <h3>{sp.name}</h3>
+                                <p><strong>Service:</strong> {sp.serviceType?.typeName}</p>
+                                <p><strong>Rate:</strong> R{sp.rate}</p>
+                                <p>{sp.description || "No description available."}</p>
+                                <p><strong>Location:</strong> {sp.area?.name}</p>
+                            </div>
+                        ))}
+                        {serviceProviderId && (
+                            <button className="get-started-btn" onClick={() => setStep(3)}>
+                                Next
+                            </button>
+                        )}
+                    </div>
+                )}
 
-                        <button type="submit" className="btn-submit">Create Booking</button>
-                    </form>
-                </div>
-            )}
+                {step === 3 && selectedProvider && (
+                    <div className="booking-form-container">
+                        <div className="provider-card selected">
+                            <img src={selectedProvider.profileImage} alt={selectedProvider.name} />
+                            <h3>{selectedProvider.name}</h3>
+                            <p><strong>Service:</strong> {selectedProvider.serviceType?.typeName}</p>
+                            <p><strong>Rate:</strong> R{selectedProvider.rate}</p>
+                            <p>{selectedProvider.description || "No description available."}</p>
+                            <p><strong>Location:</strong> {selectedProvider.area?.name}</p>
+                        </div>
+
+                        <form onSubmit={handleSubmit} className="booking-form">
+                            <label>Service Date:</label>
+                            <input
+                                type="date"
+                                value={serviceDate}
+                                onChange={(e) => setServiceDate(e.target.value)}
+                                required
+                            />
+
+                            <label>Notes:</label>
+                            <textarea
+                                value={notes}
+                                onChange={(e) => setNotes(e.target.value)}
+                            />
+
+                            <button type="submit" className="get-started-btn">Create Booking</button>
+                        </form>
+                    </div>
+                )}
+            </div>
         </div>
     );
 };
