@@ -106,9 +106,11 @@ const CreateBooking = () => {
                             <div
                                 key={sp.userId}
                                 className={`provider-card ${serviceProviderId === sp.userId ? "selected" : ""}`}
-                                onClick={() => setServiceProviderId(sp.userId)}
-                            >
-                                <img src={sp.profileImage} alt={sp.name} />
+                                onClick={() => setServiceProviderId(sp.userId)}>
+
+                                <img src={sp.profileImage ? sp.profileImage.startsWith("data:image")
+                                        ? sp.profileImage : `data:image/png;base64,${sp.profileImage}`
+                                    : "/default-avatar.png"} alt={sp.name}/>
                                 <h3>{sp.name}</h3>
                                 <p><strong>Service:</strong> {sp.serviceType?.typeName}</p>
                                 <p><strong>Rate:</strong> R{sp.rate}</p>
