@@ -93,7 +93,7 @@ const CreateBooking = () => {
                             type="text"
                             value={serviceType}
                             onChange={(e) => setServiceType(e.target.value)}
-                            placeholder="Search service type e.g., Gardener"
+                            placeholder="Search service"
                             className="search-input"
                         />
                         <button onClick={handleSearch} className="get-started-btn">Search</button>
