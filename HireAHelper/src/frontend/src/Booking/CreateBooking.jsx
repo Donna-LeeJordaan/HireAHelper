@@ -129,12 +129,15 @@ const CreateBooking = () => {
                 {step === 3 && selectedProvider && (
                     <div className="booking-form-container">
                         <div className="provider-card selected">
-                            <img src={selectedProvider.profileImage} alt={selectedProvider.name} />
-                            <h3>{selectedProvider.name}</h3>
-                            <p><strong>Service:</strong> {selectedProvider.serviceType?.typeName}</p>
-                            <p><strong>Rate:</strong> R{selectedProvider.rate}</p>
-                            <p>{selectedProvider.description || "No description available."}</p>
-                            <p><strong>Location:</strong> {selectedProvider.area?.name}</p>
+                            <><img src={selectedProvider.profileImage ? selectedProvider.profileImage.startsWith("data:image")
+                            ? selectedProvider.profileImage : `data:image/png;base64,${selectedProvider.profileImage}`
+                            : "/default-avatar.png"} alt={selectedProvider.name} />
+                                <h3>{selectedProvider.name}</h3>
+                                <p><strong>Service:</strong> {selectedProvider.serviceType?.typeName}</p>
+                                <p><strong>Rate:</strong> R{selectedProvider.rate}</p>
+                                <p>{selectedProvider.description || "No description available."}</p>
+                                <p><strong>Location:</strong> {selectedProvider.area?.name}</p>
+                            </>
                         </div>
 
                         <form onSubmit={handleSubmit} className="booking-form">
