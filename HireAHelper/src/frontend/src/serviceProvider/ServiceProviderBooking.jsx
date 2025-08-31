@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Nav from "../components/Nav.jsx";
 
 const ServiceProviderBookings = () => {
     const [bookings, setBookings] = useState([]);
@@ -21,6 +22,9 @@ const ServiceProviderBookings = () => {
     }, [serviceProviderId]);
 
     return (
+        <>
+            <Nav user={user} />
+
         <div className="bookings-container">
             <h2>Bookings</h2>
             {bookings.length === 0 ? (
@@ -44,6 +48,7 @@ const ServiceProviderBookings = () => {
                 </div>
             )}
         </div>
+            </>
     );
 };
 

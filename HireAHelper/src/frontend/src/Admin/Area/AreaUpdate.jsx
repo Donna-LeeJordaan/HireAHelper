@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import "../../css/Area.css";
+import Nav from "../../components/Nav.jsx";
 
 export default function AreaUpdate() {
+    const user = JSON.parse(localStorage.getItem("user"));
     const { areaId } = useParams();
     const [name, setName] = useState("");
     const navigate = useNavigate();
@@ -26,6 +28,9 @@ export default function AreaUpdate() {
     };
 
     return (
+        <>
+            <Nav user={user} />
+
         <div className="app-container"> {}
 
             <h1>Update Area</h1> {}
@@ -98,5 +103,6 @@ export default function AreaUpdate() {
                 </div>
             </form>
         </div>
+            </>
     );
 }

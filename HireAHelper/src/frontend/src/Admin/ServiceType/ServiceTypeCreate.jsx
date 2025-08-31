@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../../css/Area.css";
-import logo from "../../assets/logo1.png";
+import Nav from "../../components/Nav.jsx";
 
 export default function ServiceTypeCreate() {
+    const user = JSON.parse(localStorage.getItem("user"));
     const [typeName, setTypeName] = useState("");
     const navigate = useNavigate();
 
@@ -19,9 +20,10 @@ export default function ServiceTypeCreate() {
     };
 
     return (
-        <div className="app-container">
+        <>
+            <Nav user={user} />
 
-            <img src={logo} alt="Logo" className="logo" />
+        <div className="app-container">
 
             <h1>Create ServiceType</h1>
             <form
@@ -68,5 +70,6 @@ export default function ServiceTypeCreate() {
                 </div>
             </form>
         </div>
+            </>
     );
 }

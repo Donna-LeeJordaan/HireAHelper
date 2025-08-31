@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../../css/Area.css";
-import logo from "../../assets/logo1.png";
+import Nav from "../../components/Nav.jsx";
 
 export default function ServiceTypeDashboard() {
+    const user = JSON.parse(localStorage.getItem("user"));
     const [serviceType, setServiceType] = useState([]);
     const navigate = useNavigate();
 
@@ -30,9 +31,10 @@ export default function ServiceTypeDashboard() {
     };
 
     return (
-        <div className="app-container">
+        <>
+            <Nav user={user} />
 
-            <img src={logo} alt="Logo" className="logo" />
+        <div className="app-container">
 
             <h1>ServiceType Dashboard</h1>
             <button className="get-started-btn" onClick={() => navigate("/serviceType/create")}>
@@ -72,5 +74,6 @@ export default function ServiceTypeDashboard() {
 
             </table>
         </div>
+            </>
     );
 }

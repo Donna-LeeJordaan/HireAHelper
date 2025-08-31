@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../../css/Area.css";
+import Nav from "../../components/Nav.jsx";
 
 export default function AreaDashboard() {
+    const user = JSON.parse(localStorage.getItem("user"));
     const [areas, setAreas] = useState([]);
     const navigate = useNavigate();
 
@@ -30,10 +32,13 @@ export default function AreaDashboard() {
     };
 
     return (
-        <div className="app-container">
+        <>
+            <Nav user={user} />
+
+            <div className="app-container">
 
             <h1>Area Dashboard</h1>
-            <button className="get-started-btn" onClick={() => navigate("/area/create")}>
+            <button className="areaCreate-button" onClick={() => navigate("/area/create")}>
                 Create Area
             </button>
             <table className="area-table">
@@ -70,5 +75,6 @@ export default function AreaDashboard() {
 
             </table>
         </div>
+            </>
     );
 }

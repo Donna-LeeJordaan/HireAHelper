@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../../css/Area.css";
+import Nav from "../../components/Nav.jsx";
 
 export default function AreaCreate() {
+    const user = JSON.parse(localStorage.getItem("user"));
     const [name, setName] = useState("");
     const navigate = useNavigate();
 
@@ -18,6 +20,9 @@ export default function AreaCreate() {
     };
 
     return (
+        <>
+            <Nav user={user} />
+
         <div className="app-container">
 
             <h1>Create Area</h1>
@@ -65,5 +70,6 @@ export default function AreaCreate() {
                 </div>
             </form>
         </div>
+            </>
     );
 }
