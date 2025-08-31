@@ -1,12 +1,21 @@
+import React from "react";
+import Nav from "../components/Nav.jsx";
+import "../css/Dashboard.css";
+
 function ServiceProviderDashboard() {
+    const user = JSON.parse(localStorage.getItem("user"));
 
     return (
-        <div >
+        <>
+            <Nav user={user} />
 
-            <div >
-                <h1>Service Provider Dashboard</h1>
+            <div className="main-content">
+                <h1>Welcome, {user?.name || "User"}</h1>
             </div>
-        </div>
+
+        </>
+
     );
 }
-export default ServiceProviderDashboard
+
+export default ServiceProviderDashboard;

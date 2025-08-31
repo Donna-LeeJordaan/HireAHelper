@@ -1,0 +1,7 @@
+.main-content {
+    flex: 1;
+    padding: 1rem;
+    width: calc(100vw - 250px);
+    margin-left: 250px;
+}
+
