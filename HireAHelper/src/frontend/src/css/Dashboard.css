@@ -1,7 +1,7 @@
 .main-content {
-    margin-left: 300px; /* match nav width */
+    margin-left: 300px;
     width: calc(100vw - 300px);
-    padding: 1rem 1rem 0 1rem; /* only padding left/right and top=0 */
+    padding: 1rem 1rem 0 1rem;
     box-sizing: border-box;
 }
 
