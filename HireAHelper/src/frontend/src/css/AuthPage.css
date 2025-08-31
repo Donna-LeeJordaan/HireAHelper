@@ -1,15 +1,12 @@
-/* Full-page container */
 .auth-container {
     display: flex;
-    justify-content: center; /* horizontal center */
-    align-items: center;     /* vertical center */
+    justify-content: center;
+    align-items: center;
     height: 100vh;
     width: 100vw;
-    background: linear-gradient(135deg, #fff 0%, #e0f7f6 100%); /* soft teal gradient */
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Centered card/box */
 .auth-card {
     background-color: white;
     padding: 3rem 2rem;
@@ -23,20 +20,17 @@
     text-align: center;
 }
 
-/* Logo inside card */
 .auth-logo {
     height: 70px;
     margin-bottom: 1.5rem;
 }
 
-/* Heading */
 .auth-card h2 {
     font-size: 2.2rem;
-    color: #013220; /* dark green */
+    color: #013220;
     margin-bottom: 2rem;
 }
 
-/* Buttons */
 .auth-buttons {
     display: flex;
     flex-direction: column;
@@ -46,7 +40,7 @@
 }
 
 .auth-btn {
-    background-color: #055f5b;
+    background-color: #013220;
     color: white;
     border: none;
     padding: 1rem;
@@ -60,10 +54,9 @@
 .auth-btn:hover {
     transform: scale(1.03);
     box-shadow: 0 6px 20px rgba(0,0,0,0.2);
-    background-color: #044a48;
+    background-color: #013220;
 }
 
-/* Provider link */
 .provider-text {
     font-size: 0.95rem;
     color: #013220;
@@ -72,10 +65,9 @@
 }
 
 .provider-text:hover {
-    color: #055f5b;
+    color: #013220;
 }
 
-/* Responsive */
 @media (max-width: 480px) {
     .auth-card {
         padding: 2rem 1.5rem;

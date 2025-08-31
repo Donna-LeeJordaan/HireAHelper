@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../css/CreateBooking.css";
-import logo from "../assets/logo1.png";
 
 const CreateBooking = () => {
     const generateBookingId = () => `BOOKING-${Math.floor(100000 + Math.random() * 900000)}`;
@@ -113,7 +112,7 @@ const CreateBooking = () => {
     return (
         <div className="page-wrapper">
             <div className="app-container">
-                <img src={logo} alt="Logo" className="logo" />
+
                 <h1>Create Booking</h1>
 
                 {step === 1 && (

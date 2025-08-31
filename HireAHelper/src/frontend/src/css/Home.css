@@ -1,75 +1,62 @@
-/* Remove default body margin to avoid white gaps */
 body, html {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
 }
 
-/* Full-page container */
 .app-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center; /* vertical center */
-  align-items: center;     /* horizontal center */
-  height: 100vh;           /* full viewport height */
-  width: 100vw;            /* full viewport width */
-  background: linear-gradient(135deg, #fff 0%, #ffeb99 100%); /* white + yellow gradient */
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  text-align: center;
-  box-sizing: border-box;
-  color: #055f5b; /* dark complementary text */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    background-color: #ffffff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+    box-sizing: border-box;
+    color: #013220;
 }
 
-/* Logo */
 .logo-one {
-  height: 200px; /* small logo */
-  margin-bottom: 2rem;
+    height: 200px;
+    margin-bottom: 2rem;
 }
 
-/* Heading */
-h1 {
-  font-size: 3rem;
-  margin-bottom: 1rem;
-  color: #013220; /* dark green */
-}
-
-/* Paragraph */
 p {
-  font-size: 1.2rem;
-  margin-bottom: 2rem;
-  color: #055f5b; /* dark text */
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    color: #013220;
 }
 
-/* Button */
 .get-started-btn {
-  background-color: #ffeb99; /* yellow */
-  color: #055f5b;             /* dark text for contrast */
-  border: none;
-  padding: 1rem 2rem;
-  font-size: 1.2rem;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.3s;
+    background-color: #013220;
+    color: #ffffff;
+    border: none;
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.3s;
 }
 
 .get-started-btn:hover {
-  transform: scale(1.05);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
-  h1 {
-    font-size: 2.2rem;
-  }
-  p {
-    font-size: 1rem;
-  }
-  .get-started-btn {
-    font-size: 1rem;
-    padding: 0.8rem 1.5rem;
-  }
+    p {
+        font-size: 1rem;
+    }
+    .get-started-btn {
+        font-size: 1rem;
+        padding: 0.8rem 1.5rem;
+    }
 }
+
+
+
 
 
