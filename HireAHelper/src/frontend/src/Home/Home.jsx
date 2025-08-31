@@ -6,7 +6,7 @@ function Home() {
     const navigate = useNavigate();
 
     return (
-        <div className="app-container">
+        <div className="home-container">
             <img src={logo} alt="Hire A Helper Logo" className="logo-one" />
             <h1>Welcome to Hire A Helper</h1>
             <p>Find help with services at your fingertips.</p>
