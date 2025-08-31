@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import logo from "../assets/logo1.png";
 import Nav from "../components/Nav.jsx";
+import "../css/Bookings.css";
 
 const ClientBookings = () => {
     const [bookings, setBookings] = useState([]);
@@ -23,7 +23,6 @@ const ClientBookings = () => {
 
             <div className="page-wrapper">
             <div className="bookings-container">
-                <img src={logo} alt="Logo" className="logo" />
                 <h1>My Bookings</h1>
 
                 {bookings.length === 0 ? (

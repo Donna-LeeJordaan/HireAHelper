@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Nav from "../components/Nav.jsx";
+import "../css/BookingDetails.css";
 
 const BookingDetails = () => {
     const user = JSON.parse(localStorage.getItem("user"));
