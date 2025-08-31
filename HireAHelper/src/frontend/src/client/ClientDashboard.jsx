@@ -34,12 +34,10 @@ function ClientDashboard() {
 
             <div className="main-content">
                 <div className="dashboard-header">
-
                     <h1>Welcome, {user?.name || "User"}</h1>
-
                     <button
                         className="create-booking-btn"
-                        onClick={() => navigate("/create-booking")}
+                        onClick={() => navigate("/createBookings")}
                     >
                         Create Booking
                     </button>
@@ -69,5 +67,6 @@ function ClientDashboard() {
 }
 
 export default ClientDashboard;
+
 
 
