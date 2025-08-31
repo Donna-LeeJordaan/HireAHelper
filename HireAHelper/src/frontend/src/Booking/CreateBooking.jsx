@@ -11,6 +11,8 @@ const CreateBooking = () => {
     const user = JSON.parse(localStorage.getItem("user"));
     const userId = user?.userId;
     const [clientArea, setClientArea] = useState(null);
+    const [searchPerformed, setSearchPerformed] = useState(false);
+    const [searchError, setSearchError] = useState("");
     const [serviceProviderId, setServiceProviderId] = useState("");
     const [serviceDate, setServiceDate] = useState("");
     const [notes, setNotes] = useState("");
@@ -37,17 +39,43 @@ const CreateBooking = () => {
     }, []);
 
     const handleSearch = () => {
-        if (!clientArea) {
-            alert("Client area not set!");
+        if (!serviceType.trim()) {
+            alert("Enter a service to search");
             return;
         }
-        const filtered = serviceProviders.filter(
+        if (!clientArea) {
+            alert("Please login to make a booking");
+            return;
+        }
+
+        setSearchError("");
+
+        const matchedProviders = serviceProviders.filter(
             (sp) =>
-                sp.serviceType?.typeName.toLowerCase().includes(serviceType.toLowerCase()) &&
-                sp.area?.areaId === clientArea.areaId
+                sp.serviceType?.typeName?.toLowerCase() === serviceType.toLowerCase()
         );
-        setFilteredProviders(filtered);
+
+        if (matchedProviders.length === 0) {
+            setFilteredProviders([]);
+            setSearchError(`Service "${serviceType}" does not exist.`);
+            setSearchPerformed(true);
+            return;
+        }
+
+        const providersInArea = matchedProviders.filter(
+            (sp) => sp.area?.areaId === clientArea.areaId
+        );
+
+        if (providersInArea.length === 0) {
+            setFilteredProviders([]);
+            setSearchError(`No Service Providers found for "${serviceType}" in your area.`);
+            setSearchPerformed(true);
+            return;
+        }
+
+        setFilteredProviders(providersInArea);
         setStep(2);
+        setSearchPerformed(true);
     };
 
     const handleSubmit = (e) => {
@@ -81,6 +109,7 @@ const CreateBooking = () => {
     const selectedProvider = filteredProviders.find(
         (sp) => sp.userId === serviceProviderId
     );
+
     return (
         <div className="page-wrapper">
             <div className="app-container">
@@ -94,9 +123,12 @@ const CreateBooking = () => {
                             value={serviceType}
                             onChange={(e) => setServiceType(e.target.value)}
                             placeholder="Search service"
-                            className="search-input"
-                        />
+                            className="search-input"/>
                         <button onClick={handleSearch} className="get-started-btn">Search</button>
+
+                        {searchPerformed && searchError && (
+                            <p className="no-results">{searchError}</p>
+                        )}
                     </div>
                 )}
 
@@ -105,9 +137,7 @@ const CreateBooking = () => {
                         {filteredProviders.map((sp) => (
                             <div
                                 key={sp.userId}
-                                className={`provider-card ${serviceProviderId === sp.userId ? "selected" : ""}`}
-                                onClick={() => setServiceProviderId(sp.userId)}>
-
+                                className={`provider-card ${serviceProviderId === sp.userId ? "selected" : ""}`}                            onClick={() => setServiceProviderId(sp.userId)}>
                                 <img src={sp.profileImage ? sp.profileImage.startsWith("data:image")
                                         ? sp.profileImage : `data:image/png;base64,${sp.profileImage}`
                                     : "/default-avatar.png"} alt={sp.name}/>
@@ -130,8 +160,8 @@ const CreateBooking = () => {
                     <div className="booking-form-container">
                         <div className="provider-card selected">
                             <><img src={selectedProvider.profileImage ? selectedProvider.profileImage.startsWith("data:image")
-                            ? selectedProvider.profileImage : `data:image/png;base64,${selectedProvider.profileImage}`
-                            : "/default-avatar.png"} alt={selectedProvider.name} />
+                                    ? selectedProvider.profileImage : `data:image/png;base64,${selectedProvider.profileImage}`
+                                : "/default-avatar.png"} alt={selectedProvider.name} />
                                 <h3>{selectedProvider.name}</h3>
                                 <p><strong>Service:</strong> {selectedProvider.serviceType?.typeName}</p>
                                 <p><strong>Rate:</strong> R{selectedProvider.rate}</p>
@@ -146,14 +176,12 @@ const CreateBooking = () => {
                                 type="date"
                                 value={serviceDate}
                                 onChange={(e) => setServiceDate(e.target.value)}
-                                required
-                            />
+                                required/>
 
                             <label>Notes:</label>
                             <textarea
                                 value={notes}
-                                onChange={(e) => setNotes(e.target.value)}
-                            />
+                                onChange={(e) => setNotes(e.target.value)}/>
 
                             <button type="submit" className="get-started-btn">Create Booking</button>
                         </form>
