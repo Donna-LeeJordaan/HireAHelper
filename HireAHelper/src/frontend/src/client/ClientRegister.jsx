@@ -83,7 +83,7 @@ function ClientRegister() {
                 area: null
             });
 
-            navigate("/client/login");
+            navigate("/login");
 
         } catch (err) {
             console.error(err);
