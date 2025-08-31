@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../css/CreateBooking.css";
 import Nav from "../components/Nav.jsx";
 
 const CreateBooking = () => {
+    const navigate = useNavigate();
     const generateBookingId = () => `BOOKING-${Math.floor(100000 + Math.random() * 900000)}`;
     const [serviceProviders, setServiceProviders] = useState([]);
     const [filteredProviders, setFilteredProviders] = useState([]);
@@ -94,17 +96,9 @@ const CreateBooking = () => {
         };
         axios
             .post("http://localhost:8080/HireAHelper/booking/create", booking)
-            .then(() => {
-                alert("Booking created successfully!");
-                setStep(1);
-                setServiceType("");
-                setFilteredProviders([]);
-                setServiceProviderId("");
-                setServiceDate("");
-                setNotes("");
-            })
-            .catch((err) => console.error("Error creating booking:", err));
-    };
+            .then(() => { alert("Booking created successfully!");
+                navigate("/client/dashboard"); })
+            .catch((err) => console.error("Error creating booking:", err)); };
 
     const selectedProvider = filteredProviders.find(
         (sp) => sp.userId === serviceProviderId
