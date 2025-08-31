@@ -1,7 +1,10 @@
 .main-content {
-    flex: 1;
-    padding: 1rem;
-    width: calc(100vw - 250px);
-    margin-left: 250px;
+    margin-left: 300px; /* match nav width */
+    width: calc(100vw - 300px);
+    padding: 1rem 1rem 0 1rem; /* only padding left/right and top=0 */
+    box-sizing: border-box;
 }
 
+.main-content h1 {
+    margin-top: 0;
+}
