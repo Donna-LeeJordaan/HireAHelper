@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import "../../css/Area.css";
-import logo from "../../assets/logo1.png";
+import Nav from "../../components/Nav.jsx";
 
 export default function ServiceTypeUpdate() {
+    const user = JSON.parse(localStorage.getItem("user"));
     const { typeId } = useParams();
     const [typeName, setTypeName] = useState("");
     const navigate = useNavigate();
@@ -27,9 +28,10 @@ export default function ServiceTypeUpdate() {
     };
 
     return (
-        <div className="app-container"> {}
+        <>
+            <Nav user={user} />
 
-            <img src={logo} alt="Logo" className="logo" />
+        <div className="app-container"> {}
 
             <h1>Update ServiceType</h1> {}
 
@@ -101,5 +103,6 @@ export default function ServiceTypeUpdate() {
                 </div>
             </form>
         </div>
+            </>
     );
 }

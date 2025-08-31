@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import Nav from "../components/Nav.jsx";
 
 const ServiceProviderBookingDetails = () => {
+    const user = JSON.parse(localStorage.getItem("user"));
     const { bookingId } = useParams();
     const navigate = useNavigate();
     const [booking, setBooking] = useState(null);
@@ -17,6 +19,9 @@ const ServiceProviderBookingDetails = () => {
     if (!booking) return <p>Loading booking details...</p>;
 
     return (
+        <>
+            <Nav user={user} />
+
         <div className="booking-details-container">
             <h2>Booking Details</h2>
             <div className="details-card">
@@ -38,6 +43,7 @@ const ServiceProviderBookingDetails = () => {
 
             <button className="btn-back" onClick={() => navigate(-1)}>Back</button>
         </div>
+            </>
     );
 };
 

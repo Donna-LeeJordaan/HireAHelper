@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import Nav from "../components/Nav.jsx";
 
 const UpdateBookingStatus = () => {
+    const user = JSON.parse(localStorage.getItem("user"));
     const { bookingId } = useParams();
     const navigate = useNavigate();
     const [booking, setBooking] = useState(null);
@@ -34,6 +36,9 @@ const UpdateBookingStatus = () => {
     if (!booking) return <p>Loading booking...</p>;
 
     return (
+        <>
+            <Nav user={user} />
+
         <div>
             <h2>Update Booking Status</h2>
             <p><strong>Booking ID:</strong> {booking.bookingId}</p>
@@ -58,6 +63,7 @@ const UpdateBookingStatus = () => {
                 <button onClick={() => navigate(-1)}>Cancel</button>
             </div>
         </div>
+            </>
     );
 };
 

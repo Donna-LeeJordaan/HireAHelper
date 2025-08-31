@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../css/CreateBooking.css";
+import Nav from "../components/Nav.jsx";
 
 const CreateBooking = () => {
     const generateBookingId = () => `BOOKING-${Math.floor(100000 + Math.random() * 900000)}`;
@@ -110,6 +111,9 @@ const CreateBooking = () => {
     );
 
     return (
+        <>
+            <Nav user={user} />
+
         <div className="page-wrapper">
             <div className="app-container">
 
@@ -188,6 +192,7 @@ const CreateBooking = () => {
                 )}
             </div>
         </div>
+            </>
     );
 };
 
