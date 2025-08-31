@@ -1,24 +1,18 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import "../css/Dashboard.css";
+import Nav from "../components/Nav.jsx";
+
 
 export default function AdminDashboard() {
-    const navigate = useNavigate();
+    const user = JSON.parse(localStorage.getItem("user"));
 
     return (
-        <div className="admin-layout">
-            <aside className="sidebar">
-                <h2 className="sidebar-title">Admin Panel</h2>
-                <nav className="sidebar-nav">
-                    <button onClick={() => navigate("/area")}>Manage Areas</button>
-                    <button onClick={() => navigate("/serviceType")}>Manage Service Types</button>
-                </nav>
-            </aside>
+        <>
+            <Nav user={user} />
 
-            <main className="main-content">
-                <h1>Welcome, Admin</h1>
-
-            </main>
-        </div>
+            <div className="main-content">
+                <h1>Welcome, {user?.name || "User"}</h1>
+            </div>
+        </>
     );
 }
