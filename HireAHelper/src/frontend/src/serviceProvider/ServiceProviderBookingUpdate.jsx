@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Nav from "../components/Nav.jsx";
+import "../css/ServiceProviderBookingUpdate.css";
 
 const UpdateBookingStatus = () => {
     const user = JSON.parse(localStorage.getItem("user"));
@@ -39,31 +40,33 @@ const UpdateBookingStatus = () => {
         <>
             <Nav user={user} />
 
-        <div>
-            <h2>Update Booking Status</h2>
-            <p><strong>Booking ID:</strong> {booking.bookingId}</p>
-            <p><strong>Client:</strong> {booking.client?.name}</p>
-            <p><strong>Current Status:</strong> {booking.status}</p>
+            <div className="update-booking-container">
+                <h2 className="update-booking-title">Update Booking Status</h2>
 
-            <div>
-                <label htmlFor="status-select">New Status:</label>
-                <select
-                    id="status-select"
-                    value={status}
-                    onChange={(e) => setStatus(e.target.value)}
-                >
-                    <option value="Pending">Pending</option>
-                    <option value="Confirmed">Confirmed</option>
-                    <option value="Completed">Completed</option>
-                </select>
-            </div>
+                <div className="booking-info">
+                    <p><strong>Booking ID:</strong> {booking.bookingId}</p>
+                    <p><strong>Client:</strong> {booking.client?.name}</p>
+                    <p><strong>Current Status:</strong> {booking.status}</p>
+                </div>
 
-            <div>
-                <button onClick={StatusUpdate}>Update Status</button>
-                <button onClick={() => navigate(-1)}>Cancel</button>
+                <div className="status-form">
+                    <label htmlFor="status-select">New Status:</label>
+                    <select
+                        id="status-select"
+                        value={status}
+                        onChange={(e) => setStatus(e.target.value)}>
+                        <option value="Pending">Pending</option>
+                        <option value="Confirmed">Confirmed</option>
+                        <option value="Completed">Completed</option>
+                    </select>
+
+                    <div className="status-form-buttons">
+                        <button onClick={StatusUpdate}>Update Status</button>
+                        <button onClick={() => navigate(-1)}>Cancel</button>
+                    </div>
+                </div>
             </div>
-        </div>
-            </>
+        </>
     );
 };
 
