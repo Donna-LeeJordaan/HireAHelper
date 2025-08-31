@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../../css/Area.css";
-import logo from "../../assets/logo1.png";
 
 export default function AreaCreate() {
     const [name, setName] = useState("");
@@ -20,8 +19,6 @@ export default function AreaCreate() {
 
     return (
         <div className="app-container">
-
-            <img src={logo} alt="Logo" className="logo" />
 
             <h1>Create Area</h1>
             <form
