@@ -1,9 +1,12 @@
 import {useEffect, useState} from "react";
+import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import "../css/ServiceProviderRegister.css";
 
 function ServiceProviderRegister() {
-const [formData, setFormData] = useState({
+    const navigate = useNavigate();
+
+    const [formData, setFormData] = useState({
     userId: uuidv4(),
     name: "",
     email: "",
@@ -111,6 +114,9 @@ const handleSubmit = (e) => {
                 serviceType: null
 
             });
+
+            navigate("/login");
+
         } catch (err) {
             console.error(err);
             alert(err.message);
