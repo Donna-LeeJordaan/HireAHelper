@@ -36,45 +36,43 @@ export default function AreaDashboard() {
             <Nav user={user} />
 
             <div className="app-container">
-
-            <h1>Area Dashboard</h1>
-            <button className="areaCreate-button" onClick={() => navigate("/area/create")}>
-                Create Area
-            </button>
-            <table className="area-table">
-                <thead>
-                <tr>
-                    <th>Area ID</th>
-                    <th>Name</th>
-                    <th>Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                {areas.map(area => (
-                    <tr key={area.areaId}>
-                        <td>{area.areaId}</td>
-                        <td>{area.name}</td>
-                        <td>
-                            <button
-                                className="get-started-btn small-btn"
-                                onClick={() => navigate(`/area/update/${area.areaId}`)}
-                            >
-                                Update
-                            </button>
-                            <button
-                                className="get-started-btn small-btn"
-                                style={{ marginLeft: "0.5rem" }}
-                                onClick={() => handleDelete(area.areaId)}
-                            >
-                                Delete
-                            </button>
-                        </td>
+                <h1>Area Dashboard</h1>
+                <button className="areaCreate-button" onClick={() => navigate("/area/create")}>
+                    Create Area
+                </button>
+                <table className="area-table">
+                    <thead>
+                    <tr>
+                        <th>Area ID</th>
+                        <th>Name</th>
+                        <th>Actions</th>
                     </tr>
-                ))}
-                </tbody>
-
-            </table>
-        </div>
-            </>
+                    </thead>
+                    <tbody>
+                    {areas.map(area => (
+                        <tr key={area.areaId}>
+                            <td>{area.areaId}</td>
+                            <td>{area.name}</td>
+                            <td>
+                                <button
+                                    className="get-started-btn small-btn"
+                                    onClick={() => navigate(`/area/update/${area.areaId}`)}
+                                >
+                                    Update
+                                </button>
+                                <button
+                                    className="get-started-btn small-btn"
+                                    style={{ marginLeft: "0.5rem" }}
+                                    onClick={() => handleDelete(area.areaId)}
+                                >
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                    ))}
+                    </tbody>
+                </table>
+            </div>
+        </>
     );
 }
