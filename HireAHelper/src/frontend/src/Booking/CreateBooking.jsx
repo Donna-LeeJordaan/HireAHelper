@@ -138,15 +138,19 @@ const CreateBooking = () => {
                                          setServiceProviderId(sp.userId);
                                          setStep(3);
                                      }}>
-                                    <img src={sp.profileImage ? sp.profileImage.startsWith("data:image")
-                                            ? sp.profileImage
-                                            : `data:image/png;base64,${sp.profileImage}`
-                                        : "/default-avatar.png"} alt={sp.name}/>
-                                    <h3>{sp.name}</h3>
-                                    <p><strong>Service:</strong> {sp.serviceType?.typeName}</p>
-                                    <p><strong>Rate:</strong> R{sp.rate}</p>
-                                    <p>{sp.description || "No description available."}</p>
-                                    <p><strong>Location:</strong> {sp.area?.name}</p>
+                                    <div className="provider-card-content">
+                                        <img src={sp.profileImage ? sp.profileImage.startsWith("data:image")
+                                                ? sp.profileImage
+                                                : `data:image/png;base64,${sp.profileImage}`
+                                            : "/default-avatar.png"} alt={sp.name}/>
+                                        <div className="provider-info">
+                                            <h3>{sp.name}</h3>
+                                            <p><strong>Service:</strong> {sp.serviceType?.typeName}</p>
+                                            <p><strong>Rate:</strong> R{sp.rate}</p>
+                                            <p>{sp.description || "No description available."}</p>
+                                            <p><strong>Location:</strong> {sp.area?.name}</p>
+                                        </div>
+                                    </div>
                                 </div>
                             ))}
                         </div>
@@ -155,15 +159,18 @@ const CreateBooking = () => {
                     {step === 3 && selectedProvider && (
                         <div className="booking-form-container">
                             <div className="provider-card selected">
-                                <><img src={selectedProvider.profileImage ? selectedProvider.profileImage.startsWith("data:image")
-                                        ? selectedProvider.profileImage : `data:image/png;base64,${selectedProvider.profileImage}`
-                                    : "/default-avatar.png"} alt={selectedProvider.name} />
-                                    <h3>{selectedProvider.name}</h3>
-                                    <p><strong>Service:</strong> {selectedProvider.serviceType?.typeName}</p>
-                                    <p><strong>Rate:</strong> R{selectedProvider.rate}</p>
-                                    <p>{selectedProvider.description || "No description available."}</p>
-                                    <p><strong>Location:</strong> {selectedProvider.area?.name}</p>
-                                </>
+                                <div className="provider-card-content">
+                                    <img src={selectedProvider.profileImage ? selectedProvider.profileImage.startsWith("data:image")
+                                            ? selectedProvider.profileImage : `data:image/png;base64,${selectedProvider.profileImage}`
+                                        : "/default-avatar.png"} alt={selectedProvider.name} />
+                                    <div className="provider-info">
+                                        <h3>{selectedProvider.name}</h3>
+                                        <p><strong>Service:</strong> {selectedProvider.serviceType?.typeName}</p>
+                                        <p><strong>Rate:</strong> R{selectedProvider.rate}</p>
+                                        <p>{selectedProvider.description || "No description available."}</p>
+                                        <p><strong>Location:</strong> {selectedProvider.area?.name}</p>
+                                    </div>
+                                </div>
                             </div>
 
                             <form onSubmit={handleSubmit} className="booking-form">
@@ -172,7 +179,9 @@ const CreateBooking = () => {
                                     type="date"
                                     value={serviceDate}
                                     onChange={(e) => setServiceDate(e.target.value)}
-                                    required/>
+                                    required
+                                    min={new Date().toISOString().split('T')[0]}
+                                />
 
                                 <label>Notes:</label>
                                 <textarea
