@@ -6,7 +6,6 @@ import axios from "axios";
 function ServiceProviderDashboard() {
     const user = JSON.parse(localStorage.getItem("user"));
     const userId = user?.userId;
-
     const [bookings, setBookings] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -25,17 +24,10 @@ function ServiceProviderDashboard() {
 
     const confirmedBookings = bookings.filter(b => b.status === "Confirmed").length;
     const pendingBookings = bookings.filter(b => b.status === "Pending").length;
-
-    const upcomingBookings = bookings.filter(b => {
-        const today = new Date();
-        const serviceDate = new Date(b.serviceDate);
-        return serviceDate > today;
-    }).length;
+    const completedBookings = bookings.filter(b => b.status === "Completed").length;
 
     return (
-        <>
-            <Nav user={user} />
-
+        <> <Nav user={user} />
             <div className="main-content">
                 <h1>Welcome, {user?.name || "User"}</h1>
 
@@ -49,8 +41,8 @@ function ServiceProviderDashboard() {
                         <p>{pendingBookings}</p>
                     </div>
                     <div className="stat-card">
-                        <h3>Upcoming</h3>
-                        <p>{upcomingBookings}</p>
+                        <h3>Completed</h3>
+                        <p>{completedBookings}</p>
                     </div>
                 </div>
             </div>
