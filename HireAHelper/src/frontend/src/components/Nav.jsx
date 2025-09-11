@@ -28,6 +28,9 @@ const Nav = ({ user }) => {
         if (user.role === "ADMIN") navigate("/serviceType");
     };
 
+    const handleLogout = () => {
+        navigate ("/");
+    };
 
     return (
         <nav className="navigation">
@@ -48,6 +51,7 @@ const Nav = ({ user }) => {
                     <li><button onClick={handleServiceTypeClick}>Manage Services</button></li>
                     </>
                 )}
+                <li><button onClick={handleLogout}>Logout</button></li>
             </ul>
         </nav>
     );
