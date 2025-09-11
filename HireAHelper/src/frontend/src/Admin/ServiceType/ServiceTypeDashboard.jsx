@@ -1,3 +1,4 @@
+//Service type dashboard
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -34,46 +35,46 @@ export default function ServiceTypeDashboard() {
         <>
             <Nav user={user} />
 
-        <div className="app-container">
+            <div className="app-container">
 
-            <h1>ServiceType Dashboard</h1>
-            <button className="get-started-btn" onClick={() => navigate("/serviceType/create")}>
-                Create ServiceType
-            </button>
-            <table className="area-table">
-                <thead>
-                <tr>
-                    <th>Service Type ID</th>
-                    <th>Name</th>
-                    <th>Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                {serviceType.map(serviceType => (
-                    <tr key={serviceType.typeId}>
-                        <td>{serviceType.typeId}</td>
-                        <td>{serviceType.typeName}</td>
-                        <td>
-                            <button
-                                className="get-started-btn small-btn"
-                                onClick={() => navigate(`/serviceType/update/${serviceType.typeId}`)}
-                            >
-                                Update
-                            </button>
-                            <button
-                                className="get-started-btn small-btn"
-                                style={{ marginLeft: "0.5rem" }}
-                                onClick={() => handleDelete(serviceType.typeId)}
-                            >
-                                Delete
-                            </button>
-                        </td>
+                <h1>ServiceType Dashboard</h1>
+                <button className="get-started-btn" onClick={() => navigate("/serviceType/create")}>
+                    Create ServiceType
+                </button>
+                <table className="area-table">
+                    <thead>
+                    <tr>
+                        <th>Service Type ID</th>
+                        <th>Name</th>
+                        <th>Actions</th>
                     </tr>
-                ))}
-                </tbody>
+                    </thead>
+                    <tbody>
+                    {serviceType.map(serviceType => (
+                        <tr key={serviceType.typeId}>
+                            <td>{serviceType.typeId}</td>
+                            <td>{serviceType.typeName}</td>
+                            <td>
+                                <button
+                                    className="get-started-btn small-btn"
+                                    onClick={() => navigate(`/serviceType/update/${serviceType.typeId}`)}
+                                >
+                                    Update
+                                </button>
+                                <button
+                                    className="get-started-btn small-btn"
+                                    style={{ marginLeft: "0.5rem" }}
+                                    onClick={() => handleDelete(serviceType.typeId)}
+                                >
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                    ))}
+                    </tbody>
 
-            </table>
-        </div>
-            </>
+                </table>
+            </div>
+        </>
     );
 }

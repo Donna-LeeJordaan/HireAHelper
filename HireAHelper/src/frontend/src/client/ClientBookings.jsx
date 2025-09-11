@@ -22,32 +22,32 @@ const ClientBookings = () => {
             <Nav user={user} />
 
             <div className="page-wrapper">
-            <div className="bookings-container">
-                <h1>My Bookings</h1>
+                <div className="bookings-container">
+                    <h1>My Bookings</h1>
 
-                {bookings.length === 0 ? (
-                    <p className="no-bookings">You have no bookings yet.</p>
-                ) : (
-                    <div className="bookings-list">
-                        {bookings.map((b) => (
-                            <div key={b.bookingId} className="booking-card">
-                                <p><strong>Service Provider:</strong> {b.serviceProvider?.name}</p>
-                                <p><strong>Service:</strong> {b.serviceProvider?.serviceType?.typeName}</p>
-                                <p><strong>Status:</strong> {b.status}</p>
-                                <p><strong>Date:</strong> {b.serviceDate}</p>
-                                <button
-                                    className="btn-details"
-                                    onClick={() => navigate(`/clientBooking/${b.bookingId}`)}
-                                >
-                                    View Details
-                                </button>
-                            </div>
-                        ))}
-                    </div>
-                )}
+                    {bookings.length === 0 ? (
+                        <p className="no-bookings">You have no bookings yet.</p>
+                    ) : (
+                        <div className="bookings-list">
+                            {bookings.map((b) => (
+                                <div key={b.bookingId} className="booking-card">
+                                    <p><strong>Service Provider:</strong> {b.serviceProvider?.name}</p>
+                                    <p><strong>Service:</strong> {b.serviceProvider?.serviceType?.typeName}</p>
+                                    <p><strong>Status:</strong> {b.status}</p>
+                                    <p><strong>Date:</strong> {b.serviceDate}</p>
+                                    <button
+                                        className="btn-details"
+                                        onClick={() => navigate(`/clientBooking/${b.bookingId}`)}
+                                    >
+                                        View Details
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
             </div>
-        </div>
-            </>
+        </>
     );
 };
 
