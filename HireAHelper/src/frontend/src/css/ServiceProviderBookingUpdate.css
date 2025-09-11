@@ -1,0 +1,85 @@
+.update-booking-container {
+    margin-left: 300px; /* match nav width */
+    width: calc(100vw - 300px);
+    padding: 2rem;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f9f9f9;
+    min-height: 100vh;
+}
+
+.update-booking-container h2 {
+    color: #013220;
+    margin-bottom: 1.5rem;
+}
+
+.booking-info p {
+    margin: 0.5rem 0;
+    font-size: 1rem;
+    color: #013220;
+}
+
+.booking-info strong {
+    font-weight: 600;
+}
+
+.status-form {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 400px;
+}
+
+.status-form label {
+    font-weight: 600;
+    color: #013220;
+}
+
+.status-form select {
+    padding: 0.6rem 1rem;
+    border: 2px solid #013220;
+    border-radius: 6px;
+    font-size: 1rem;
+    outline: none;
+}
+
+.status-form-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.status-form button {
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    color: #fff;
+    transition: background 0.2s;
+}
+
+.status-form button:first-child {
+    background-color: #013220;
+}
+
+.status-form button:first-child:hover {
+    background-color: #055f5b;
+}
+
+.status-form button:last-child {
+    background-color: #888888;
+}
+
+.status-form button:last-child:hover {
+    background-color: #555555;
+}
+
+@media (max-width: 768px) {
+    .update-booking-container {
+        margin-left: 0;
+        width: 100%;
+        padding: 1rem;
+    }
+}
