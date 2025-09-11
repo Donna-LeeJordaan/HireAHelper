@@ -132,11 +132,15 @@ const CreateBooking = () => {
                     {step === 2 && filteredProviders.length > 0 && (
                         <div className="provider-grid">
                             {filteredProviders.map((sp) => (
-                                <div
-                                    key={sp.userId}
-                                    className={`provider-card ${serviceProviderId === sp.userId ? "selected" : ""}`}                            onClick={() => setServiceProviderId(sp.userId)}>
+                                <div key={sp.userId}
+                                     className={`provider-card ${serviceProviderId === sp.userId ? "selected" : ""}`}
+                                     onClick={() => {
+                                         setServiceProviderId(sp.userId);
+                                         setStep(3);
+                                     }}>
                                     <img src={sp.profileImage ? sp.profileImage.startsWith("data:image")
-                                            ? sp.profileImage : `data:image/png;base64,${sp.profileImage}`
+                                            ? sp.profileImage
+                                            : `data:image/png;base64,${sp.profileImage}`
                                         : "/default-avatar.png"} alt={sp.name}/>
                                     <h3>{sp.name}</h3>
                                     <p><strong>Service:</strong> {sp.serviceType?.typeName}</p>
@@ -145,11 +149,6 @@ const CreateBooking = () => {
                                     <p><strong>Location:</strong> {sp.area?.name}</p>
                                 </div>
                             ))}
-                            {serviceProviderId && (
-                                <button className="get-started-btn" onClick={() => setStep(3)}>
-                                    Next
-                                </button>
-                            )}
                         </div>
                     )}
 
