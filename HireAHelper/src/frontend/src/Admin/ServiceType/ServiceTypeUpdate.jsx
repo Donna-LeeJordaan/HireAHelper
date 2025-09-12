@@ -1,4 +1,4 @@
-//Service type update
+// Service type update
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
@@ -16,14 +16,14 @@ export default function ServiceTypeUpdate() {
             axios
                 .get(`http://localhost:8080/HireAHelper/serviceType/read/${typeId}`)
                 .then((res) => setTypeName(res.data.name))
-                .catch((err) => console.error("Error fetching area:", err));
+                .catch((err) => console.error("Error fetching service type:", err));
         }
     }, [typeId]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
         axios
-            .put("http://localhost:8080/HireAHelper/serviceType/update", { typeId, typeName })
+            .put("http://localhost:8080/HireAHelper/serviceType/update", { typeId, name: typeName })
             .then(() => navigate("/serviceType"))
             .catch((err) => console.error("Error updating service type:", err));
     };
@@ -32,9 +32,8 @@ export default function ServiceTypeUpdate() {
         <>
             <Nav user={user} />
 
-            <div className="app-container"> {}
-
-                <h1>Update ServiceType</h1> {}
+            <div className="app-container">
+                <h1>Update Service Type</h1>
 
                 <form
                     onSubmit={handleSubmit}
@@ -66,11 +65,11 @@ export default function ServiceTypeUpdate() {
                                 fontWeight: "600"
                             }}
                         >
-                            ServiceType Name:
+                            Service Type Name:
                         </label>
                         <input
                             type="text"
-                            value={name}
+                            value={typeName}
                             onChange={(e) => setTypeName(e.target.value)}
                             placeholder="Enter service type name"
                             required
@@ -84,7 +83,6 @@ export default function ServiceTypeUpdate() {
                         />
                     </div>
 
-                    {/* Buttons container */}
                     <div style={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
                         <button
                             type="submit"
