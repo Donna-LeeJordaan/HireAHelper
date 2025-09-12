@@ -96,9 +96,12 @@ const CreateBooking = () => {
         };
         axios
             .post("http://localhost:8080/HireAHelper/booking/create", booking)
-            .then(() => { alert("Booking created successfully!");
-                navigate("/client/dashboard"); })
-            .catch((err) => console.error("Error creating booking:", err)); };
+            .then(() => {
+                alert("Booking created successfully!");
+                navigate("/client/dashboard");
+            })
+            .catch((err) => console.error("Error creating booking:", err));
+    };
 
     const selectedProvider = filteredProviders.find(
         (sp) => sp.userId === serviceProviderId
@@ -120,7 +123,8 @@ const CreateBooking = () => {
                                 value={serviceType}
                                 onChange={(e) => setServiceType(e.target.value)}
                                 placeholder="Search service"
-                                className="search-input"/>
+                                className="search-input"
+                            />
                             <button onClick={handleSearch} className="get-started-btn">Search</button>
 
                             {searchPerformed && searchError && (
@@ -132,23 +136,29 @@ const CreateBooking = () => {
                     {step === 2 && filteredProviders.length > 0 && (
                         <div className="provider-grid">
                             {filteredProviders.map((sp) => (
-                                <div key={sp.userId}
-                                     className={`provider-card ${serviceProviderId === sp.userId ? "selected" : ""}`}
-                                     onClick={() => {
-                                         setServiceProviderId(sp.userId);
-                                         setStep(3);
-                                     }}>
+                                <div
+                                    key={sp.userId}
+                                    className={`provider-card ${serviceProviderId === sp.userId ? "selected" : ""}`}
+                                    onClick={() => {
+                                        setServiceProviderId(sp.userId);
+                                        setStep(3);
+                                    }}
+                                >
                                     <div className="provider-card-content">
-                                        <img src={sp.profileImage ? sp.profileImage.startsWith("data:image")
-                                                ? sp.profileImage
-                                                : `data:image/png;base64,${sp.profileImage}`
-                                            : "/default-avatar.png"} alt={sp.name}/>
+                                        <img
+                                            src={sp.profileImage ? sp.profileImage.startsWith("data:image")
+                                                    ? sp.profileImage
+                                                    : `data:image/png;base64,${sp.profileImage}`
+                                                : "/default-avatar.png"}
+                                            alt={sp.name}
+                                        />
                                         <div className="provider-info">
                                             <h3>{sp.name}</h3>
                                             <p><strong>Service:</strong> {sp.serviceType?.typeName}</p>
                                             <p><strong>Rate:</strong> R{sp.rate}</p>
+                                            <p><strong>Email:</strong> {sp.email}</p>
+                                            <p><strong>Phone:</strong> {sp.mobileNumber}</p>
                                             <p>{sp.description || "No description available."}</p>
-                                            <p><strong>Location:</strong> {sp.area?.name}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -158,17 +168,34 @@ const CreateBooking = () => {
 
                     {step === 3 && selectedProvider && (
                         <div className="booking-form-container">
+                            {/* Back button */}
+                            <button
+                                className="get-started-btn back-btn"
+                                onClick={() => {
+                                    setServiceProviderId("");
+                                    setStep(2);
+                                }}
+                                style={{ marginBottom: "1rem", alignSelf: "flex-start" }}
+                            >
+                                ← Back to Providers
+                            </button>
+
                             <div className="provider-card selected">
                                 <div className="provider-card-content">
-                                    <img src={selectedProvider.profileImage ? selectedProvider.profileImage.startsWith("data:image")
-                                            ? selectedProvider.profileImage : `data:image/png;base64,${selectedProvider.profileImage}`
-                                        : "/default-avatar.png"} alt={selectedProvider.name} />
+                                    <img
+                                        src={selectedProvider.profileImage ? selectedProvider.profileImage.startsWith("data:image")
+                                                ? selectedProvider.profileImage
+                                                : `data:image/png;base64,${selectedProvider.profileImage}`
+                                            : "/default-avatar.png"}
+                                        alt={selectedProvider.name}
+                                    />
                                     <div className="provider-info">
                                         <h3>{selectedProvider.name}</h3>
                                         <p><strong>Service:</strong> {selectedProvider.serviceType?.typeName}</p>
                                         <p><strong>Rate:</strong> R{selectedProvider.rate}</p>
+                                        <p><strong>Email:</strong> {selectedProvider.email}</p>
+                                        <p><strong>Phone:</strong> {selectedProvider.mobileNumber}</p>
                                         <p>{selectedProvider.description || "No description available."}</p>
-                                        <p><strong>Location:</strong> {selectedProvider.area?.name}</p>
                                     </div>
                                 </div>
                             </div>
@@ -180,15 +207,18 @@ const CreateBooking = () => {
                                     value={serviceDate}
                                     onChange={(e) => setServiceDate(e.target.value)}
                                     required
-                                    min={new Date().toISOString().split('T')[0]}
+                                    min={new Date().toISOString().split("T")[0]}
                                 />
 
                                 <label>Notes:</label>
                                 <textarea
                                     value={notes}
-                                    onChange={(e) => setNotes(e.target.value)}/>
+                                    onChange={(e) => setNotes(e.target.value)}
+                                />
 
-                                <button type="submit" className="get-started-btn">Create Booking</button>
+                                <button type="submit" className="get-started-btn">
+                                    Create Booking
+                                </button>
                             </form>
                         </div>
                     )}
