@@ -1,3 +1,4 @@
+//Admin dashboard
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../css/Dashboard.css";
@@ -9,13 +10,13 @@ export default function AdminDashboard() {
     const [providerCount, setProviderCount] = useState(0);
 
     useEffect(() => {
-        // Fetch client count
+        // Fetches client counts
         axios
             .get("http://localhost:8080/HireAHelper/client/count")
             .then((res) => setClientCount(res.data))
             .catch((err) => console.error("Error fetching client count:", err));
 
-        // Fetch provider count
+        // Fetches provider counts
         axios
             .get("http://localhost:8080/HireAHelper/serviceProvider/count")
             .then((res) => setProviderCount(res.data))
