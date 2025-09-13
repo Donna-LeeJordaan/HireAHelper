@@ -6,7 +6,7 @@ html, body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.service-provider-register-container {
+.sp-reg-container {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -17,7 +17,7 @@ html, body {
     background-color: white;
 }
 
-.service-provider-register-card {
+.sp-reg-card {
     background-color: white;
     padding: 3rem 2rem;
     border-radius: 20px;
@@ -31,17 +31,17 @@ html, body {
 }
 
 /* card heading */
-.service-provider-register-card h2 {
+.sp-reg-card h2 {
     font-size: 2rem;
     margin-bottom: 2rem;
-    color: #013220; /* dark green */
+    color: #013220;
     white-space: nowrap;
     text-overflow: ellipsis;
 }
 
 /* fields */
-.service-provider-register-card input,
-.service-provider-register-card select {
+.sp-reg-card input,
+.sp-reg-card select {
     width: 100%;
     padding: 0.8rem;
     margin-bottom: 1rem;
@@ -53,7 +53,7 @@ html, body {
 }
 
 /* button */
-.service-provider-register-btn {
+.sp-reg-btn {
     width: 100%;
     padding: 1rem;
     background-color: #013220;
@@ -65,28 +65,7 @@ html, body {
     transition: transform 0.2s, box-shadow 0.3s;
 }
 
-.service-provider-register-btn:hover {
+.sp-reg-btn:hover {
     transform: scale(1.03);
     box-shadow: 0 6px 20px rgba(0,0,0,0.2);
-}
-
-/* responsive */
-@media (max-width: 480px) {
-    .service-provider-register-card {
-        padding: 2rem 1.5rem;
-    }
-
-    .service-provider-register-card h2 {
-        font-size: 1.6rem;
-    }
-
-    .service-provider-register-card input,
-    .service-provider-register-card select {
-        font-size: 0.95rem;
-    }
-
-    .service-provider-register-btn {
-        font-size: 1rem;
-        padding: 0.8rem;
-    }
 }

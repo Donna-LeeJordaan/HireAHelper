@@ -12,11 +12,11 @@ import java.util.List;
 
 public class ServiceProviderFactory {
 
-    public static ServiceProvider createServiceProvider(String userId, String name, String email, String password, String mobileNumber, Area area, String profileImage,
+    public static ServiceProvider createServiceProvider(String userId, String name, String email, String password, String mobileNumber, Area area, byte[] profileImage,
                                                         String description, double rate, ServiceType serviceType, List<Booking> bookings, List<Message> messages) {
 
         if (Helper.isNullOrEmpty(userId) || Helper.isNullOrEmpty(name) || Helper.isNullOrEmpty(email) ||Helper.isNullOrEmpty(password) ||
-                Helper.isNullOrEmpty(mobileNumber) ||Helper.isNullOrEmpty(profileImage) || Helper.isNullOrEmpty(description) ||
+                Helper.isNullOrEmpty(mobileNumber) ||profileImage == null || profileImage.length == 0 ||  Helper.isNullOrEmpty(description) ||
                 rate <= 0 || area == null || serviceType == null || bookings == null || messages == null ) {
             return null;
         }

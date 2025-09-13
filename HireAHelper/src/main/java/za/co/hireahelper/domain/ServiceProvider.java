@@ -13,9 +13,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties({"bookings", "messages"}) // Prevent infinite looping due to bidirectional relationships
 public class ServiceProvider extends User {
 
-    @Lob// because im storing an image as long text in the db
-    @Column(columnDefinition = "LONGTEXT")
-    private String profileImage;
+    @Lob
+    private byte[] profileImage;
     private String description;
     private double rate;
 
@@ -43,7 +42,7 @@ public class ServiceProvider extends User {
         this.messages = builder.messages;
     }
 
-    public String getProfileImage() { return profileImage; }
+    public byte[] getProfileImage() { return profileImage; }
     public String getDescription() { return description; }
     public double getRate() { return rate; }
     public ServiceType getServiceType() { return serviceType; }
@@ -70,7 +69,7 @@ public class ServiceProvider extends User {
     }
 
     public static class Builder extends User.Builder<ServiceProvider.Builder> {
-        private String profileImage;
+        private byte[] profileImage;
         private String description;
         private double rate;
         private ServiceType serviceType;
@@ -79,7 +78,7 @@ public class ServiceProvider extends User {
 
         public Builder() {this.setRole(Role.SERVICE_PROVIDER);}
 
-        public Builder setProfileImage(String profileImage) {
+        public Builder setProfileImage(byte[] profileImage) {
             this.profileImage = profileImage;
             return this;
         }
