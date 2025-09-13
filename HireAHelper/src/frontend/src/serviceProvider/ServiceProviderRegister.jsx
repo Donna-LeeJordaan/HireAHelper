@@ -53,7 +53,7 @@ const handleChange = (e) => {
     }
 };
 
-const handleSubmit = (e) => {
+const handleSubmit = async (e) => {
     e.preventDefault();
 
     {/*validate if the image is selected*/}
@@ -61,12 +61,6 @@ const handleSubmit = (e) => {
         alert("Please select a profile image");
         return;
     }
-
-    {/*read the image as base64 for json*/}
-    const reader = new FileReader();
-    reader.readAsDataURL(formData.profileImage);
-    reader.onloadend = async () => {
-        const base64Image = reader.result.split(",")[1];
 
         {/*build object to send to backend */}
         const sp = {
@@ -76,58 +70,43 @@ const handleSubmit = (e) => {
             email: formData.email,
             mobileNumber: formData.mobileNumber,
             password: formData.password,
-            profileImage: base64Image,
             rate: parseFloat(formData.rate),
             description: formData.description,
             area: formData.area,
             serviceType: formData.serviceType
         };
 
+        {/*for the sp image*/}
+        const multipartForm = new FormData();
+        multipartForm.append("serviceProvider", new Blob([JSON.stringify(sp)],
+            { type: "application/json" }));
+        multipartForm.append("profileImage", formData.profileImage);
 
-        try {
-            const res = await fetch(
-                "http://localhost:8080/HireAHelper/serviceProvider/create",
-                {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(sp)
-                }
-            );
+    try {
+        const res = await fetch("http://localhost:8080/HireAHelper/serviceProvider/create",
+            {
+            method: "POST",
+            body: multipartForm
+        });
 
-            if (!res.ok) {
-                alert("Registration failed");
-                return; // stop here, don't run success alert
-            }
-            alert("Service Provider Registered");
-
-            {/*reset form*/}
-            setFormData({
-                userId: uuidv4(),
-                name: "",
-                email: "",
-                password: "",
-                mobileNumber: "",
-                profileImage: null,
-                description: "",
-                rate: 0,
-                area: null,
-                serviceType: null
-
-            });
-
-            navigate("/login");
-
-        } catch (err) {
-            console.error(err);
-            alert(err.message);
+        if (!res.ok) {
+            alert("Registration failed");
+            return;
         }
-    };
+
+        alert("Service Provider Registered");
+        navigate("/login");
+
+    } catch (err) {
+        console.error(err);
+        alert(err.message);
+    }
 };
 
     {/*sp form*/}
 return (
-    <div className="service-provider-register-container">
-        <div className="service-provider-register-card">
+    <div className="sp-reg-container">
+        <div className="sp-reg-card">
             <h2>Service Provider Registration</h2>
             <form onSubmit={handleSubmit}>
                 <input
@@ -135,49 +114,42 @@ return (
                     placeholder="Name"
                     value={formData.name}
                     onChange={handleChange}
-                    required
-                />
+                    required/>
                 <input
                     name="email"
                     type="email"
                     placeholder="Email"
                     value={formData.email}
                     onChange={handleChange}
-                    required
-                />
+                    required/>
                 <input
                     name="password"
                     type="password"
                     placeholder="Password"
                     value={formData.password}
                     onChange={handleChange}
-                    required
-                />
+                    required/>
                 <input
                     name="mobileNumber"
                     placeholder="Mobile Number"
                     value={formData.mobileNumber}
                     onChange={handleChange}
-                    required
-                />
+                    required/>
                 <input
                     name="description"
                     placeholder="Description"
                     value={formData.description}
-                    onChange={handleChange}
-                />
+                    onChange={handleChange}/>
                 <input
                     name="rate"
                     step="0.01"
                     placeholder="Rate"
                     value={formData.rate}
-                    onChange={handleChange}
-                />
+                    onChange={handleChange}/>
 
                 <select name="areaId"
                         onChange={handleChange}
-                        required
-                >
+                        required>
                     <option value="">Select Area</option>
                     {areas.map(a => (
                         <option key={a.areaId} value={a.areaId}>{a.name}</option>
@@ -187,8 +159,7 @@ return (
                 <select
                     name="serviceTypeId"
                     onChange={handleChange}
-                    required
-                >
+                    required>
                     <option value="">Select Service Type</option>
                     {serviceTypes.map(t => (
                         <option key={t.typeId} value={t.typeId}>{t.typeName}</option>
@@ -198,10 +169,10 @@ return (
                 <input
                     type="file"
                     name="profileImage"
-                    onChange={handleChange}
-                />
+                    accept="image/*"
+                    onChange={handleChange}/>
 
-                <button type="submit" className="service-provider-register-btn">
+                <button type="submit" className="sp-reg-btn">
                     Register
                 </button>
             </form>

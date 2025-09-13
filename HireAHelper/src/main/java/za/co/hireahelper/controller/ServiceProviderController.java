@@ -7,9 +7,14 @@
 package za.co.hireahelper.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import za.co.hireahelper.domain.ServiceProvider;
 import za.co.hireahelper.service.ServiceProviderService;
+
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -24,8 +29,22 @@ public class ServiceProviderController {
         this.service = service;
     }
 
-    @PostMapping("/create")
-    public ServiceProvider create(@RequestBody ServiceProvider serviceProvider) {return service.create(serviceProvider);}
+    @PostMapping(value ="/create", consumes = "multipart/form-data")
+    public ServiceProvider create(@RequestPart("serviceProvider")  ServiceProvider serviceProvider,
+                                  @RequestPart("profileImage") MultipartFile profileImage) {
+
+        try {
+            ServiceProvider sp = new ServiceProvider.Builder()
+                    .copy(serviceProvider)
+                    .setProfileImage(profileImage.getBytes())
+                    .build();
+
+            return service.create(sp);
+
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to read profile image",e);
+        }
+    }
 
     @GetMapping("/read/{userId}")
     public ServiceProvider read(@PathVariable String userId) {return service.read(userId);}
@@ -38,4 +57,15 @@ public class ServiceProviderController {
 
     @GetMapping("/all")
     public List<ServiceProvider> getAll() {return service.getAll();}
+
+    @GetMapping("/{id}/profileImage")
+    public ResponseEntity<byte[]> getImage(@PathVariable String id) {
+        ServiceProvider sp = service.read(id);
+        if (sp == null || sp.getProfileImage() == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_TYPE, "image/jpeg")
+                .body(sp.getProfileImage());
+    }
 }
