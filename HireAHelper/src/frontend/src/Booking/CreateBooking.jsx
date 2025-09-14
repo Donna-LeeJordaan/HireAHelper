@@ -34,7 +34,7 @@ const CreateBooking = () => {
                 const providers = res.data.map((sp) => ({
                     ...sp,
                     area: sp.area || sp.user?.area || null,
-                    imageUrl: `http://localhost:8080/HireAHelper/serviceProvider/${sp.userId}/image`,
+                    imageUrl: `http://localhost:8080/HireAHelper/serviceProvider/${sp.userId}/ProfileImage`,
                 }));
                 setServiceProviders(providers);
             })
