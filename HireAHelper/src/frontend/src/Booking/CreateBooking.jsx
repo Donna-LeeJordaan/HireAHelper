@@ -34,6 +34,7 @@ const CreateBooking = () => {
                 const providers = res.data.map((sp) => ({
                     ...sp,
                     area: sp.area || sp.user?.area || null,
+                    imageUrl: `http://localhost:8080/HireAHelper/serviceProvider/${sp.userId}/image`,
                 }));
                 setServiceProviders(providers);
             })
@@ -146,10 +147,7 @@ const CreateBooking = () => {
                                 >
                                     <div className="provider-card-content">
                                         <img
-                                            src={sp.profileImage ? sp.profileImage.startsWith("data:image")
-                                                    ? sp.profileImage
-                                                    : `data:image/png;base64,${sp.profileImage}`
-                                                : "/default-avatar.png"}
+                                            src={sp.imageUrl}
                                             alt={sp.name}
                                         />
                                         <div className="provider-info">
@@ -183,10 +181,7 @@ const CreateBooking = () => {
                             <div className="provider-card selected">
                                 <div className="provider-card-content">
                                     <img
-                                        src={selectedProvider.profileImage ? selectedProvider.profileImage.startsWith("data:image")
-                                                ? selectedProvider.profileImage
-                                                : `data:image/png;base64,${selectedProvider.profileImage}`
-                                            : "/default-avatar.png"}
+                                        src={selectedProvider.imageUrl}
                                         alt={selectedProvider.name}
                                     />
                                     <div className="provider-info">
