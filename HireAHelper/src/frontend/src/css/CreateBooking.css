@@ -195,3 +195,12 @@
         padding: 1rem;
     }
 }
+
+.back-btn {
+    background-color: #555; /* grey */
+    margin-right: auto;     /* align left */
+}
+
+.back-btn:hover {
+    background-color: #333;
+}
