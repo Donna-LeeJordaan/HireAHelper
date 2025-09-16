@@ -146,10 +146,12 @@ const CreateBooking = () => {
                                     }}
                                 >
                                     <div className="provider-card-content">
-                                        <img
-                                            src={sp.imageUrl}
-                                            alt={sp.name}
-                                        />
+                                        <div className="image-container">
+                                            <img
+                                                src={sp.imageUrl}
+                                                alt={sp.name}
+                                            />
+                                        </div>
                                         <div className="provider-info">
                                             <h3>{sp.name}</h3>
                                             <p><strong>Service:</strong> {sp.serviceType?.typeName}</p>
@@ -175,15 +177,17 @@ const CreateBooking = () => {
                                 }}
                                 style={{ marginBottom: "1rem", alignSelf: "flex-start" }}
                             >
-                                ← Back to Providers
+                                Back to Providers
                             </button>
 
                             <div className="provider-card selected">
                                 <div className="provider-card-content">
-                                    <img
-                                        src={selectedProvider.imageUrl}
-                                        alt={selectedProvider.name}
-                                    />
+                                    <div className="image-container">
+                                        <img
+                                            src={selectedProvider.imageUrl}
+                                            alt={selectedProvider.name}
+                                        />
+                                    </div>
                                     <div className="provider-info">
                                         <h3>{selectedProvider.name}</h3>
                                         <p><strong>Service:</strong> {selectedProvider.serviceType?.typeName}</p>

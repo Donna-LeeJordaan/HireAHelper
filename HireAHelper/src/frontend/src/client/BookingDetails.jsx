@@ -26,13 +26,13 @@ const BookingDetails = () => {
             <div className="booking-details-container">
                 <h2>Booking Details</h2>
                 <div className="details-card">
-                    <p><strong>Service Provider:</strong> {booking.serviceProvider?.name}</p>
-                    <p><strong>Service:</strong> {booking.serviceProvider?.serviceType?.typeName}</p>
-                    <p><strong>Rate:</strong> R{booking.serviceProvider?.rate}</p>
-                    <p><strong>Booking Status:</strong> {booking.status}</p>
-                    <p><strong>Service Date:</strong> {booking.serviceDate}</p>
-                    <p><strong>Notes:</strong> {booking.notes || "No notes provided."}</p>
-                    <p><strong>Location:</strong> {booking.serviceProvider?.area?.name}</p>
+                    <strong>Service Provider:</strong> {booking.serviceProvider?.name}
+                    <strong>Service:</strong> {booking.serviceProvider?.serviceType?.typeName}
+                    <strong>Rate:</strong> R{booking.serviceProvider?.rate}
+                    <strong>Booking Status:</strong> {booking.status}
+                    <strong>Service Date:</strong> {booking.serviceDate}
+                    <strong>Notes:</strong> {booking.notes || "No notes provided."}
+                    <strong>Location:</strong> {booking.serviceProvider?.area?.name}
                 </div>
                 <button className="btn-back" onClick={() => navigate(-1)}>Back</button>
             </div>

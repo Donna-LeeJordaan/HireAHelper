@@ -66,6 +66,7 @@
     width: 350px; /* Increased width for side-by-side layout */
     cursor: pointer;
     transition: transform 0.2s, box-shadow 0.3s;
+    display: flex; /* Add this */
 }
 
 .provider-card.selected {
@@ -78,14 +79,23 @@
     display: flex;
     gap: 1rem;
     align-items: flex-start;
+    width: 100%; /* Add this */
 }
 
 .provider-card img {
-    width: 100px;
-    height: 100px;
+    width: 150px;
+    height: 150px;
     object-fit: cover;
     border-radius: 8px;
     flex-shrink: 0;
+}
+
+/* Add this new rule to make the image container fill the left space */
+.provider-card .image-container {
+    flex: 0 0 100px; /* Fixed width for image */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .provider-info {
@@ -197,10 +207,10 @@
 }
 
 .back-btn {
-    background-color: #555; /* grey */
+    background-color: #013220; /* grey */
     margin-right: auto;     /* align left */
 }
 
 .back-btn:hover {
-    background-color: #333;
+    background-color: #013220;
 }
