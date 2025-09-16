@@ -19,6 +19,7 @@ const CreateBooking = () => {
     const [serviceDate, setServiceDate] = useState("");
     const [notes, setNotes] = useState("");
     const [step, setStep] = useState(1);
+    const [timeSlot, setTimeSlot] = useState("");
 
     useEffect(() => {
         axios
@@ -27,6 +28,7 @@ const CreateBooking = () => {
             .catch((err) => console.error("Error fetching client:", err));
     }, [userId]);
 
+
     useEffect(() => {
         axios
             .get("http://localhost:8080/HireAHelper/serviceProvider/all")
@@ -34,7 +36,10 @@ const CreateBooking = () => {
                 const providers = res.data.map((sp) => ({
                     ...sp,
                     area: sp.area || sp.user?.area || null,
-                    imageUrl: `http://localhost:8080/HireAHelper/serviceProvider/${sp.userId}/profileImage`,
+                    // Use a placeholder image as fallback
+                    imageUrl: sp.profileImage ?
+                        `http://localhost:8080/HireAHelper/serviceProvider/${sp.userId}/profileImage` :
+                        '/placeholder-image.jpg'
                 }));
                 setServiceProviders(providers);
             })
@@ -92,6 +97,7 @@ const CreateBooking = () => {
             client: { userId },
             serviceProvider: { userId: serviceProviderId },
             serviceDate,
+            timeSlot,
             notes,
             status: "Pending",
         };
@@ -150,6 +156,10 @@ const CreateBooking = () => {
                                             <img
                                                 src={sp.imageUrl}
                                                 alt={sp.name}
+                                                onError={(e) => {
+                                                    e.target.src = '/placeholder-image.jpg';
+                                                    e.target.onerror = null;
+                                                }}
                                             />
                                         </div>
                                         <div className="provider-info">
@@ -168,7 +178,7 @@ const CreateBooking = () => {
 
                     {step === 3 && selectedProvider && (
                         <div className="booking-form-container">
-                            {/* Back button */}
+
                             <button
                                 className="get-started-btn back-btn"
                                 onClick={() => {
@@ -209,11 +219,30 @@ const CreateBooking = () => {
                                     min={new Date().toISOString().split("T")[0]}
                                 />
 
+
                                 <label>Notes:</label>
                                 <textarea
                                     value={notes}
                                     onChange={(e) => setNotes(e.target.value)}
                                 />
+
+                                <label>Time Slot:</label>
+                                <select
+                                    value={timeSlot}
+                                    onChange={(e) => setTimeSlot(e.target.value)}
+                                    required
+                                >
+                                    <option value="">Select a time slot</option>
+                                    <option value="08:00-09:30">08:00-09:30</option>
+                                    <option value="10:00-11:30">10:00-11:30</option>
+                                    <option value="12:00-13:30">12:00-13:30</option>
+                                    <option value="14:00-15:30">14:00-15:30</option>
+                                    <option value="16:00-17:30">16:00-17:30</option>
+
+
+
+                                </select>
+
 
                                 <button type="submit" className="get-started-btn">
                                     Create Booking

@@ -53,6 +53,7 @@ public class BookingFactoryTest {
         Booking booking = BookingFactory.createBooking(
                 "booking001",
                 serviceDate,
+                "09:00-12:00",
                 "Scheduled",
                 "Customer requested morning service",
                 client,
@@ -62,8 +63,7 @@ public class BookingFactoryTest {
         assertNotNull(booking);
 
         System.out.println(String.format(
-                "Booking[id=%s, date=%s, status=%s, notes=%s, clientId=%s, providerId=%s]",
-                booking.getBookingId(),
+                "Booking[id=%s, date=%s, timeSlot=%s, status=%s, notes=%s, clientId=%s, providerId=%s]",                booking.getBookingId(),
                 booking.getServiceDate(),
                 booking.getStatus(),
                 booking.getNotes(),
@@ -72,20 +72,21 @@ public class BookingFactoryTest {
         ));
     }
 
+
     @Test
-    void testCreateBookingWithNullId() {
+    void testCreateBookingWithNullTimeSlot() {
         Client client = createValidClient();
         ServiceProvider serviceProvider = createValidServiceProvider();
 
         Booking booking = BookingFactory.createBooking(
-                null,
+                "booking002",
                 LocalDate.now(),
+                null, // Null time slot
                 "Scheduled",
                 "Notes",
                 client,
                 serviceProvider
         );
-
         assertNull(booking);
 
         System.out.println("Booking creation failed as expected with null ID.");
@@ -100,6 +101,7 @@ public class BookingFactoryTest {
         Booking booking = BookingFactory.createBooking(
                 "booking002",
                 null,
+                "09:00-12:00",
                 "Scheduled",
                 "Notes",
                 client,
@@ -120,6 +122,7 @@ public class BookingFactoryTest {
         Booking booking = BookingFactory.createBooking(
                 "booking003",
                 LocalDate.now(),
+                "09:00-12:00",
                 null,
                 "Notes",
                 client,
@@ -139,6 +142,7 @@ public class BookingFactoryTest {
         Booking booking = BookingFactory.createBooking(
                 "booking004",
                 LocalDate.now(),
+                "09:00-12:00",
                 "Scheduled",
                 "Notes",
                 null,
@@ -158,6 +162,7 @@ public class BookingFactoryTest {
         Booking booking = BookingFactory.createBooking(
                 "booking005",
                 LocalDate.now(),
+                "09:00-12:00",
                 "Scheduled",
                 "Notes",
                 client,

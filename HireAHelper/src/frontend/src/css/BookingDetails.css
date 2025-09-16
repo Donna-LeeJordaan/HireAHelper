@@ -1,4 +1,5 @@
 /* Container respecting sidebar layout */
+
 .booking-details-container {
     width: calc(100vw - 250px);
     margin-left: 250px;
@@ -12,7 +13,7 @@
     background-color: #f9f9f9;
 }
 
-/* Page heading */
+ /*Page heading */
 .booking-details-container h2 {
     color: #013220;
     margin-bottom: 1.5rem;

@@ -83,6 +83,7 @@ class BookingControllerTest {
         booking = BookingFactory.createBooking(
                 "booking001",
                 LocalDate.of(2025, 4, 12),
+                "09:00-12:00", // Added time slot
                 "Scheduled",
                 "Customer requested morning service",
                 client,
