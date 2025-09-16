@@ -34,8 +34,8 @@ p {
     background-color: #013220;
     color: #ffffff;
     border: none;
-    padding: 0.6rem 1.5rem;   /* decent size */
-    font-size: 1rem;           /* standard readable size */
+    padding: 0.6rem 1.5rem;
+    font-size: 1rem;
     font-weight: 500;
     border-radius: 8px;
     cursor: pointer;
