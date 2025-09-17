@@ -11,19 +11,19 @@ export default function ServiceTypeUpdate() {
     const [typeName, setTypeName] = useState("");
     const navigate = useNavigate();
 
-    // Fetch service type by ID on component load
+
     useEffect(() => {
         if (typeId) {
             axios
                 .get(`http://localhost:8080/HireAHelper/serviceType/read/${typeId}`)
                 .then((res) => {
-                    setTypeName(res.data.typeName); // uses typeName from backend
+                    setTypeName(res.data.typeName);
                 })
                 .catch((err) => console.error("Error fetching service type:", err));
         }
     }, [typeId]);
 
-    // Handle update submit
+
     const handleSubmit = (e) => {
         e.preventDefault();
         const updatedServiceType = { typeId, typeName };
@@ -32,8 +32,8 @@ export default function ServiceTypeUpdate() {
             .put("http://localhost:8080/HireAHelper/serviceType/update", updatedServiceType)
             .then((res) => {
                 alert("Service type updated successfully!");
-                setTypeName(res.data.typeName); // update frontend state so it shows new name
-                navigate("/serviceType"); // redirect back to dashboard
+                setTypeName(res.data.typeName);
+                navigate("/serviceType");
             })
             .catch((err) => console.error("Error updating service type:", err));
     };
