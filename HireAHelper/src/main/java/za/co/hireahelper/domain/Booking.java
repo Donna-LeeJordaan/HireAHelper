@@ -16,6 +16,7 @@ public class Booking {
     private String bookingId;
 
     private LocalDate serviceDate;
+    private String timeSlot;
 
     private String status;
     private String notes;
@@ -33,6 +34,7 @@ public class Booking {
     private Booking(Builder builder) {
         this.bookingId = builder.bookingId;
         this.serviceDate = builder.serviceDate;
+        this.timeSlot = builder.timeSlot;
         this.status = builder.status;
         this.notes = builder.notes;
         this.client = builder.client;
@@ -46,6 +48,10 @@ public class Booking {
 
     public LocalDate getServiceDate() {  // Changed return type from Date to LocalDate
         return serviceDate;
+    }
+
+    public String getTimeSlot() {
+        return timeSlot;
     }
 
     public String getStatus() {
@@ -69,6 +75,7 @@ public class Booking {
         return "Booking{" +
                 "bookingId='" + bookingId + '\'' +
                 ", serviceDate=" + serviceDate +
+                ", timeSlot='" + timeSlot + '\'' +
                 ", status='" + status + '\'' +
                 ", notes='" + notes + '\'' +
                 ", client=" + (client != null ? client.getUserId() : "null") +
@@ -79,6 +86,7 @@ public class Booking {
     public static class Builder {
         private String bookingId;
         private LocalDate serviceDate;
+        private String timeSlot;
         private String status;
         private String notes;
         private Client client;
@@ -91,6 +99,11 @@ public class Booking {
 
         public Builder setServiceDate(LocalDate serviceDate) {
             this.serviceDate = serviceDate;
+            return this;
+        }
+
+        public Builder setTimeSlot(String timeSlot) { // Added setter for time slot
+            this.timeSlot = timeSlot;
             return this;
         }
 
@@ -117,6 +130,7 @@ public class Booking {
         public Builder copy(Booking booking) {
             this.bookingId = booking.bookingId;
             this.serviceDate = booking.serviceDate;
+            this.timeSlot = booking.timeSlot;
             this.status = booking.status;
             this.notes = booking.notes;
             this.client = booking.client;

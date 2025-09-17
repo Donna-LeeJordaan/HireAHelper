@@ -13,13 +13,19 @@ export default function AdminDashboard() {
         // Fetches client counts
         axios
             .get("http://localhost:8080/HireAHelper/client/count")
-            .then((res) => setClientCount(res.data))
+            .then((res) => {
+                console.log("Client count response:", res.data);
+                setClientCount(res.data.count || res.data); // works if it's {count: X} or just X
+            })
             .catch((err) => console.error("Error fetching client count:", err));
 
         // Fetches provider counts
         axios
             .get("http://localhost:8080/HireAHelper/serviceProvider/count")
-            .then((res) => setProviderCount(res.data))
+            .then((res) => {
+                console.log("Provider count response:", res.data);
+                setProviderCount(res.data.count || res.data);
+            })
             .catch((err) => console.error("Error fetching provider count:", err));
     }, []);
 

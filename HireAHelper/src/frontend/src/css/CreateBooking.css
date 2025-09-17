@@ -63,9 +63,10 @@
     border: 2px solid #013220;
     border-radius: 10px;
     padding: 1rem;
-    width: 350px; /* Increased width for side-by-side layout */
+    width: 600px;
     cursor: pointer;
     transition: transform 0.2s, box-shadow 0.3s;
+    display: flex;
 }
 
 .provider-card.selected {
@@ -78,14 +79,23 @@
     display: flex;
     gap: 1rem;
     align-items: flex-start;
+    width: 100%;
 }
 
 .provider-card img {
-    width: 100px;
-    height: 100px;
+    width: 150px;
+    height: 150px;
     object-fit: cover;
     border-radius: 8px;
     flex-shrink: 0;
+}
+
+/* Add this new rule to make the image container fill the left space */
+.provider-card .image-container {
+    flex: 0 0 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .provider-info {
@@ -114,7 +124,7 @@
     align-items: center;
     gap: 1.5rem;
     width: 100%;
-    max-width: 600px; /* Increased max-width */
+    max-width: 600px;
 }
 
 .booking-form {
@@ -130,7 +140,8 @@
 }
 
 .booking-form input,
-.booking-form textarea {
+.booking-form textarea,
+.booking-form select {
     padding: 0.7rem 1rem;
     border: 2px solid #013220;
     border-radius: 8px;
@@ -139,10 +150,25 @@
     width: 100%;
     box-sizing: border-box;
     resize: vertical;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .booking-form textarea {
     min-height: 80px;
+}
+
+.booking-form select { /* Specific styling for select element */
+    background-color: white;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23013220' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1em;
+}
+
+.booking-form select:focus {
+    border-color: #055f5b;
 }
 
 /* Buttons (matches JSX: get-started-btn) */
@@ -197,10 +223,10 @@
 }
 
 .back-btn {
-    background-color: #555; /* grey */
-    margin-right: auto;     /* align left */
+    background-color: #013220;
+    margin-right: auto;
 }
 
 .back-btn:hover {
-    background-color: #333;
+    background-color: #013220;
 }
