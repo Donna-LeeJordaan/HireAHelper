@@ -19,7 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/serviceProvider")
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:5173")
 public class ServiceProviderController {
 
     private final ServiceProviderService service;
