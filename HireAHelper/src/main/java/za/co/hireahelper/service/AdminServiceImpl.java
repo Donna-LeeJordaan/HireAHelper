@@ -3,16 +3,19 @@
 package za.co.hireahelper.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import za.co.hireahelper.domain.Admin;
 import za.co.hireahelper.repository.AdminRepository;
 import java.util.List;
 import java.util.Optional;
 
+
 @Service
 public class AdminServiceImpl implements AdminService {
 
     private final AdminRepository adminRepository;
+    private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 
     @Autowired
     public AdminServiceImpl(AdminRepository adminRepository) {
@@ -21,6 +24,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Admin create(Admin admin) {
+        admin.setPassword(encoder.encode(admin.getPassword()));
         return adminRepository.save(admin);
     }
 
