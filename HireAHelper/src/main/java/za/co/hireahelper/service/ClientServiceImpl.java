@@ -6,6 +6,7 @@
 package za.co.hireahelper.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import za.co.hireahelper.domain.Client;
 import za.co.hireahelper.repository.ClientRepository;
@@ -15,6 +16,7 @@ import java.util.List;
 public class ClientServiceImpl implements ClientService {
 
     private final ClientRepository repository;
+    private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 
     @Autowired
     public ClientServiceImpl(ClientRepository repository) {
@@ -23,6 +25,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public Client create(Client client) {
+        client.setPassword(encoder.encode(client.getPassword()));
         return this.repository.save(client);
     }
 
