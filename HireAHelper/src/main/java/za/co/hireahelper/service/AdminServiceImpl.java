@@ -10,6 +10,7 @@ import za.co.hireahelper.repository.AdminRepository;
 import java.util.List;
 import java.util.Optional;
 
+
 @Service
 public class AdminServiceImpl implements AdminService {
 

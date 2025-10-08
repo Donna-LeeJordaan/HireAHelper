@@ -12,6 +12,7 @@ import za.co.hireahelper.domain.Client;
 import za.co.hireahelper.repository.ClientRepository;
 import java.util.List;
 
+
 @Service
 public class ClientServiceImpl implements ClientService {
 
