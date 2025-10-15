@@ -1,4 +1,3 @@
-//Admin dashboard
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../css/Dashboard.css";
@@ -10,23 +9,28 @@ export default function AdminDashboard() {
     const [providerCount, setProviderCount] = useState(0);
 
     useEffect(() => {
-        // Fetches client counts
-        axios
-            .get("http://localhost:8080/HireAHelper/client/count")
-            .then((res) => {
-                console.log("Client count response:", res.data);
-                setClientCount(res.data.count || res.data); // works if it's {count: X} or just X
-            })
-            .catch((err) => console.error("Error fetching client count:", err));
+        const fetchCounts = async () => {
+            try {
 
-        // Fetches provider counts
-        axios
-            .get("http://localhost:8080/HireAHelper/serviceProvider/count")
-            .then((res) => {
-                console.log("Provider count response:", res.data);
-                setProviderCount(res.data.count || res.data);
-            })
-            .catch((err) => console.error("Error fetching provider count:", err));
+                const clientRes = await axios.get("http://localhost:8080/HireAHelper/client/count");
+                const clientData = clientRes.data;
+
+                const clientValue = typeof clientData === "object" ? clientData.count : clientData;
+                setClientCount(clientValue || 0);
+
+
+                const providerRes = await axios.get("http://localhost:8080/HireAHelper/serviceProvider/count");
+                const providerData = providerRes.data;
+                const providerValue = typeof providerData === "object" ? providerData.count : providerData;
+                setProviderCount(providerValue || 0);
+            } catch (error) {
+                console.error("Error fetching counts:", error);
+                setClientCount(0);
+                setProviderCount(0);
+            }
+        };
+
+        fetchCounts();
     }, []);
 
     return (
@@ -35,7 +39,7 @@ export default function AdminDashboard() {
 
             <div className="main-content">
                 <div className="dashboard-header">
-                    <h1>Welcome, {user?.name || "User"}</h1>
+                    <h1>Welcome, {user?.name || "Admin"}</h1>
                 </div>
 
                 <div className="booking-stats">
@@ -53,3 +57,4 @@ export default function AdminDashboard() {
         </>
     );
 }
+
