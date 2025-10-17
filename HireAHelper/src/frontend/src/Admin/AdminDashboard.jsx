@@ -12,14 +12,14 @@ export default function AdminDashboard() {
         const fetchCounts = async () => {
             try {
 
-                const clientRes = await axios.get("http://localhost:8080/client/count");
+                const clientRes = await axios.get("http://localhost:8080/HireAHelper/client/count");
                 const clientData = clientRes.data;
 
                 const clientValue = typeof clientData === "object" ? clientData.count : clientData;
                 setClientCount(clientValue || 0);
 
 
-                const providerRes = await axios.get("http://localhost:8080/serviceProvider/count");
+                const providerRes = await axios.get("http://localhost:8080/HireAHelper/serviceProvider/count");
                 const providerData = providerRes.data;
                 const providerValue = typeof providerData === "object" ? providerData.count : providerData;
                 setProviderCount(providerValue || 0);
