@@ -47,7 +47,7 @@ public class WebConfig {
                                 "/HireAHelper/serviceProvider/all",
                                 "/serviceProvider/**",
                                 "/HireAHelper/client/**",
-                                "/client/",
+                                "/client/**",
                                 "/HireAHelper/booking/**",
                                 "/HireAHelper/booking/create",
                                 "/booking/**",
