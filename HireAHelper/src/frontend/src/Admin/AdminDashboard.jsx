@@ -11,13 +11,15 @@ export default function AdminDashboard() {
     useEffect(() => {
         const fetchCounts = async () => {
             try {
+                // Fetch both clients and service providers at once
+                const [clientRes, providerRes] = await Promise.all([
+                    axios.get("http://localhost:8080/client/all"),
+                    axios.get("http://localhost:8080/serviceProvider/all")
+                ]);
 
-                const res = await axios.get("http://localhost:8080/HireAHelper/all");
-                const data = res.data;
-
-
-                setClientCount(data.clientCount || 0);
-                setProviderCount(data.serviceProviderCount || 0);
+                // Use the array length as count
+                setClientCount(Array.isArray(clientRes.data) ? clientRes.data.length : 0);
+                setProviderCount(Array.isArray(providerRes.data) ? providerRes.data.length : 0);
             } catch (error) {
                 console.error("Error fetching counts:", error);
                 setClientCount(0);
