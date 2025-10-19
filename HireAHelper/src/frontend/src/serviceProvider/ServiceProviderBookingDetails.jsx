@@ -33,6 +33,7 @@ const ServiceProviderBookingDetails = () => {
                     <p><strong>Rate:</strong> R{booking.serviceProvider?.rate}</p>
                     <p><strong>Booking Status:</strong> {booking.status}</p>
                     <p><strong>Service Date:</strong> {booking.serviceDate}</p>
+                    <p><strong>Time:</strong>{booking.timeSlot}</p>
                     <p><strong>Notes:</strong> {booking.notes || "No notes provided."}</p>
                     <p><strong>Location:</strong> {booking.serviceProvider?.area?.name}</p>
                 </div>
