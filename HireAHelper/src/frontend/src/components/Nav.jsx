@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import axios from 'axios'
 import "../css/Nav.css";
 
 const Nav = ({ user }) => {
@@ -30,19 +31,19 @@ const Nav = ({ user }) => {
 
     const handleLogout = async () => {
         try {
-            await fetch("http://localhost:8080/HireAHelper/logout", {
-            method: "POST",
-            headers: {"Content-Type": "application/x-www-form-urlencoded",},
-            credentials: "include",
-        });
+            await axios.post(
+                "http://localhost:8080/HireAHelper/logout",
+                {}, {withCredentials: true,}
+            );
 
             localStorage.removeItem("user");
             navigate("/");
 
         } catch (err) {
             console.error("Logout failed:", err);
-    }
-};
+            alert("Logout failed. Please try again.");
+        }
+    };
 
 
     return (
