@@ -1,4 +1,5 @@
-//Ameeruddin Arai 230190839
+// Ameeruddin Arai 230190839
+
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../css/Dashboard.css";
@@ -12,13 +13,11 @@ export default function AdminDashboard() {
     useEffect(() => {
         const fetchCounts = async () => {
             try {
-                // Fetch both clients and service providers at once
                 const [clientRes, providerRes] = await Promise.all([
-                    axios.get("http://localhost:8080/client/all"),
-                    axios.get("http://localhost:8080/serviceProvider/all")
+                    axios.get("http://localhost:8080/HireAHelper/client/all"),
+                    axios.get("http://localhost:8080/HireAHelper/serviceProvider/all")
                 ]);
 
-                // Use the array length as count
                 setClientCount(Array.isArray(clientRes.data) ? clientRes.data.length : 0);
                 setProviderCount(Array.isArray(providerRes.data) ? providerRes.data.length : 0);
             } catch (error) {
