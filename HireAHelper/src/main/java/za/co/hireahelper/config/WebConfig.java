@@ -19,57 +19,34 @@ import java.util.List;
 public class WebConfig {
 
     @Autowired
-    private AuthenticationRedirect authenticationRedirect;
+    private Authentication authentication;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/",
-                                "/public/",
-                                "/error",
-                                "/favicon.ico",
-                                "/auth/**",
-                                "/HireAHelper/auth/**",
-                                "/HireAHelper/client/create",
-                                "/HireAHelper/client/register",
-                                "/HireAHelper/serviceProvider/create",
-                                "/HireAHelper/serviceProvider/register",
-                                "/HireAHelper/area/all",
                                 "/area/**",
-                                "/HireAHelper/serviceType/all",
                                 "/serviceType/**",
-                                "/HireAHelper/serviceProvider/**",
-                                "/HireAHelper/serviceProvider/all",
                                 "/serviceProvider/**",
-                                "/HireAHelper/client/**",
                                 "/client/**",
-                                "/HireAHelper/booking/**",
-                                "/HireAHelper/booking/create",
                                 "/booking/**",
-                                "/HireAHelper/client/read/${userId}",
-                                "/HireAHelper/client/read/**",
-
                                 "/login",
-                                "/HireAHelper/login"
+                                "/logout"
                         ).permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/").permitAll()
                         .anyRequest().authenticated()
                 )
-
                 .formLogin(form -> form
                         .loginProcessingUrl("/login")
                         .usernameParameter("email")
                         .passwordParameter("password")
-                        .successHandler(authenticationRedirect)
+                        .successHandler(authentication)
                         .permitAll()
                 )
-
-                .httpBasic(basic -> basic.disable())
 
                 .logout(logout -> logout
                         .logoutUrl("/logout")
@@ -77,6 +54,7 @@ public class WebConfig {
                         .clearAuthentication(true)
                         .deleteCookies("JSESSIONID")
                         .logoutSuccessUrl("/")
+                        .permitAll()
                 );
 
         return http.build();
@@ -87,13 +65,10 @@ public class WebConfig {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of("http://localhost:5173"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
-        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "Accept", "Origin",
-                "X-Requested-With", "Access-Control-Request-Method", "Access-Control-Request-Headers"));
-        configuration.setExposedHeaders(List.of("Access-Control-Allow-Origin", "Access-Control-Allow-Credentials"));
+        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
         configuration.setAllowCredentials(true);
-        configuration.setMaxAge(3600L);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
+        source.registerCorsConfiguration("/", configuration);
         return source;
     }
 
