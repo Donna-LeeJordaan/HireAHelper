@@ -28,9 +28,22 @@ const Nav = ({ user }) => {
         if (user.role === "ADMIN") navigate("/serviceType");
     };
 
-    const handleLogout = () => {
-        navigate ("/");
-    };
+    const handleLogout = async () => {
+        try {
+            await fetch("http://localhost:8080/HireAHelper/logout", {
+            method: "POST",
+            headers: {"Content-Type": "application/x-www-form-urlencoded",},
+            credentials: "include",
+        });
+
+            localStorage.removeItem("user");
+            navigate("/");
+
+        } catch (err) {
+            console.error("Logout failed:", err);
+    }
+};
+
 
     return (
         <nav className="navigation">

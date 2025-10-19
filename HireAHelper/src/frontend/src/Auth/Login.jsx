@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/ClientRegister.css";
+import axios from "axios";
 
 function Login() {
     const [formData, setFormData] = useState({
@@ -19,42 +20,39 @@ function Login() {
         e.preventDefault();
 
         try {
-            const res = await fetch("http://localhost:8080/HireAHelper/auth/login", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(formData)
-            });
+            const formBody = new URLSearchParams();
+            formBody.append("email", formData.email);
+            formBody.append("password", formData.password);
 
-            if (!res.ok) {
-                const errorText = await res.text();
-                throw new Error(errorText || "Invalid email or password");
-            }
+            const { data } = await axios.post(
+            "http://localhost:8080/HireAHelper/login",
+            formBody.toString(),
+    { headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            withCredentials: true,
+    });
 
-            const data = await res.json();
-            alert("Login successful!");
             console.log("Logged in user:", data);
-
             localStorage.setItem("user", JSON.stringify(data));
 
-            switch (data.role) {
-                case "CLIENT":
-                    navigate("/client/dashboard");
-                    break;
-                case "SERVICE_PROVIDER":
-                    navigate("/serviceProvider/Dashboard");
-                    break;
-                case "ADMIN":
-                    navigate("/admin/dashboard");
-                    break;
-                default:
-                    alert("Unknown role. Contact support.");
-                    break;
-            }
-        } catch (err) {
-            console.error(err);
-            alert(err.message);
+        switch (data.role) {
+            case "CLIENT":
+                navigate("/client/dashboard");
+                break;
+            case "SERVICE_PROVIDER":
+                navigate("/serviceProvider/dashboard");
+                break;
+            case "ADMIN":
+                navigate("/admin/dashboard");
+                break;
+            default:
+                alert("Unknown role. Contact support.");
+                break;
         }
-    };
+    } catch (err) {
+        console.error(err);
+        alert(err.response?.data || err.message || "Login failed");
+    }
+};
 
     return (
         <div className="client-register-container">

@@ -18,7 +18,6 @@ const BookingDetails = () => {
     }, [bookingId]);
 
     if (!booking) return <p>Loading booking details...</p>;
-
     return (
         <>
             <Nav user={user} />

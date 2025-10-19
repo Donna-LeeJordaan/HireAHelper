@@ -33,29 +33,36 @@ public class WebConfig {
                                 "/public/",
                                 "/error",
                                 "/favicon.ico",
-                                "/auth/",
-                                "/HireAHelper/auth/",
+                                "/auth/**",
+                                "/HireAHelper/auth/**",
                                 "/HireAHelper/client/create",
                                 "/HireAHelper/client/register",
                                 "/HireAHelper/serviceProvider/create",
                                 "/HireAHelper/serviceProvider/register",
-                                "/HireAHelper/area/",
-                                "/area/",
-                                "/HireAHelper/serviceType/",
-                                "/serviceType/",
-                                "/HireAHelper/serviceProvider/",
-                                "/serviceProvider/",
-                                "/HireAHelper/client/",
-                                "/client/",
-                                "/HireAHelper/booking/",
-                                "/booking/"
+                                "/HireAHelper/area/all",
+                                "/area/**",
+                                "/HireAHelper/serviceType/all",
+                                "/serviceType/**",
+                                "/HireAHelper/serviceProvider/**",
+                                "/HireAHelper/serviceProvider/all",
+                                "/serviceProvider/**",
+                                "/HireAHelper/client/**",
+                                "/client/**",
+                                "/HireAHelper/booking/**",
+                                "/HireAHelper/booking/create",
+                                "/booking/**",
+                                "/HireAHelper/client/read/${userId}",
+                                "/HireAHelper/client/read/**",
+
+                                "/login",
+                                "/HireAHelper/login"
                         ).permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/").permitAll()
                         .anyRequest().authenticated()
                 )
 
                 .formLogin(form -> form
-                        //.loginPage("/login")
+                        .loginProcessingUrl("/login")
                         .usernameParameter("email")
                         .passwordParameter("password")
                         .successHandler(authenticationRedirect)
@@ -86,7 +93,7 @@ public class WebConfig {
         configuration.setAllowCredentials(true);
         configuration.setMaxAge(3600L);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/", configuration);
+        source.registerCorsConfiguration("/**", configuration);
         return source;
     }
 
