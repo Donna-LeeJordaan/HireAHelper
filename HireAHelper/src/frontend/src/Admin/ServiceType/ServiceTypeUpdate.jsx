@@ -1,4 +1,3 @@
-// Service type update
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
@@ -6,30 +5,35 @@ import "../../css/Area.css";
 import Nav from "../../components/Nav.jsx";
 
 export default function ServiceTypeUpdate() {
-    const user = JSON.parse(localStorage.getItem("user"));
+    const [user, setUser] = useState(null);
     const { typeId } = useParams();
     const [typeName, setTypeName] = useState("");
     const navigate = useNavigate();
 
+    // ✅ Fetch current admin using cookie-based authentication
+    useEffect(() => {
+        axios
+            .get("http://localhost:8080/HireAHelper/current-admin", { withCredentials: true })
+            .then((res) => setUser(res.data))
+            .catch((err) => console.error("Error fetching current admin:", err));
+    }, []);
 
+    // ✅ Fetch service type details securely
     useEffect(() => {
         if (typeId) {
             axios
-                .get(`http://localhost:8080/HireAHelper/serviceType/read/${typeId}`)
-                .then((res) => {
-                    setTypeName(res.data.typeName);
-                })
+                .get(`http://localhost:8080/HireAHelper/serviceType/read/${typeId}`, { withCredentials: true })
+                .then((res) => setTypeName(res.data.typeName))
                 .catch((err) => console.error("Error fetching service type:", err));
         }
     }, [typeId]);
-
 
     const handleSubmit = (e) => {
         e.preventDefault();
         const updatedServiceType = { typeId, typeName };
 
         axios
-            .put("http://localhost:8080/HireAHelper/serviceType/update", updatedServiceType)
+            .put("http://localhost:8080/HireAHelper/serviceType/update", updatedServiceType, { withCredentials: true })
             .then((res) => {
                 alert("Service type updated successfully!");
                 setTypeName(res.data.typeName);
@@ -115,3 +119,4 @@ export default function ServiceTypeUpdate() {
         </>
     );
 }
+

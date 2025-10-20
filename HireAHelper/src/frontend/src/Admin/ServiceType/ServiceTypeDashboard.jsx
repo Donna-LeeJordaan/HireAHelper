@@ -1,4 +1,3 @@
-//Service type dashboard
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -6,14 +5,24 @@ import "../../css/Area.css";
 import Nav from "../../components/Nav.jsx";
 
 export default function ServiceTypeDashboard() {
-    const user = JSON.parse(localStorage.getItem("user"));
+    const [user, setUser] = useState(null);
     const [serviceType, setServiceType] = useState([]);
     const navigate = useNavigate();
 
+    //  Fetch current admin using cookie authentication
     useEffect(() => {
-        axios.get("http://localhost:8080/HireAHelper/serviceType/all")
-            .then(res => setServiceType(res.data))
-            .catch(err => console.error(err));
+        axios
+            .get("http://localhost:8080/HireAHelper/current-admin", { withCredentials: true })
+            .then((res) => setUser(res.data))
+            .catch((err) => console.error("Error fetching current admin:", err));
+    }, []);
+
+    // Fetch all service types with credentials
+    useEffect(() => {
+        axios
+            .get("http://localhost:8080/HireAHelper/serviceType/all", { withCredentials: true })
+            .then((res) => setServiceType(res.data))
+            .catch((err) => console.error("Error fetching service types:", err));
     }, []);
 
     const handleDelete = async (typeId) => {
@@ -21,9 +30,10 @@ export default function ServiceTypeDashboard() {
         if (!serviceDelete) return;
 
         try {
-            await axios.delete(`http://localhost:8080/HireAHelper/serviceType/delete/${typeId}`);
+            await axios.delete(`http://localhost:8080/HireAHelper/serviceType/delete/${typeId}`, { withCredentials: true });
             alert("ServiceType deleted");
 
+            // Remove deleted type from state without refresh
             setServiceType(prevServiceType => prevServiceType.filter(serviceType => serviceType.typeId !== typeId));
         } catch (err) {
             console.error("Error deleting service type:", err);
@@ -36,7 +46,6 @@ export default function ServiceTypeDashboard() {
             <Nav user={user} />
 
             <div className="app-container">
-
                 <h1>ServiceType Dashboard</h1>
                 <button className="get-started-btn" onClick={() => navigate("/serviceType/create")}>
                     Create ServiceType
@@ -50,7 +59,7 @@ export default function ServiceTypeDashboard() {
                     </tr>
                     </thead>
                     <tbody>
-                    {serviceType.map(serviceType => (
+                    {serviceType.map((serviceType) => (
                         <tr key={serviceType.typeId}>
                             <td>{serviceType.typeId}</td>
                             <td>{serviceType.typeName}</td>
@@ -72,9 +81,9 @@ export default function ServiceTypeDashboard() {
                         </tr>
                     ))}
                     </tbody>
-
                 </table>
             </div>
         </>
     );
 }
+
