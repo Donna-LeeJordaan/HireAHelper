@@ -5,33 +5,38 @@ import Nav from "../components/Nav.jsx";
 import "../css/ServiceProviderBookingUpdate.css";
 
 const UpdateBookingStatus = () => {
-    const user = JSON.parse(localStorage.getItem("user"));
     const { bookingId } = useParams();
     const navigate = useNavigate();
+    const [user, setUser] = useState(null);
     const [booking, setBooking] = useState(null);
     const [status, setStatus] = useState("");
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8080/HireAHelper/booking/read/${bookingId}`)
+            .get("http://localhost:8080/HireAHelper/serviceProvider/current-serviceProvider", {withCredentials: true})
+            .then((res) => {setUser(res.data);
+
+            return axios.get(`http://localhost:8080/HireAHelper/booking/read/${bookingId}`, {withCredentials: true});
+            })
             .then((res) => {
                 setBooking(res.data);
                 setStatus(res.data.status);
             })
-            .catch((err) => console.error("Error fetching booking:", err));
+            .catch((err) => {
+                console.error("Error fetching booking:", err);
+            });
     }, [bookingId]);
 
     const StatusUpdate = () => {
         axios
-            .put("http://localhost:8080/HireAHelper/booking/update", {
-                ...booking,
-                status,
-            })
+            .put("http://localhost:8080/HireAHelper/booking/update", {...booking,status}, {withCredentials: true})
             .then(() => {
                 alert("Booking status updated");
                 navigate(-1);
             })
-            .catch((err) => console.error("Error updating status:", err));
+            .catch((err) => {
+                console.error("Error updating status:", err);
+            });
     };
 
     if (!booking) return <p>Loading booking...</p>;

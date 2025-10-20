@@ -4,25 +4,28 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function ClientDashboard() {
-    const user = JSON.parse(localStorage.getItem("user"));
-    const userId = user?.userId;
     const navigate = useNavigate();
-
+    const [user, setUser] = useState(null);
     const [bookings, setBookings] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        axios
-            .get(`http://localhost:8080/HireAHelper/booking/client/${userId}`)
+        axios.get("http://localhost:8080/HireAHelper/client/current-client", {withCredentials: true})
             .then((res) => {
-                setBookings(res.data);
-                setLoading(false);
-            })
-            .catch((err) => {
-                console.error("Error fetching bookings:", err);
-                setLoading(false);
-            });
-    }, [userId]);
+                setUser(res.data);
+
+                return axios.get(`http://localhost:8080/HireAHelper/booking/client/${res.data.userId}`, {
+                withCredentials: true});
+    })
+        .then((res) => {
+            setBookings(res.data);
+            setLoading(false);
+        })
+        .catch((err) => {
+            console.error("Error fetching the client or bookings:", err);
+            setLoading(false);
+        });
+}, []);
 
     const totalBookings = bookings.length;
     const confirmedBookings = bookings.filter(b => b.status === "Confirmed").length;

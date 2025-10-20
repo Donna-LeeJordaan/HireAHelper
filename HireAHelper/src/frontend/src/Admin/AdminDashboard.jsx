@@ -6,28 +6,35 @@ import "../css/Dashboard.css";
 import Nav from "../components/Nav.jsx";
 
 export default function AdminDashboard() {
-    const user = JSON.parse(localStorage.getItem("user"));
+    const [user, setUser] = useState(null);
     const [clientCount, setClientCount] = useState(0);
     const [providerCount, setProviderCount] = useState(0);
 
     useEffect(() => {
-        const fetchCounts = async () => {
+        axios.defaults.withCredentials = true;
+
+        const fetchData = async () => {
             try {
+                const userRes = await axios.get("http://localhost:8080/HireAHelper/admin/current-admin", {
+                    withCredentials: true
+                });
+                setUser(userRes.data);
+
                 const [clientRes, providerRes] = await Promise.all([
-                    axios.get("http://localhost:8080/HireAHelper/client/all"),
-                    axios.get("http://localhost:8080/HireAHelper/serviceProvider/all")
+                    axios.get("http://localhost:8080/HireAHelper/client/all", {withCredentials: true}),
+                    axios.get("http://localhost:8080/HireAHelper/serviceProvider/all", {withCredentials: true})
                 ]);
 
                 setClientCount(Array.isArray(clientRes.data) ? clientRes.data.length : 0);
                 setProviderCount(Array.isArray(providerRes.data) ? providerRes.data.length : 0);
             } catch (error) {
-                console.error("Error fetching counts:", error);
+                console.error("Error fetching admin data:", error);
                 setClientCount(0);
                 setProviderCount(0);
             }
         };
 
-        fetchCounts();
+        fetchData();
     }, []);
 
     return (

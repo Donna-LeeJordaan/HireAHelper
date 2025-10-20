@@ -5,16 +5,21 @@ import Nav from "../components/Nav.jsx";
 import "../css/BookingDetails.css";
 
 const BookingDetails = () => {
-    const user = JSON.parse(localStorage.getItem("user"));
-    const { bookingId } = useParams();
+    const [user, setUser] = useState(null);
+    const [booking, setBooking] = useState([]);
     const navigate = useNavigate();
-    const [booking, setBooking] = useState(null);
+    const { bookingId } = useParams();
 
     useEffect(() => {
-        axios
-            .get(`http://localhost:8080/HireAHelper/booking/read/${bookingId}`)
-            .then((res) => setBooking(res.data))
-            .catch((err) => console.error("Error fetching booking details:", err));
+        axios.get("http://localhost:8080/HireAHelper/client/current-client", {withCredentials: true})
+            .then((res) => { setUser(res.data);
+
+                return axios.get(`http://localhost:8080/HireAHelper/booking/read/${bookingId}`,{withCredentials: true});
+            })
+            .then((res) => {setBooking(res.data);})
+            .catch((err) => {
+                console.error("Error fetching booking details:", err);
+            });
     }, [bookingId]);
 
     if (!booking) return <p>Loading booking details...</p>;

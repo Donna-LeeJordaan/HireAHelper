@@ -6,21 +6,22 @@ import "../css/Bookings.css";
 
 const ServiceProviderBookings = () => {
     const [bookings, setBookings] = useState([]);
-    const user = JSON.parse(localStorage.getItem("user"));
-    const serviceProviderId = user?.userId;
+    const [user, setUser] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8080/HireAHelper/booking/serviceProvider/${serviceProviderId}`)
-            .then((res) => {
-                const myBookings = res.data.filter(
-                    (b) => b.serviceProvider?.userId === serviceProviderId
-                );
-                setBookings(myBookings);
+            .get("http://localhost:8080/HireAHelper/serviceProvider/current-serviceProvider", {withCredentials: true})
+            .then((res) => {setUser(res.data);
+
+        const serviceProviderId = res.data.userId;
+        return axios.get(`http://localhost:8080/HireAHelper/booking/serviceProvider/${serviceProviderId}`,{withCredentials: true});
             })
-            .catch((err) => console.error("Error fetching bookings:", err));
-    }, [serviceProviderId]);
+            .then((res) => {setBookings(res.data);})
+            .catch((err) => {
+                console.error("Error fetching service provider or bookings:", err);
+            });
+    }, []);
 
     return (
         <>
