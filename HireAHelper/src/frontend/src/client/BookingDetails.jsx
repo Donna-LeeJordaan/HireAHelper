@@ -6,7 +6,7 @@ import "../css/BookingDetails.css";
 
 const BookingDetails = () => {
     const [user, setUser] = useState(null);
-    const [bookings, setBookings] = useState([]);
+    const [booking, setBooking] = useState([]);
     const navigate = useNavigate();
     const { bookingId } = useParams();
 
@@ -22,7 +22,7 @@ const BookingDetails = () => {
             });
     }, [bookingId]);
 
-    if (!bookings) return <p>Loading booking details...</p>;
+    if (!booking) return <p>Loading booking details...</p>;
     return (
         <>
             <Nav user={user} />
