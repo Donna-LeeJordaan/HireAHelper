@@ -5,17 +5,22 @@ import Nav from "../components/Nav.jsx";
 import "../css/Bookings.css";
 
 const ClientBookings = () => {
+    const [user, setUser] = useState(null);
     const [bookings, setBookings] = useState([]);
-    const user = JSON.parse(localStorage.getItem("user"));
-    const userId = user?.userId;
     const navigate = useNavigate();
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8080/HireAHelper/booking/client/${userId}`)
-            .then((res) => setBookings(res.data))
-            .catch((err) => console.error("Error fetching bookings:", err));
-    }, [userId]);
+            .get("http://localhost:8080/HireAHelper/client/current-client", {withCredentials: true})
+            .then((res) => {setUser(res.data);
+
+                return axios.get(`http://localhost:8080/HireAHelper/booking/client/${res.data.userId}`, {withCredentials: true});
+            })
+            .then((res) => {setBookings(res.data);})
+            .catch((err) => {
+                console.error("Error fetching client or bookings:", err);
+            });
+    }, []);
 
     return (
         <>
