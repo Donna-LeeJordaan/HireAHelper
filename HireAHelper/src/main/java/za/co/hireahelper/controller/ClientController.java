@@ -8,10 +8,11 @@ package za.co.hireahelper.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import za.co.hireahelper.domain.Client;
+import za.co.hireahelper.domain.UserPrincipal;
 import za.co.hireahelper.service.ClientService;
-
 import java.util.List;
 
 @RestController
@@ -49,6 +50,19 @@ public class ClientController {
     @GetMapping("/all")
     public List<Client> getAll() {
         return service.getAll();
+    }
+
+    @GetMapping("/current-client")
+    public ResponseEntity<?> getCurrentClient(Authentication authentication) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
+        String userId = principal.getUser().getUserId();
+
+        Client client = service.read(userId);
+        return ResponseEntity.ok(client);
     }
 
 }
