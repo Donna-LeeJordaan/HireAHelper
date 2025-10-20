@@ -32,7 +32,6 @@ function Login() {
     });
 
             console.log("Logged in user:", data);
-            localStorage.setItem("user", JSON.stringify(data));
 
         switch (data.role) {
             case "CLIENT":
