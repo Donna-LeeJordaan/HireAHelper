@@ -8,10 +8,13 @@ package za.co.hireahelper.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import za.co.hireahelper.domain.ServiceProvider;
+import za.co.hireahelper.domain.UserPrincipal;
 import za.co.hireahelper.service.ServiceProviderService;
 
 import java.io.IOException;
@@ -67,5 +70,15 @@ public class ServiceProviderController {
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_TYPE, "image/jpeg")
                 .body(sp.getProfileImage());
+    }
+    @GetMapping("/current-serviceProvider")
+    public ResponseEntity<?> getCurrentServiceProvider(Authentication authentication) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
+        String userId = principal.getUser().getUserId();
+        ServiceProvider serviceProvider = service.read(userId);
+        return ResponseEntity.ok(serviceProvider);
     }
 }
