@@ -5,7 +5,7 @@ import "../css/CreateBooking.css";
 import Nav from "../components/Nav.jsx";
 
 const CreateBooking = () => {
-    const navigate = useNavigate();
+     const navigate = useNavigate();
     const generateBookingId = () => `BOOKING-${Math.floor(100000 + Math.random() * 900000)}`;
     const [serviceProviders, setServiceProviders] = useState([]);
     const [filteredProviders, setFilteredProviders] = useState([]);
