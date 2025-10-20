@@ -11,7 +11,7 @@ const BookingDetails = () => {
     const { bookingId } = useParams();
 
     useEffect(() => {
-        axios.get("http://localhost:8080/HireAHelper/user/user", {withCredentials: true})
+        axios.get("http://localhost:8080/HireAHelper/client/current-client", {withCredentials: true})
             .then((res) => { setUser(res.data);
 
                 return axios.get(`http://localhost:8080/HireAHelper/booking/read/${bookingId}`,{withCredentials: true});
