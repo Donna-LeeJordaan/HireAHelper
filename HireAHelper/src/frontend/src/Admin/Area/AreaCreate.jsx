@@ -1,20 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../../css/Area.css";
 import Nav from "../../components/Nav.jsx";
 
 export default function AreaCreate() {
-    const user = JSON.parse(localStorage.getItem("user"));
+    const [user, setUser] = useState(null); // no longer using localStorage
     const [name, setName] = useState("");
     const navigate = useNavigate();
+
+    // ✅ Fetch current admin using cookie-based authentication
+    useEffect(() => {
+        axios.get("http://localhost:8080/HireAHelper/current-admin", { withCredentials: true })
+            .then((res) => setUser(res.data))
+            .catch((err) => {
+                console.error("Error fetching current admin:", err);
+                navigate("/login"); // redirect to login if unauthorized
+            });
+    }, [navigate]);
 
     const generateId = () => `AREA-${Math.floor(100000 + Math.random() * 900000)}`;
 
     const handleSubmit = (e) => {
         e.preventDefault();
         const newArea = { areaId: generateId(), name };
-        axios.post("http://localhost:8080/HireAHelper/area/create", newArea)
+        axios.post("http://localhost:8080/HireAHelper/area/create", newArea, { withCredentials: true })
             .then(() => navigate("/area"))
             .catch(err => console.error(err));
     };
@@ -24,7 +34,6 @@ export default function AreaCreate() {
             <Nav user={user} />
 
             <div className="app-container">
-
                 <h1>Create Area</h1>
                 <form
                     onSubmit={handleSubmit}

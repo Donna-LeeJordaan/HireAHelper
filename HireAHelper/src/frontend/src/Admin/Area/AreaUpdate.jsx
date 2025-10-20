@@ -5,15 +5,24 @@ import "../../css/Area.css";
 import Nav from "../../components/Nav.jsx";
 
 export default function AreaUpdate() {
-    const user = JSON.parse(localStorage.getItem("user"));
+    const [user, setUser] = useState(null);
     const { areaId } = useParams();
     const [name, setName] = useState("");
     const navigate = useNavigate();
 
+    // ✅ Fetch current admin using cookie authentication
+    useEffect(() => {
+        axios
+            .get("http://localhost:8080/HireAHelper/current-admin", { withCredentials: true })
+            .then((res) => setUser(res.data))
+            .catch((err) => console.error("Error fetching current admin:", err));
+    }, []);
+
+    // ✅ Fetch area details securely using cookie-based session
     useEffect(() => {
         if (areaId) {
             axios
-                .get(`http://localhost:8080/HireAHelper/area/read/${areaId}`)
+                .get(`http://localhost:8080/HireAHelper/area/read/${areaId}`, { withCredentials: true })
                 .then((res) => setName(res.data.name))
                 .catch((err) => console.error("Error fetching area:", err));
         }
@@ -22,7 +31,11 @@ export default function AreaUpdate() {
     const handleSubmit = (e) => {
         e.preventDefault();
         axios
-            .put("http://localhost:8080/HireAHelper/area/update", { areaId, name })
+            .put(
+                "http://localhost:8080/HireAHelper/area/update",
+                { areaId, name },
+                { withCredentials: true }
+            )
             .then(() => navigate("/area"))
             .catch((err) => console.error("Error updating area:", err));
     };
@@ -31,9 +44,8 @@ export default function AreaUpdate() {
         <>
             <Nav user={user} />
 
-            <div className="app-container"> {}
-
-                <h1>Update Area</h1> {}
+            <div className="app-container">
+                <h1>Update Area</h1>
 
                 <form
                     onSubmit={handleSubmit}
@@ -46,7 +58,7 @@ export default function AreaUpdate() {
                         borderRadius: "15px",
                         width: "400px",
                         maxWidth: "90%",
-                        boxShadow: "0 6px 20px rgba(0,0,0,0.1)"
+                        boxShadow: "0 6px 20px rgba(0,0,0,0.1)",
                     }}
                 >
                     <div
@@ -55,14 +67,14 @@ export default function AreaUpdate() {
                             flexDirection: "column",
                             marginBottom: "1.5rem",
                             width: "100%",
-                            textAlign: "left"
+                            textAlign: "left",
                         }}
                     >
                         <label
                             style={{
                                 marginBottom: "0.5rem",
                                 color: "#013220",
-                                fontWeight: "600"
+                                fontWeight: "600",
                             }}
                         >
                             Area Name:
@@ -78,12 +90,11 @@ export default function AreaUpdate() {
                                 fontSize: "1rem",
                                 border: "1px solid #055f5b",
                                 borderRadius: "8px",
-                                outline: "none"
+                                outline: "none",
                             }}
                         />
                     </div>
 
-                    {/* Buttons container */}
                     <div style={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
                         <button
                             type="submit"

@@ -5,14 +5,25 @@ import "../../css/Area.css";
 import Nav from "../../components/Nav.jsx";
 
 export default function AreaDashboard() {
-    const user = JSON.parse(localStorage.getItem("user"));
+    const [user, setUser] = useState(null);
     const [areas, setAreas] = useState([]);
     const navigate = useNavigate();
 
+    // ✅ Fetch current admin via cookie-based authentication
     useEffect(() => {
-        axios.get("http://localhost:8080/HireAHelper/area/all")
+        axios.get("http://localhost:8080/HireAHelper/current-admin", { withCredentials: true })
+            .then(res => setUser(res.data))
+            .catch(err => {
+                console.error("Error fetching current admin:", err);
+                navigate("/login"); // redirect to login if not authenticated
+            });
+    }, [navigate]);
+
+    // ✅ Fetch all areas with cookies
+    useEffect(() => {
+        axios.get("http://localhost:8080/HireAHelper/area/all", { withCredentials: true })
             .then(res => setAreas(res.data))
-            .catch(err => console.error(err));
+            .catch(err => console.error("Error fetching areas:", err));
     }, []);
 
     const handleDelete = async (areaId) => {
@@ -20,10 +31,10 @@ export default function AreaDashboard() {
         if (!confirmDelete) return;
 
         try {
-            await axios.delete(`http://localhost:8080/HireAHelper/area/delete/${areaId}`);
+            await axios.delete(`http://localhost:8080/HireAHelper/area/delete/${areaId}`, { withCredentials: true });
             alert("Area deleted successfully!");
 
-            // Remove the deleted area from the state without refreshing
+            // Remove deleted area from state without page reload
             setAreas(prevAreas => prevAreas.filter(area => area.areaId !== areaId));
         } catch (err) {
             console.error("Error deleting area:", err);
@@ -37,9 +48,13 @@ export default function AreaDashboard() {
 
             <div className="app-container">
                 <h1>Area Dashboard</h1>
-                <button className="areaCreate-button" onClick={() => navigate("/area/create")}>
+                <button
+                    className="areaCreate-button"
+                    onClick={() => navigate("/area/create")}
+                >
                     Create Area
                 </button>
+
                 <table className="area-table">
                     <thead>
                     <tr>
