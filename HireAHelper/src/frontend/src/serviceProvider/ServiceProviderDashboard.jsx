@@ -4,23 +4,27 @@ import "../css/Dashboard.css";
 import axios from "axios";
 
 function ServiceProviderDashboard() {
-    const user = JSON.parse(localStorage.getItem("user"));
-    const userId = user?.userId;
+    const [user, setUser] = useState(null);
     const [bookings, setBookings] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        axios
-            .get(`http://localhost:8080/HireAHelper/booking/serviceProvider/${userId}`)
-            .then(res => {
+        axios.get("http://localhost:8080/HireAHelper/serviceProvider/current-serviceProvider", {withCredentials: true})
+            .then((res) => {
+                setUser(res.data);
+
+        return axios.get(`http://localhost:8080/HireAHelper/booking/serviceProvider/${res.data.userId}`, {
+                withCredentials: true});
+            })
+            .then((res) => {
                 setBookings(res.data);
                 setLoading(false);
             })
-            .catch(err => {
-                console.error("Error fetching bookings:", err);
+            .catch((err) => {
+                console.error("Error fetching the service provider or bookings:", err);
                 setLoading(false);
             });
-    }, [userId]);
+    }, []);
 
     const confirmedBookings = bookings.filter(b => b.status === "Confirmed").length;
     const pendingBookings = bookings.filter(b => b.status === "Pending").length;
