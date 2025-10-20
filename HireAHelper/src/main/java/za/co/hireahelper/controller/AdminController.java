@@ -60,4 +60,5 @@ public class AdminController {
         Admin admin = adminService.read(userId);
         return ResponseEntity.ok(admin);
     }
+    
 }

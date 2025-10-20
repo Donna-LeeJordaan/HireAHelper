@@ -1,10 +1,16 @@
+/* Reset and global styles */
 body, html {
     margin: 0;
     padding: 0;
     width: 100%;
     height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #e8f5e9, #ffffff);
+    color: #013220;
+    overflow-x: hidden;
 }
 
+/* Home container */
 .home-container {
     display: flex;
     flex-direction: column;
@@ -12,52 +18,81 @@ body, html {
     align-items: center;
     height: 100vh;
     width: 100vw;
-    background-color: #ffffff;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     text-align: center;
+    padding: 2rem;
     box-sizing: border-box;
-    color: #013220;
+    animation: fadeIn 1.2s ease-in-out;
 }
 
+/* Logo styling */
 .logo-one {
-    height: 200px;
-    margin-bottom: 2rem;
+    height: 180px;
+    margin-bottom: 1.5rem;
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15));
+    transition: transform 0.3s ease;
 }
 
+.logo-one:hover {
+    transform: scale(1.08);
+}
+
+/* Text styling */
 p {
-    font-size: 1.2rem;
-    margin-bottom: 2rem;
-    color: #013220;
+    font-size: 1.25rem;
+    font-weight: 400;
+    margin-bottom: 2.5rem;
+    color: #014d35;
+    max-width: 600px;
+    line-height: 1.6;
 }
 
+/* Button styling */
 .get-started-btn {
-    background-color: #013220;
+    background: linear-gradient(135deg, #016b45, #013220);
     color: #ffffff;
     border: none;
-    padding: 0.6rem 1.5rem;
-    font-size: 1rem;
-    font-weight: 500;
-    border-radius: 8px;
+    padding: 0.8rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 10px;
     cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
+    letter-spacing:0.5px;
+    box-shadow: 0 5px 15px rgba(1, 50, 32, 0.3);
+    transition: all 0.3s ease-in-out;
 }
 
 .get-started-btn:hover {
-    transform: scale(1.05);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(1, 50, 32, 0.45);
+    background: linear-gradient(135deg, #017a4b, #014d35);
 }
 
+/* Fade-in animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
+    .logo-one {
+        height: 140px;
+    }
+
     p {
         font-size: 1rem;
+        margin-bottom: 1.8rem;
+        padding: 0 1rem;
     }
+
     .get-started-btn {
         font-size: 1rem;
-        padding: 0.8rem 1.5rem;
+        padding: 0.7rem 1.5rem;
     }
 }
-
-
-
-
-
