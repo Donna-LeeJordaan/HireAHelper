@@ -29,11 +29,10 @@ public class WebConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/",
-                                "/area/**",
-                                "/serviceType/**",
-                                "/serviceProvider/**",
-                                "/client/**",
-                                "/booking/**",
+                                "/area/all",
+                                "/serviceType/all",
+                                "/serviceProvider/create",
+                                "/client/create",
                                 "/login",
                                 "/logout"
                         ).permitAll()
