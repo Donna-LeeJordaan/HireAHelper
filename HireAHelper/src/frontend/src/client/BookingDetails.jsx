@@ -8,6 +8,7 @@ const BookingDetails = () => {
     const [user, setUser] = useState(null);
     const [bookings, setBookings] = useState([]);
     const navigate = useNavigate();
+    const { bookingId } = useParams();
 
     useEffect(() => {
         axios.get("http://localhost:8080/HireAHelper/user/user", {withCredentials: true})
@@ -21,7 +22,7 @@ const BookingDetails = () => {
             });
     }, [bookingId]);
 
-    if (!booking) return <p>Loading booking details...</p>;
+    if (!bookings) return <p>Loading booking details...</p>;
     return (
         <>
             <Nav user={user} />
