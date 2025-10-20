@@ -13,7 +13,7 @@ function ClientDashboard() {
             .then((res) => {
                 setUser(res.data);
 
-                return axios.get(`http:/localhost:8080/HireAHelper/booking/client/${res.data.userId}`, {
+                return axios.get(`http://localhost:8080/HireAHelper/booking/client/${res.data.userId}`, {
                 withCredentials: true});
     })
         .then((res) => {
