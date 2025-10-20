@@ -10,8 +10,8 @@ const CreateBooking = () => {
     const [serviceProviders, setServiceProviders] = useState([]);
     const [filteredProviders, setFilteredProviders] = useState([]);
     const [serviceType, setServiceType] = useState("");
-    const user = JSON.parse(localStorage.getItem("user"));
-    const userId = user?.userId;
+    const [user, setUser] = useState(null);
+    const [userId, setUserId] = useState("");
     const [clientArea, setClientArea] = useState(null);
     const [searchPerformed, setSearchPerformed] = useState(false);
     const [searchError, setSearchError] = useState("");
@@ -22,24 +22,28 @@ const CreateBooking = () => {
     const [timeSlot, setTimeSlot] = useState("");
 
     useEffect(() => {
-        axios
-            .get(`http://localhost:8080/HireAHelper/client/read/${userId}`)
-            .then((res) => setClientArea(res.data.area))
-            .catch((err) => console.error("Error fetching client:", err));
-    }, [userId]);
+        axios.get("http://localhost:8080/HireAHelper/client/current-client", {withCredentials: true})
+            .then((res) => {
+                setUser(res.data);
+                setUserId(res.data.userId);
 
+                return axios.get(`http://localhost:8080/HireAHelper/client/read/${res.data.userId}`, {withCredentials: true});
+            })
+            .then((res) => {setClientArea(res.data.area);})
+            .catch((err) => {
+                console.error("Error fetching client", err);
+            });
+    }, []);
 
     useEffect(() => {
-        axios
-            .get("http://localhost:8080/HireAHelper/serviceProvider/all")
+        axios.get("http://localhost:8080/HireAHelper/serviceProvider/all", {withCredentials: true})
             .then((res) => {
                 const providers = res.data.map((sp) => ({
                     ...sp,
                     area: sp.area || sp.user?.area || null,
-                    // Use a placeholder image as fallback
-                    imageUrl: sp.profileImage ?
-                        `http://localhost:8080/HireAHelper/serviceProvider/${sp.userId}/profileImage` :
-                        '/placeholder-image.jpg'
+                    imageUrl: sp.profileImage
+                        ? `http://localhost:8080/HireAHelper/serviceProvider/${sp.userId}/profileImage`
+                        : '/placeholder-image.jpg'
                 }));
                 setServiceProviders(providers);
             })
@@ -102,7 +106,7 @@ const CreateBooking = () => {
             status: "Pending",
         };
         axios
-            .post("http://localhost:8080/HireAHelper/booking/create", booking)
+            .post("http://localhost:8080/HireAHelper/booking/create", booking, {withCredentials: true})
             .then(() => {
                 alert("Booking created successfully!");
                 navigate("/client/dashboard");
